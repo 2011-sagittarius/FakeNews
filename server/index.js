@@ -48,6 +48,7 @@ app.get('/scrape', function(req, res) {
     if (!error && response.statusCode === 200) {
       // const $ = cheerio.load(html)
       let data = extractor(html, 'en')
+      data = data.text.replace(/\r?\n|\r/g, ' ')
       // let output = []
 
       // NPR Format
@@ -68,7 +69,7 @@ app.get('/scrape', function(req, res) {
       // res.send(output.join('\n\n'))
       // console.log('DATA HERE', data)
       // console.log('HTML HERE', html)
-      res.send(data.text)
+      res.send(data)
     }
   })
 })
