@@ -69,7 +69,7 @@ app.get('/scrape', function(req, res) {
       // res.send(output.join('\n\n'))
       // console.log('DATA HERE', data)
       // console.log('HTML HERE', html)
-      res.send(data.text)
+      res.send(data)
     }
   })
 })
