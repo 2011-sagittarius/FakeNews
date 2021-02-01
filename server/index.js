@@ -16,7 +16,9 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const writeStream = fs.createWriteStream('post.csv')
 // Web scraping - dynamic websites
-const puppeteer = require('puppeteer')
+// const puppeteer = require('puppeteer')
+// Web scraping - unfluff
+const extractor = require('unfluff')
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -44,25 +46,29 @@ app.get('/scrape', function(req, res) {
 
   request(url, (error, response, html) => {
     if (!error && response.statusCode === 200) {
-      const $ = cheerio.load(html)
-      let output = []
+      // const $ = cheerio.load(html)
+      let data = extractor(html, 'en')
+      // let output = []
 
       // NPR Format
       // $('.storytext p').each(function(i, el) {
       // APN Format
-      $('.Article p').each(function(i, el) {
-        const item = $(el)
-          // .find('.Component-root-0-2-171 Component-p-0-2-162')
-          .text()
+      // $('.Article p').each(function(i, el) {
+      //   const item = $(el)
+      //     // .find('.Component-root-0-2-171 Component-p-0-2-162')
+      //     .text()
 
-        // console.log(item);
+      //   // console.log(item);
 
-        // Write Row to CSV
-        writeStream.write(`${item}`)
-        output.push(item)
-      })
-      console.log('Scraping completed...')
-      res.send(output.join('\n\n'))
+      //   // Write Row to CSV
+      //   writeStream.write(`${item}`)
+      //   output.push(item)
+      // })
+      // console.log('Scraping completed...')
+      // res.send(output.join('\n\n'))
+      // console.log('DATA HERE', data)
+      // console.log('HTML HERE', html)
+      res.send(data.text)
     }
   })
 })
