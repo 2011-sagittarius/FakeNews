@@ -41,6 +41,7 @@ nav {
   flex-direction: row;
   place-content: space-around;
   padding: 2rem;
+  flex-wrap: wrap;
 }
 
 textarea {
@@ -69,5 +70,6 @@ canvas {
 
 .chart-container {
   width: 500px;
-  height: 500px;
+  /* height: 500px; */
+  margin-bottom: 5rem;
 }

@@ -104,19 +104,7 @@ class Scraper extends Component {
         ],
         options: {
           responsive: true,
-          maintainAspectRatio: false,
-          legend: {
-            display: false
-          }
-          // scales: {
-          //   yAxes: [
-          //     {
-          //       ticks: {
-          //         beginAtZero: true,
-          //       },
-          //     },
-          //   ],
-          // },
+          maintainAspectRatio: false
         }
       }
     })
