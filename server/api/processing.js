@@ -10,7 +10,7 @@ router.get('/predict', async (req, res, next) => {
   try {
     const projectId = 'fakenews-303120'
     const location = 'us-central1'
-    const modelId = 'TCN3651409946123173888'
+    const modelId = 'TCN5494508093624549376'
     const content = req.query.text
 
     // Imports the Google Cloud AutoML library
