@@ -53,27 +53,22 @@ class Scraper extends Component {
   }
 
   getPrediction() {
-    // console.log('processed > ', this.state.processed)
     axios
       .get('/api/processing/predict', {
         params: {text: this.state.processed}
       })
       .then(res => {
-        // console.log('res > ', res.data[0])
-        let fake =
-          res.data[0].displayName === 'fake'
-            ? res.data[0].classification.score * 100
-            : res.data[1].classification.score * 100
-        let real =
-          res.data[0].displayName === 'real'
-            ? res.data[0].classification.score * 100
-            : res.data[1].classification.score * 100
-
-        this.setChartData([fake, real])
+        let data = {}
+        res.data.forEach(datum => {
+          data[datum.displayName] =
+            Math.round(datum.classification.score * 1000) / 10
+        })
+        let {fake, political, reliable, satire, unknown} = data
+        this.setChartData([fake, political, reliable, satire, unknown])
       })
   }
 
-  setChartData(datum = [50, 50]) {
+  setChartData(datum = [20, 20, 20, 20, 20]) {
     // Ajax calls here
     // axios
     //   .get('/api/xyz')
@@ -81,7 +76,7 @@ class Scraper extends Component {
     console.log('datum > ', datum)
     this.setState({
       chartData: {
-        labels: ['Fake', 'Real'],
+        labels: ['Fake', 'Political', 'Reliable', 'Satire', 'Unknown'],
         datasets: [
           {
             label: 'Fake News',
@@ -89,10 +84,10 @@ class Scraper extends Component {
             backgroundColor: [
               'rgba(255, 99, 132, 0.6)',
               // 'rgba(54, 162, 235, 0.6)',
-              // 'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)'
-              // 'rgba(153, 102, 255, 0.6)',
-              // 'rgba(255, 159, 64, 0.6)',
+              'rgba(255, 206, 86, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(153, 102, 255, 0.6)',
+              'rgba(255, 159, 64, 0.6)'
               // 'rgba(255, 99, 132, 0.6)',
             ]
           }
@@ -102,7 +97,6 @@ class Scraper extends Component {
   }
 
   render() {
-    // console.log(this.state)
     const search = (
       <div className="container">
         <div className="input-group input-group-lg">
@@ -151,7 +145,7 @@ class Scraper extends Component {
         <div>
           <textarea
             className="result"
-            rows="20"
+            rows="10"
             cols="150"
             value={this.state.html}
           />
@@ -159,7 +153,7 @@ class Scraper extends Component {
         <div>
           <textarea
             className="result"
-            rows="20"
+            rows="10"
             cols="150"
             value={this.state.processed}
           />
