@@ -73,3 +73,14 @@ canvas {
   /* height: 500px; */
   margin-bottom: 5rem;
 }
+
+.response {
+  text-align: center;
+  margin: 2rem;
+  font-size: 1.4rem;
+}
+
+.response span {
+  color: red;
+  font-size: 1.5rem;
+}

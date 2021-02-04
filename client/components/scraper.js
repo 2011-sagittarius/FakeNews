@@ -79,7 +79,7 @@ class Scraper extends Component {
       })
   }
 
-  setChartData(datum = [20, 20, 20, 20, 20]) {
+  setChartData(datum = [0, 0, 0, 0, 0]) {
     // Ajax calls here
     // axios
     //   .get('/api/xyz')
@@ -111,16 +111,18 @@ class Scraper extends Component {
   }
 
   render() {
-    console.log('label > ', this.state.label)
+    let adjective =
+      this.state.label[0] > 75
+        ? 'most likely'
+        : this.state.label[0] > 50 ? 'probably' : 'somewhat'
 
     const search = (
       <div className="container">
         <div className="chart-container">
           <Chart chartData={this.state.chartData} />
           {this.state.label.length > 0 ? (
-            <div>
-              This article is {this.state.label[0]}% likely to be{' '}
-              {this.state.label[1]}
+            <div className="response">
+              This article is <span>{adjective}</span> {this.state.label[1]}
             </div>
           ) : (
             <></>
@@ -157,7 +159,7 @@ class Scraper extends Component {
                 id="button-addon3"
                 onClick={this.preProcess.bind(this)}
               >
-                PreProcess
+                Process Text
               </button>
               <button
                 className="btn btn-outline-secondary"
