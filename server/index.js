@@ -10,15 +10,8 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-// Web scraping - static websites
-const request = require('request')
-const cheerio = require('cheerio')
 const fs = require('fs')
-const writeStream = fs.createWriteStream('post.csv')
-// Web scraping - dynamic websites
-// const puppeteer = require('puppeteer')
-// Web scraping - unfluff
-const extractor = require('unfluff')
+
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -36,57 +29,6 @@ if (process.env.NODE_ENV === 'test') {
  * Node process on process.env
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
-
-// web scraping - Setting headers
-writeStream.write(`Article Body Text \n`)
-
-// web scraping - cheerio
-app.get('/scrape', function(req, res) {
-  let url = req.query.url
-
-  request(url, (error, response, html) => {
-    if (!error && response.statusCode === 200) {
-      // const $ = cheerio.load(html)
-      let data = extractor(html, 'en')
-      data = data.text.replace(/\r?\n|\r/g, ' ')
-      // let output = []
-
-      // NPR Format
-      // $('.storytext p').each(function(i, el) {
-      // APN Format
-      // $('.Article p').each(function(i, el) {
-      //   const item = $(el)
-      //     // .find('.Component-root-0-2-171 Component-p-0-2-162')
-      //     .text()
-
-      //   // console.log(item);
-
-      //   // Write Row to CSV
-      //   writeStream.write(`${item}`)
-      //   output.push(item)
-      // })
-      // console.log('Scraping completed...')
-      // res.send(output.join('\n\n'))
-      // console.log('DATA HERE', data)
-      // console.log('HTML HERE', html)
-      res.send(data)
-    }
-  })
-})
-
-// request('https://apnews.com/article/capitol-siege-charles-allen-police-c23c95fc36c42a795698998c454d0f14', (error, response, html) => {
-//   if (!error && response.statusCode === 200) {
-//     const $ = cheerio.load(html);
-
-//     $('.Article p').each(function(i, el) {
-//       const item = $(el)
-//       // .find('.Component-root-0-2-171 Component-p-0-2-162')
-//       .text();
-
-//       console.log(item);
-//     });
-//   }
-// })
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))

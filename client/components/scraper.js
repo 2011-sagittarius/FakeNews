@@ -11,7 +11,7 @@ class Scraper extends Component {
   }
 
   render() {
-    console.log(this.state.html)
+    console.log(this.state)
     const search = (
       <div className="container">
         <div className="input-group input-group-lg">
@@ -38,6 +38,14 @@ class Scraper extends Component {
             >
               Scrape
             </button>
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              id="button-addon3"
+              onClick={this.preProcess.bind(this)}
+            >
+              PreProcess
+            </button>
           </div>
         </div>
 
@@ -47,6 +55,14 @@ class Scraper extends Component {
             rows="50"
             cols="150"
             value={this.state.html}
+          />
+        </div>
+        <div>
+          <textarea
+            className="result"
+            rows="50"
+            cols="150"
+            value={this.state.processed}
           />
         </div>
       </div>
@@ -64,13 +80,26 @@ class Scraper extends Component {
 
   sendUrl() {
     axios
-      .get('http://localhost:8080/scrape', {
+      .get('/api/processing/scrape', {
         params: {url: this.state.url}
       })
       .then(response => {
         this.setState({
           ...this.state,
           html: response.data
+        })
+      })
+  }
+
+  preProcess() {
+    axios
+      .get('/api/processing/preprocess', {
+        params: {text: this.state.html}
+      })
+      .then(response => {
+        this.setState({
+          ...this.state,
+          processed: response.data
         })
       })
   }
