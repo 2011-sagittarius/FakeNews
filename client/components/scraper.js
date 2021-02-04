@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import Chart from './chart'
+import {framework} from 'passport'
 
 class Scraper extends Component {
   constructor() {
@@ -8,12 +9,14 @@ class Scraper extends Component {
     this.state = {
       url: '',
       html: '',
+      processed: '',
+      prediction: '',
       chartData: {}
     }
   }
 
   componentDidMount() {
-    this.getChartData()
+    this.setChartData()
   }
 
   setUrl(event) {
@@ -25,7 +28,7 @@ class Scraper extends Component {
 
   sendUrl() {
     axios
-      .get('http://localhost:8080/scrape', {
+      .get('/api/processing/scrape', {
         params: {url: this.state.url}
       })
       .then(response => {
@@ -49,19 +52,40 @@ class Scraper extends Component {
       })
   }
 
-  getChartData() {
+  getPrediction() {
+    // console.log('processed > ', this.state.processed)
+    axios
+      .get('/api/processing/predict', {
+        params: {text: this.state.processed}
+      })
+      .then(res => {
+        // console.log('res > ', res.data[0])
+        let fake =
+          res.data[0].displayName === 'fake'
+            ? res.data[0].classification.score * 100
+            : res.data[1].classification.score * 100
+        let real =
+          res.data[0].displayName === 'real'
+            ? res.data[0].classification.score * 100
+            : res.data[1].classification.score * 100
+
+        this.setChartData([fake, real])
+      })
+  }
+
+  setChartData(datum = [50, 50]) {
     // Ajax calls here
     // axios
     //   .get('/api/xyz')
     //   .then
-
+    console.log('datum > ', datum)
     this.setState({
       chartData: {
         labels: ['Fake', 'Real'],
         datasets: [
           {
             label: 'Fake News',
-            data: [50, 50],
+            data: datum,
             backgroundColor: [
               'rgba(255, 99, 132, 0.6)',
               // 'rgba(54, 162, 235, 0.6)',
@@ -78,7 +102,7 @@ class Scraper extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     const search = (
       <div className="container">
         <div className="input-group input-group-lg">
@@ -113,13 +137,21 @@ class Scraper extends Component {
             >
               PreProcess
             </button>
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              id="button-addon4"
+              onClick={this.getPrediction.bind(this)}
+            >
+              Predict
+            </button>
           </div>
         </div>
 
         <div>
           <textarea
             className="result"
-            rows="50"
+            rows="20"
             cols="150"
             value={this.state.html}
           />
@@ -127,7 +159,7 @@ class Scraper extends Component {
         <div>
           <textarea
             className="result"
-            rows="50"
+            rows="20"
             cols="150"
             value={this.state.processed}
           />

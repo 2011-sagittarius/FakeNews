@@ -6,12 +6,12 @@ const extractor = require('unfluff')
 module.exports = router
 
 // Google ML route
-router.get('/', async (req, res, next) => {
+router.get('/predict', async (req, res, next) => {
   try {
     const projectId = 'fakenews-303120'
     const location = 'us-central1'
     const modelId = 'TCN3651409946123173888'
-    const content = 'text to predict'
+    const content = req.query.text
 
     // Imports the Google Cloud AutoML library
     const {PredictionServiceClient} = require('@google-cloud/automl').v1
@@ -41,7 +41,7 @@ router.get('/', async (req, res, next) => {
       )
       console.log(response.payload)
     }
-    res.send('Analysis Complete!')
+    res.json(response.payload)
   } catch (err) {
     next(err)
   }
