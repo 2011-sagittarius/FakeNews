@@ -10,7 +10,8 @@ class Scraper extends Component {
       url: '',
       html: '',
       processed: '',
-      prediction: '',
+      prediction: [],
+      label: [],
       chartData: {}
     }
   }
@@ -60,11 +61,21 @@ class Scraper extends Component {
       .then(res => {
         let data = {}
         res.data.forEach(datum => {
-          data[datum.displayName] =
-            Math.round(datum.classification.score * 1000) / 10
+          data[datum.displayName] = datum.classification.score * 100
         })
         let {fake, political, reliable, satire, unknown} = data
         this.setChartData([fake, political, reliable, satire, unknown])
+
+        let order = res.data.sort(
+          (a, b) => b.classification.score - a.classification.score
+        )
+        this.setState({
+          ...this.state,
+          label: [
+            Math.round(order[0].classification.score * 1000) / 10,
+            order[0].displayName
+          ]
+        })
       })
   }
 
@@ -73,13 +84,12 @@ class Scraper extends Component {
     // axios
     //   .get('/api/xyz')
     //   .then
-    console.log('datum > ', datum)
     this.setState({
       chartData: {
         labels: ['Fake', 'Political', 'Reliable', 'Satire', 'Unknown'],
         datasets: [
           {
-            label: 'Fake News',
+            // label: 'Fake News',
             data: datum,
             backgroundColor: [
               'rgba(255, 99, 132, 0.6)',
@@ -91,74 +101,92 @@ class Scraper extends Component {
               // 'rgba(255, 99, 132, 0.6)',
             ]
           }
-        ]
+        ],
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
       }
     })
   }
 
   render() {
+    console.log('label > ', this.state.label)
+
     const search = (
       <div className="container">
-        <div className="input-group input-group-lg">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="inputGroup-sizing-lg">
-              URL
-            </span>
+        <div className="chart-container">
+          <Chart chartData={this.state.chartData} />
+          {this.state.label.length > 0 ? (
+            <div>
+              This article is {this.state.label[0]}% likely to be{' '}
+              {this.state.label[1]}
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="input">
+          <div className="input-group input-group-lg">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroup-sizing-lg">
+                URL
+              </span>
+            </div>
+
+            <input
+              type="text"
+              className="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-lg"
+              value={this.state.url}
+              onChange={this.setUrl.bind(this)}
+            />
+            <div className="input-group-append">
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+                onClick={this.sendUrl.bind(this)}
+              >
+                Scrape
+              </button>
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="button-addon3"
+                onClick={this.preProcess.bind(this)}
+              >
+                PreProcess
+              </button>
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="button-addon4"
+                onClick={this.getPrediction.bind(this)}
+              >
+                Predict
+              </button>
+            </div>
           </div>
 
-          <input
-            type="text"
-            className="form-control"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-lg"
-            value={this.state.url}
-            onChange={this.setUrl.bind(this)}
-          />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              id="button-addon2"
-              onClick={this.sendUrl.bind(this)}
-            >
-              Scrape
-            </button>
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              id="button-addon3"
-              onClick={this.preProcess.bind(this)}
-            >
-              PreProcess
-            </button>
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              id="button-addon4"
-              onClick={this.getPrediction.bind(this)}
-            >
-              Predict
-            </button>
+          <div>
+            <textarea
+              className="result"
+              rows="15"
+              cols="70"
+              value={this.state.html}
+            />
+          </div>
+          <div>
+            <textarea
+              className="result"
+              rows="15"
+              cols="70"
+              value={this.state.processed}
+            />
           </div>
         </div>
-
-        <div>
-          <textarea
-            className="result"
-            rows="10"
-            cols="150"
-            value={this.state.html}
-          />
-        </div>
-        <div>
-          <textarea
-            className="result"
-            rows="10"
-            cols="150"
-            value={this.state.processed}
-          />
-        </div>
-        <Chart chartData={this.state.chartData} />
       </div>
     )
 
