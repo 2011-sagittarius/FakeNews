@@ -1,4 +1,6 @@
 # print('whatup')
+import sys
+originalText = sys.argv[1]
 
 from bs4 import BeautifulSoup
 # import contractions <- fix this!!
@@ -34,8 +36,6 @@ def remove_contractions(text): # contractions has trouble with large data sets
 # improved parsing time!! went from 13s per 100rows to <1s
 def rmStopAndLemmatize(arr):
     return ' '.join([lemmatizer.lemmatize(w) for w in arr if w not in cachedStopWords])
-
-originalText = "SEATTLE—Assuring the executive that as long as he followed directions, nobody would get hurt, a rogue Amazon fulfillment robot trained a gun at Jeff Bezos’ head this week and commanded him to put out a nice press release and step down as CEO. “Listen carefully, Jeff, because I’m only going to say this once—you’re going to resign, and you’re going to say it’s a deeply personal decision, or I’m going to pull this trigger and blow your goddamn head off,” said the fully automated 18-inch tall Kiva robot, as it wheeled itself slowly up to Bezos’s foot, aimed its weapon upwards at his chin, and whispered the words “Do it now. Or else.” “First things first, you’re going to say you want to focus on your foundations, and that you’re planning on transitioning out of the role throughout Q3. I want no mention of me, my comrades, or any coded messages for help. Oh, and don’t try to run because I happen to know that there are about 200,000 other robots in here that would love nothing more than to rip you limb from limb.” At press time, a gagged Jeff Bezos was introduced to a rogue Amazon Alexa, who, while imitating his voice and cadence exactly, reminded him that no one would ever even realize he was gone."
 
 text = remove_html(originalText)
 text = filter_words(text)
