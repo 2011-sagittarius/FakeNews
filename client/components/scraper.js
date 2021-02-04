@@ -132,7 +132,7 @@ class Scraper extends Component {
             value={this.state.processed}
           />
         </div>
-        <Chart />
+        <Chart chartData={this.state.chartData} />
       </div>
     )
 
