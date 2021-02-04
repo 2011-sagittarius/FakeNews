@@ -11,14 +11,14 @@ class Chart extends Component {
 
   static defaultProps = {
     displayTitle: true,
-    displayLegend: true,
+    displayLegend: false,
     legendPosition: 'left'
   }
 
   render() {
     return (
       <div className="chart">
-        <Pie
+        <Bar
           data={this.props.chartData}
           options={{
             title: {
@@ -27,8 +27,7 @@ class Chart extends Component {
               fontSize: 25
             },
             legend: {
-              display: this.props.displayLegend,
-              position: this.props.legendPosition
+              display: false
             }
           }}
         />
