@@ -27,23 +27,40 @@ class Scraper extends Component {
     })
   }
 
-  sendUrl() {
-    axios
-      .get('/api/processing/scrape', {
-        params: {url: this.state.url}
-      })
-      .then(response => {
-        this.setState({
-          ...this.state,
-          html: response.data
+  async sendUrl() {
+    this.setState({...this.state, html: '--- SCRAPING --- ', processed: ''})
+    this.setChartData()
+    try {
+      await axios
+        .get('/api/processing/scrape', {
+          params: {url: this.state.url}
         })
-      })
+        .then(response => {
+          this.setState({
+            ...this.state,
+            html: response.data
+          })
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  clear() {
+    this.setState({...this.state, html: '', processed: ''})
+    this.setChartData()
   }
 
   preProcess() {
+    let myText = this.state.html
+      .split(' ')
+      .slice(0, 1000)
+      .join(' ')
+
+    this.setState({...this.state, processed: '--- PROCESSING ---'})
     axios
       .get('/api/processing/preprocess', {
-        params: {text: this.state.html}
+        params: {text: myText}
       })
       .then(response => {
         this.setState({
@@ -168,6 +185,14 @@ class Scraper extends Component {
                 onClick={this.getPrediction.bind(this)}
               >
                 Predict
+              </button>
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="button-addon4"
+                onClick={this.clear.bind(this)}
+              >
+                Clear
               </button>
             </div>
           </div>

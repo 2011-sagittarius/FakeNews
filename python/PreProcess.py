@@ -37,7 +37,8 @@ def remove_contractions(text): # contractions has trouble with large data sets
 def rmStopAndLemmatize(arr):
     return ' '.join([lemmatizer.lemmatize(w) for w in arr if w not in cachedStopWords])
 
-text = remove_html(originalText)
+text = originalText.replace('.', ' ')
+text = remove_html(text)
 text = filter_words(text)
 text = tokenizer.tokenize(text.lower())
 text = rmStopAndLemmatize(text)
