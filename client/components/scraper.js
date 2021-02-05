@@ -28,7 +28,7 @@ class Scraper extends Component {
   }
 
   async sendUrl() {
-    this.setState({...this.state, html: '--- SCRAPING ---', processed: ''})
+    this.setState({...this.state, html: '--- SCRAPING --- ', processed: ''})
     this.setChartData()
     try {
       await axios
