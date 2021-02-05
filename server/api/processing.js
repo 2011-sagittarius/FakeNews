@@ -48,12 +48,15 @@ router.get('/predict', async (req, res, next) => {
 })
 
 // Python script to preprocess aka remove filler words/characters from text body
-router.get('/preprocess', (req, res, next) => {
+router.get('/preprocess', async (req, res, next) => {
   try {
     let dataToSend
     // console.log('req.query > ', req.query.text)
     // spawn new child process to call the python script
-    const python = spawn('python3', ['./python/PreProcess.py', req.query.text])
+    const python = await spawn('python3', [
+      './python/PreProcess.py',
+      req.query.text
+    ])
 
     // collect data from script
     python.stdout.on('data', function(data) {
@@ -73,35 +76,39 @@ router.get('/preprocess', (req, res, next) => {
 })
 
 // web scraping - Cheerio
-router.get('/scrape', function(req, res) {
-  let url = req.query.url
+router.get('/scrape', async (req, res) => {
+  try {
+    let url = await req.query.url
 
-  request(url, (error, response, html) => {
-    if (!error && response.statusCode === 200) {
-      // const $ = cheerio.load(html)
-      let data = extractor(html, 'en')
-      data = data.text.replace(/\r?\n|\r/g, ' ')
-      // let output = []
+    request(url, (error, response, html) => {
+      if (!error && response.statusCode === 200) {
+        // const $ = cheerio.load(html)
+        let data = extractor(html, 'en')
+        data = data.text.replace(/\r?\n|\r/g, ' ')
+        // let output = []
 
-      // NPR Format
-      // $('.storytext p').each(function(i, el) {
-      // APN Format
-      // $('.Article p').each(function(i, el) {
-      //   const item = $(el)
-      //     // .find('.Component-root-0-2-171 Component-p-0-2-162')
-      //     .text()
+        // NPR Format
+        // $('.storytext p').each(function(i, el) {
+        // APN Format
+        // $('.Article p').each(function(i, el) {
+        //   const item = $(el)
+        //     // .find('.Component-root-0-2-171 Component-p-0-2-162')
+        //     .text()
 
-      //   // console.log(item);
+        //   // console.log(item);
 
-      //   // Write Row to CSV
-      //   writeStream.write(`${item}`)
-      //   output.push(item)
-      // })
-      // console.log('Scraping completed...')
-      // res.send(output.join('\n\n'))
-      // console.log('DATA HERE', data)
-      // console.log('HTML HERE', html)
-      res.send(data)
-    }
-  })
+        //   // Write Row to CSV
+        //   writeStream.write(`${item}`)
+        //   output.push(item)
+        // })
+        // console.log('Scraping completed...')
+        // res.send(output.join('\n\n'))
+        // console.log('DATA HERE', data)
+        // console.log('HTML HERE', html)
+        res.send(data)
+      }
+    })
+  } catch (err) {
+    next(err)
+  }
 })
