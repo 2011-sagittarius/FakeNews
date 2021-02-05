@@ -192,7 +192,7 @@ class Scraper extends Component {
                 id="button-addon4"
                 onClick={this.clear.bind(this)}
               >
-                Clear
+                Clear!
               </button>
             </div>
           </div>
