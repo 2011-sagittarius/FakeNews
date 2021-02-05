@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
-const {CrawlingAPI} = require('proxycrawl')
-const api = new CrawlingAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
+const {ScraperAPI} = require('proxycrawl')
+const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 
 module.exports = router
 
@@ -72,7 +72,7 @@ router.get('/preprocess', (req, res, next) => {
   }
 })
 
-// web scraping - proxycrawl
+// web scraping - Cheerio
 router.get('/scrape', function(req, res) {
   let url = req.query.url
 
