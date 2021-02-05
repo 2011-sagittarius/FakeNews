@@ -27,40 +27,23 @@ class Scraper extends Component {
     })
   }
 
-  async sendUrl() {
-    this.setState({...this.state, html: '--- SCRAPING ---', processed: ''})
-    this.setChartData()
-    try {
-      await axios
-        .get('/api/processing/scrape', {
-          params: {url: this.state.url}
+  sendUrl() {
+    axios
+      .get('/api/processing/scrape', {
+        params: {url: this.state.url}
+      })
+      .then(response => {
+        this.setState({
+          ...this.state,
+          html: response.data
         })
-        .then(response => {
-          this.setState({
-            ...this.state,
-            html: response.data
-          })
-        })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  clear() {
-    this.setState({...this.state, html: '', processed: ''})
-    this.setChartData()
+      })
   }
 
   preProcess() {
-    let myText = this.state.html
-      .split(' ')
-      .slice(0, 1000)
-      .join(' ')
-
-    this.setState({...this.state, processed: '--- PROCESSING ---'})
     axios
       .get('/api/processing/preprocess', {
-        params: {text: myText}
+        params: {text: this.state.html}
       })
       .then(response => {
         this.setState({
