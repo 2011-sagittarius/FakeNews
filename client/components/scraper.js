@@ -169,14 +169,6 @@ class Scraper extends Component {
               >
                 Predict
               </button>
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon4"
-                onClick={this.clear.bind(this)}
-              >
-                Clear!
-              </button>
             </div>
           </div>
 
