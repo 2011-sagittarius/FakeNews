@@ -48,15 +48,12 @@ router.get('/predict', async (req, res, next) => {
 })
 
 // Python script to preprocess aka remove filler words/characters from text body
-router.get('/preprocess', async (req, res, next) => {
+router.get('/preprocess', (req, res, next) => {
   try {
     let dataToSend
     // console.log('req.query > ', req.query.text)
     // spawn new child process to call the python script
-    const python = await spawn('python3', [
-      './python/PreProcess.py',
-      req.query.text
-    ])
+    const python = spawn('python3', ['./python/PreProcess.py', req.query.text])
 
     // collect data from script
     python.stdout.on('data', function(data) {
