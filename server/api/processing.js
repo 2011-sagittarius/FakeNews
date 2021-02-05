@@ -1,8 +1,6 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
-const request = require('request')
-const extractor = require('unfluff')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 
 module.exports = router
