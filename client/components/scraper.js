@@ -28,7 +28,7 @@ class Scraper extends Component {
   }
 
   async sendUrl() {
-    this.setState({...this.state, html: '', processed: ''})
+    this.setState({...this.state, html: '--- SCRAPING --- ', processed: ''})
     try {
       await axios
         .get('/api/processing/scrape', {
@@ -46,7 +46,7 @@ class Scraper extends Component {
   }
 
   clear() {
-    this.setState({...this.state, html: '', processed: ''})
+    this.setState({...this.state, html: 'SCRAPING...', processed: ''})
   }
 
   preProcess() {
