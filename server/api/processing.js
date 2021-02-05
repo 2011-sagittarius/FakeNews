@@ -48,12 +48,15 @@ router.get('/predict', async (req, res, next) => {
 })
 
 // Python script to preprocess aka remove filler words/characters from text body
-router.get('/preprocess', (req, res, next) => {
+router.get('/preprocess', async (req, res, next) => {
   try {
     let dataToSend
     // console.log('req.query > ', req.query.text)
     // spawn new child process to call the python script
-    const python = spawn('python3', ['./python/PreProcess.py', req.query.text])
+    const python = await spawn('python3', [
+      './python/PreProcess.py',
+      req.query.text
+    ])
 
     // collect data from script
     python.stdout.on('data', function(data) {
@@ -73,12 +76,13 @@ router.get('/preprocess', (req, res, next) => {
 })
 
 // web scraping - Cheerio
-router.get('/scrape', function(req, res) {
+router.get('/scrape', (req, res) => {
   let url = req.query.url
 
   api.get(url).then(response => {
     if (response.statusCode === 200) {
       let data = response.json.body.content
+      // console.log(response.json.body.content)
       res.send(data)
     }
   })
