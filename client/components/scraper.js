@@ -29,6 +29,7 @@ class Scraper extends Component {
 
   async sendUrl() {
     this.setState({...this.state, html: '--- SCRAPING --- ', processed: ''})
+    this.setChartData()
     try {
       await axios
         .get('/api/processing/scrape', {
@@ -46,7 +47,8 @@ class Scraper extends Component {
   }
 
   clear() {
-    this.setState({...this.state, html: 'SCRAPING...', processed: ''})
+    this.setState({...this.state, html: '', processed: ''})
+    this.setChartData()
   }
 
   preProcess() {
@@ -55,6 +57,7 @@ class Scraper extends Component {
       .slice(0, 1000)
       .join(' ')
 
+    this.setState({...this.state, processed: '--- PROCESSING ---'})
     axios
       .get('/api/processing/preprocess', {
         params: {text: myText}
