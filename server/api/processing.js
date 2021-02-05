@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
-const request = require('request')
-const extractor = require('unfluff')
+const {CrawlingAPI} = require('proxycrawl')
+const api = new CrawlingAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 
 module.exports = router
 
@@ -72,35 +72,13 @@ router.get('/preprocess', (req, res, next) => {
   }
 })
 
-// web scraping - Cheerio
+// web scraping - proxycrawl
 router.get('/scrape', function(req, res) {
   let url = req.query.url
 
-  request(url, (error, response, html) => {
-    if (!error && response.statusCode === 200) {
-      // const $ = cheerio.load(html)
-      let data = extractor(html, 'en')
-      data = data.text.replace(/\r?\n|\r/g, ' ')
-      // let output = []
-
-      // NPR Format
-      // $('.storytext p').each(function(i, el) {
-      // APN Format
-      // $('.Article p').each(function(i, el) {
-      //   const item = $(el)
-      //     // .find('.Component-root-0-2-171 Component-p-0-2-162')
-      //     .text()
-
-      //   // console.log(item);
-
-      //   // Write Row to CSV
-      //   writeStream.write(`${item}`)
-      //   output.push(item)
-      // })
-      // console.log('Scraping completed...')
-      // res.send(output.join('\n\n'))
-      // console.log('DATA HERE', data)
-      // console.log('HTML HERE', html)
+  api.get(url).then(response => {
+    if (response.statusCode === 200) {
+      let data = response.json.body.content
       res.send(data)
     }
   })
