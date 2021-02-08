@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Chart from './chart'
+import Chart from './Chart'
 import {framework} from 'passport'
 
 class Scraper extends Component {
