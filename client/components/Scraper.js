@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Chart from './Chart'
+import {Chart, RelatedArticles} from '../components'
 import {framework} from 'passport'
 
 class Scraper extends Component {
@@ -12,7 +12,8 @@ class Scraper extends Component {
       processed: '',
       prediction: [],
       label: [],
-      chartData: {}
+      chartData: {},
+      keywords: []
     }
   }
 
@@ -35,10 +36,12 @@ class Scraper extends Component {
         .get('/api/processing/scrape', {
           params: {url: this.state.url}
         })
-        .then(response => {
+        .then(res => {
+          console.log('res > ', res)
           this.setState({
             ...this.state,
-            html: response.data
+            html: res.data.content,
+            keywords: res.data.meta.keywords
           })
         })
     } catch (error) {
@@ -217,7 +220,12 @@ class Scraper extends Component {
       </div>
     )
 
-    return <div>{search}</div>
+    return (
+      <div>
+        {search}
+        <RelatedArticles keywords={this.state.keywords} />
+      </div>
+    )
   }
 }
 

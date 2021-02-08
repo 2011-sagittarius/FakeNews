@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
+const axios = require('axios')
 
 module.exports = router
 
@@ -81,10 +82,8 @@ router.get('/scrape', (req, res) => {
 
   api.get(url).then(response => {
     if (response.statusCode === 200) {
-      let data = response.json.body.content
-      // console.log(response.json.body.content)
-      console.log('scrape res > ', response.json)
-      res.send(data)
+      let {body} = response.json
+      res.send(body)
     }
   })
 })
@@ -92,28 +91,28 @@ router.get('/scrape', (req, res) => {
 // Get related news articles
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
-  try {
-    let dataToSend
-    // console.log('req.query > ', req.query.text)
-    // spawn new child process to call the python script
-    const python = await spawn('python3', [
-      './python/PreProcess.py',
-      req.query.text
-    ])
+  const keywords = req.query.keywords.split(',').join(' ')
+  console.log('req > ', typeof keywords, req.query.keywords.split(',')[0])
+  let url =
+    'http://newsapi.org/v2/everything?' +
+    `q=${req.query.keywords.split(',')[0]}&` +
+    'from=2021-01-08&' +
+    'sortBy=popularity&' +
+    'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
 
-    // collect data from script
-    python.stdout.on('data', function(data) {
-      console.log('Pipe data from python script ...')
-      dataToSend = data.toString()
+  try {
+    const response = await axios.get(url)
+    let {articles} = response.data
+    let ans = {}
+    // articles = articles.map((article) => ({
+    //   source: article.source.name,
+    //   content: article.content,
+    // }))
+    articles.forEach(article => {
+      if (!ans[article.source.name]) ans[article.source.name] = article.content
     })
-    // in close event we are sure that stream from child process is closed
-    python.on('close', code => {
-      console.log(`child process close all stdio with code ${code}`)
-      // send data to browser
-      res.send(dataToSend)
-      console.log(dataToSend)
-    })
-  } catch (err) {
-    next(err)
+    res.json(Object.keys(ans))
+  } catch (error) {
+    next(error)
   }
 })
