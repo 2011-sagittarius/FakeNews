@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
+const {Article} = require('../db/models')
 
 module.exports = router
 
@@ -78,12 +79,27 @@ router.get('/preprocess', async (req, res, next) => {
 // web scraping - Cheerio
 router.get('/scrape', (req, res) => {
   let url = req.query.url
-
   api.get(url).then(response => {
+    // console.log("SCRAPER HERE -->", response.json)
     if (response.statusCode === 200) {
-      let data = response.json.body.content
+      let data = {
+        content: response.json.body.content,
+        title: response.json.body.title
+      }
       // console.log(response.json.body.content)
       res.send(data)
     }
   })
+})
+
+// Posting new articles to database
+router.post('/scrape', async (req, res, next) => {
+  try {
+    const createdArticle = await Article.create(req.body)
+    if (createdArticle) {
+      res.send(createdArticle)
+    }
+  } catch (error) {
+    next(error)
+  }
 })

@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import Chart from './chart'
 import {framework} from 'passport'
+import {connect} from 'react-redux'
+import {createArticle} from '../store/article'
 
 class Scraper extends Component {
   constructor() {
@@ -12,7 +14,9 @@ class Scraper extends Component {
       processed: '',
       prediction: [],
       label: [],
-      chartData: {}
+      chartData: {},
+      title: '',
+      scores: []
     }
   }
 
@@ -27,15 +31,16 @@ class Scraper extends Component {
     })
   }
 
-  sendUrl() {
-    axios
+  async sendUrl() {
+    await axios
       .get('/api/processing/scrape', {
         params: {url: this.state.url}
       })
       .then(response => {
         this.setState({
           ...this.state,
-          html: response.data
+          html: response.data.content,
+          title: response.data.title
         })
       })
   }
@@ -53,8 +58,8 @@ class Scraper extends Component {
       })
   }
 
-  getPrediction() {
-    axios
+  async getPrediction() {
+    await axios
       .get('/api/processing/predict', {
         params: {text: this.state.processed}
       })
@@ -74,9 +79,21 @@ class Scraper extends Component {
           label: [
             Math.round(order[0].classification.score * 1000) / 10,
             order[0].displayName
-          ]
+          ],
+          score: res.data
         })
       })
+
+    this.props.createArticle({
+      url: this.state.url,
+      text: this.state.html,
+      title: this.state.title,
+      reliable: this.state.score[0].classification.score * 100,
+      political: this.state.score[1].classification.score * 100,
+      unknown: this.state.score[2].classification.score * 100,
+      fake: this.state.score[3].classification.score * 100,
+      satire: this.state.score[4].classification.score * 100
+    })
   }
 
   setChartData(datum = [0, 0, 0, 0, 0]) {
@@ -196,4 +213,12 @@ class Scraper extends Component {
   }
 }
 
-export default Scraper
+const mapDispatch = dispatch => {
+  return {
+    createArticle: newArticle => dispatch(createArticle(newArticle))
+  }
+}
+
+export default connect(null, mapDispatch)(Scraper)
+
+// export default Scraper
