@@ -4,6 +4,7 @@ const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 const axios = require('axios')
 const {domain} = require('process')
+const {Article} = require('../db/models')
 
 module.exports = router
 
@@ -78,11 +79,15 @@ router.get('/preprocess', async (req, res, next) => {
 // web scraping - Cheerio
 router.get('/scrape', (req, res) => {
   let url = req.query.url
-
   api.get(url).then(response => {
+    // console.log("SCRAPER HERE -->", response.json)
     if (response.statusCode === 200) {
-      let {body} = response.json
-      res.send(body)
+      let data = {
+        content: response.json.body.content,
+        title: response.json.body.title
+      }
+      // console.log(response.json.body.content)
+      res.send(data)
     }
   })
 })
@@ -117,34 +122,45 @@ router.get('/related-articles', async (req, res, next) => {
   }
 })
 
-// Web Search (contextual) API
-// Python script to preprocess aka remove filler words/characters from text body
+// // Web Search (contextual) API
+// // Python script to preprocess aka remove filler words/characters from text body
+// router.get('/related-articles-news', async (req, res, next) => {
+//   const keywords = req.query.keywords.join(' ')
+//   const options = {
+//     method: 'GET',
+//     url:
+//       'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+//     params: {
+//       q: keywords,
+//       pageNumber: '1',
+//       pageSize: '50',
+//       autoCorrect: 'true',
+//       fromPublishedDate: 'null',
+//       toPublishedDate: 'null'
+//     },
+//     headers: {
+//       'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+//     }
+//   }
 
-router.get('/related-articles-news', async (req, res, next) => {
-  const keywords = req.query.keywords.join(' ')
-  const options = {
-    method: 'GET',
-    url:
-      'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      q: keywords,
-      pageNumber: '1',
-      pageSize: '50',
-      autoCorrect: 'true',
-      fromPublishedDate: 'null',
-      toPublishedDate: 'null'
-    },
-    headers: {
-      'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }
+//   try {
+//     const response = await axios(options)
+//     const articles = response.data.value
 
+//     res.json(articles.slice(0, 10))
+//   } catch(err) {
+//     next(err)
+//   }
+// })
+
+// Posting new articles to database
+router.post('/scrape', async (req, res, next) => {
   try {
-    const response = await axios(options)
-    const articles = response.data.value
-
-    res.json(articles.slice(0, 10))
+    const createdArticle = await Article.create(req.body)
+    if (createdArticle) {
+      res.send(createdArticle)
+    }
   } catch (error) {
     next(error)
   }

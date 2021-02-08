@@ -28,7 +28,7 @@ const RelatedArticles = props => {
   ) : (
     <div>
       <h2>Want some more info? 👇</h2>
-      {articles.map(article => (
+      {articles.slice(0, 5).map(article => (
         <div key={article.id}>
           <p>{article.title}</p>
           <a href="#">{article.url}</a>
