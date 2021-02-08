@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {Chart, RelatedArticles} from '../components'
-import {framework} from 'passport'
+// import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 
@@ -19,6 +19,11 @@ class Scraper extends Component {
       title: '',
       scores: []
     }
+    this.setUrl = this.setUrl.bind(this)
+    this.sendUrl = this.sendUrl.bind(this)
+    this.preProcess = this.preProcess.bind(this)
+    this.getPrediction = this.getPrediction.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -46,7 +51,6 @@ class Scraper extends Component {
         params: {url: this.state.url}
       })
       .then(response => {
-        console.log('response > ', response)
         this.setState({
           ...this.state,
           html: response.data.content,
@@ -150,6 +154,11 @@ class Scraper extends Component {
     })
   }
 
+  async handleClick() {
+    await this.sendUrl()
+    await this.preProcess()
+    // await this.getPrediction()
+  }
   render() {
     let adjective =
       this.state.label[0] > 75
@@ -167,6 +176,7 @@ class Scraper extends Component {
           ) : (
             <></>
           )}
+          <RelatedArticles keywords={this.state.keywords} />
         </div>
         <div className="input">
           <div className="input-group input-group-lg">
@@ -182,41 +192,41 @@ class Scraper extends Component {
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-lg"
               value={this.state.url}
-              onChange={this.setUrl.bind(this)}
+              onChange={this.setUrl}
             />
             <div className="input-group-append">
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="button-addon2"
-                onClick={this.sendUrl.bind(this)}
+                onClick={this.handleClick}
               >
                 Scrape
               </button>
-              <button
+              {/* <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="button-addon3"
-                onClick={this.preProcess.bind(this)}
+                onClick={this.preProcess}
               >
                 Process Text
-              </button>
+              </button> */}
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="button-addon4"
-                onClick={this.getPrediction.bind(this)}
+                onClick={this.getPrediction}
               >
                 Predict
               </button>
-              <button
+              {/*<button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="button-addon4"
-                onClick={this.clear.bind(this)}
+                onClick={this.clear}
               >
                 Clear
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -240,12 +250,7 @@ class Scraper extends Component {
       </div>
     )
 
-    return (
-      <div>
-        {search}
-        <RelatedArticles keywords={this.state.keywords} />
-      </div>
-    )
+    return <div>{search}</div>
   }
 }
 

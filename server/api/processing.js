@@ -80,13 +80,11 @@ router.get('/preprocess', async (req, res, next) => {
 router.get('/scrape', (req, res) => {
   let url = req.query.url
   api.get(url).then(response => {
-    // console.log("SCRAPER HERE -->", response.json)
     if (response.statusCode === 200) {
       let data = {
         content: response.json.body.content,
         title: response.json.body.title
       }
-      // console.log(response.json.body.content)
       res.send(data)
     }
   })

@@ -19,19 +19,17 @@ const RelatedArticles = props => {
     [keywords]
   )
 
-  if (keywords.length > 0) {
-    console.log('keywords > ', keywords)
-    console.log('articles > ', articles)
-  }
   return articles.length < 1 ? (
     <></>
   ) : (
     <div>
       <h2>Want some more info? 👇</h2>
       {articles.slice(0, 5).map(article => (
-        <div key={article.id}>
+        <div key={article.title}>
           <p>{article.title}</p>
-          <a href="#">{article.url}</a>
+          <a href={article.url} target="_blank" rel="noopener noreferrer">
+            {article.url}
+          </a>
         </div>
       ))}
     </div>
