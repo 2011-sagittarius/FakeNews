@@ -29,7 +29,12 @@ class Scraper extends Component {
   }
 
   async sendUrl() {
-    this.setState({...this.state, html: '--- SCRAPING ---', processed: ''})
+    this.setState({
+      ...this.state,
+      html: '--- SCRAPING ---',
+      processed: '',
+      keywords: []
+    })
     this.setChartData()
     try {
       await axios
@@ -205,7 +210,7 @@ class Scraper extends Component {
               className="result"
               rows="15"
               cols="70"
-              value={this.state.html}
+              defaultValue={this.state.html}
             />
           </div>
           <div>
@@ -213,7 +218,7 @@ class Scraper extends Component {
               className="result"
               rows="15"
               cols="70"
-              value={this.state.processed}
+              defaultValue={this.state.processed}
             />
           </div>
         </div>

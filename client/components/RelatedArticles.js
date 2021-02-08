@@ -25,7 +25,20 @@ const RelatedArticles = props => {
     console.log('keywords > ', keywords)
     console.log('articles > ', articles)
   }
-  return <div />
+  return articles.length < 1 ? (
+    <></>
+  ) : (
+    <div>
+      <h2>Want some more info? 👇</h2>
+      {articles.map(article => (
+        <div key={article.id}>
+          <p>{article.source.name}</p>
+          <p>{article.title}</p>
+          <a href="#">{article.url}</a>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export default RelatedArticles

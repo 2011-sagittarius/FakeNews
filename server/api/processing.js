@@ -3,6 +3,7 @@ const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 const axios = require('axios')
+const {domain} = require('process')
 
 module.exports = router
 
@@ -91,27 +92,36 @@ router.get('/scrape', (req, res) => {
 // Get related news articles
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
-  const keywords = req.query.keywords.split(',').join(' ')
-  console.log('req > ', typeof keywords, req.query.keywords.split(',')[0])
+  const keywords = req.query.keywords.split(',').join(' OR ')
+  console.log('--- req > ', typeof keywords, req.query.keywords.split(',')[0])
   let url =
     'http://newsapi.org/v2/everything?' +
-    `q=${req.query.keywords.split(',')[0]}&` +
+    `q=${keywords}&` +
     'from=2021-01-08&' +
     'sortBy=popularity&' +
+    'pageSize=100&' +
     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
 
+  console.log('keywords > ', keywords)
   try {
     const response = await axios.get(url)
     let {articles} = response.data
-    let ans = {}
+    // console.log('--- res > ', response.data.articles)
+
     // articles = articles.map((article) => ({
     //   source: article.source.name,
     //   content: article.content,
     // }))
+
+    let ans = []
+    let domains = []
     articles.forEach(article => {
-      if (!ans[article.source.name]) ans[article.source.name] = article.content
+      if (!domains.includes(article.source.name)) {
+        ans.push(article)
+        domains.push(article.source.name)
+      }
     })
-    res.json(Object.keys(ans))
+    res.json(ans)
   } catch (error) {
     next(error)
   }
