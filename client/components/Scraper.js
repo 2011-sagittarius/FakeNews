@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Chart from './Chart'
+import {Chart, RelatedArticles} from '../components'
+import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 
@@ -14,6 +15,7 @@ class Scraper extends Component {
       prediction: [],
       label: [],
       chartData: {},
+      keywords: [],
       title: '',
       scores: []
     }
@@ -31,18 +33,26 @@ class Scraper extends Component {
   }
 
   async sendUrl() {
+    this.setState({
+      ...this.state,
+      html: '--- SCRAPING ---',
+      processed: '',
+      keywords: []
+    })
+    this.setChartData()
+
     await axios
       .get('/api/processing/scrape', {
         params: {url: this.state.url}
       })
       .then(response => {
+        console.log('response > ', response)
         this.setState({
           ...this.state,
           html: response.data.content,
           title: response.data.title
         })
       })
-    this.setState({...this.state, html: '--- SCRAPING ---', processed: ''})
     this.setChartData()
   }
 
@@ -65,7 +75,8 @@ class Scraper extends Component {
       .then(response => {
         this.setState({
           ...this.state,
-          processed: response.data
+          processed: response.data.text,
+          keywords: response.data.keywords
         })
       })
   }
@@ -214,7 +225,7 @@ class Scraper extends Component {
               className="result"
               rows="15"
               cols="70"
-              value={this.state.html}
+              defaultValue={this.state.html}
             />
           </div>
           <div>
@@ -222,14 +233,19 @@ class Scraper extends Component {
               className="result"
               rows="15"
               cols="70"
-              value={this.state.processed}
+              defaultValue={this.state.processed}
             />
           </div>
         </div>
       </div>
     )
 
-    return <div>{search}</div>
+    return (
+      <div>
+        {search}
+        <RelatedArticles keywords={this.state.keywords} />
+      </div>
+    )
   }
 }
 

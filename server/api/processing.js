@@ -2,6 +2,8 @@ const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
+const axios = require('axios')
+const {domain} = require('process')
 const {Article} = require('../db/models')
 
 module.exports = router
@@ -52,10 +54,9 @@ router.get('/predict', async (req, res, next) => {
 router.get('/preprocess', async (req, res, next) => {
   try {
     let dataToSend
-    // console.log('req.query > ', req.query.text)
     // spawn new child process to call the python script
     const python = await spawn('python3', [
-      './python/PreProcess.py',
+      './python/KeywordExtraction.py',
       req.query.text
     ])
 
@@ -69,7 +70,6 @@ router.get('/preprocess', async (req, res, next) => {
       console.log(`child process close all stdio with code ${code}`)
       // send data to browser
       res.send(dataToSend)
-      console.log(dataToSend)
     })
   } catch (err) {
     next(err)
@@ -91,6 +91,68 @@ router.get('/scrape', (req, res) => {
     }
   })
 })
+
+// News API
+// Python script to preprocess aka remove filler words/characters from text body
+router.get('/related-articles', async (req, res, next) => {
+  const keywords = req.query.keywords.join(' ')
+  let url =
+    'http://newsapi.org/v2/everything?' +
+    `q=${keywords}&` +
+    'from=2021-01-08&' +
+    'sortBy=relevance&' +
+    'pageSize=100&' +
+    'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
+
+  try {
+    const response = await axios.get(url)
+    let {articles} = response.data
+
+    let ans = []
+    let domains = []
+    articles.forEach(article => {
+      if (!domains.includes(article.source.name)) {
+        ans.push(article)
+        domains.push(article.source.name)
+      }
+    })
+    res.json(ans)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// // Web Search (contextual) API
+// // Python script to preprocess aka remove filler words/characters from text body
+// router.get('/related-articles-news', async (req, res, next) => {
+//   const keywords = req.query.keywords.join(' ')
+//   const options = {
+//     method: 'GET',
+//     url:
+//       'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+//     params: {
+//       q: keywords,
+//       pageNumber: '1',
+//       pageSize: '50',
+//       autoCorrect: 'true',
+//       fromPublishedDate: 'null',
+//       toPublishedDate: 'null'
+//     },
+//     headers: {
+//       'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+//     }
+//   }
+
+//   try {
+//     const response = await axios(options)
+//     const articles = response.data.value
+
+//     res.json(articles.slice(0, 10))
+//   } catch(err) {
+//     next(err)
+//   }
+// })
 
 // Posting new articles to database
 router.post('/scrape', async (req, res, next) => {
