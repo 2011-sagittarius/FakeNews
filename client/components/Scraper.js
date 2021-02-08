@@ -45,8 +45,7 @@ class Scraper extends Component {
           console.log('res > ', res)
           this.setState({
             ...this.state,
-            html: res.data.content,
-            keywords: res.data.meta.keywords
+            html: res.data.content
           })
         })
     } catch (error) {
@@ -73,7 +72,8 @@ class Scraper extends Component {
       .then(response => {
         this.setState({
           ...this.state,
-          processed: response.data
+          processed: response.data.text,
+          keywords: response.data.keywords
         })
       })
   }

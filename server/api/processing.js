@@ -53,10 +53,9 @@ router.get('/predict', async (req, res, next) => {
 router.get('/preprocess', async (req, res, next) => {
   try {
     let dataToSend
-    // console.log('req.query > ', req.query.text)
     // spawn new child process to call the python script
     const python = await spawn('python3', [
-      './python/PreProcess.py',
+      './python/KeywordExtraction.py',
       req.query.text
     ])
 
@@ -70,7 +69,6 @@ router.get('/preprocess', async (req, res, next) => {
       console.log(`child process close all stdio with code ${code}`)
       // send data to browser
       res.send(dataToSend)
-      console.log(dataToSend)
     })
   } catch (err) {
     next(err)
@@ -89,29 +87,21 @@ router.get('/scrape', (req, res) => {
   })
 })
 
-// Get related news articles
+// News API
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
-  const keywords = req.query.keywords.split(',').join(' OR ')
-  console.log('--- req > ', typeof keywords, req.query.keywords.split(',')[0])
+  const keywords = req.query.keywords.join(' ')
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
     'from=2021-01-08&' +
-    'sortBy=popularity&' +
+    'sortBy=relevance&' +
     'pageSize=100&' +
     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
 
-  console.log('keywords > ', keywords)
   try {
     const response = await axios.get(url)
     let {articles} = response.data
-    // console.log('--- res > ', response.data.articles)
-
-    // articles = articles.map((article) => ({
-    //   source: article.source.name,
-    //   content: article.content,
-    // }))
 
     let ans = []
     let domains = []
@@ -122,6 +112,39 @@ router.get('/related-articles', async (req, res, next) => {
       }
     })
     res.json(ans)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// Web Search (contextual) API
+// Python script to preprocess aka remove filler words/characters from text body
+
+router.get('/related-articles-news', async (req, res, next) => {
+  const keywords = req.query.keywords.join(' ')
+  const options = {
+    method: 'GET',
+    url:
+      'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+    params: {
+      q: keywords,
+      pageNumber: '1',
+      pageSize: '50',
+      autoCorrect: 'true',
+      fromPublishedDate: 'null',
+      toPublishedDate: 'null'
+    },
+    headers: {
+      'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+    }
+  }
+
+  try {
+    const response = await axios(options)
+    const articles = response.data.value
+
+    res.json(articles.slice(0, 10))
   } catch (error) {
     next(error)
   }
