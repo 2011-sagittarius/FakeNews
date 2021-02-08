@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Chart from './chart'
-import {framework} from 'passport'
+import Chart from './Chart'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 
@@ -43,12 +42,25 @@ class Scraper extends Component {
           title: response.data.title
         })
       })
+    this.setState({...this.state, html: '--- SCRAPING ---', processed: ''})
+    this.setChartData()
+  }
+
+  clear() {
+    this.setState({...this.state, html: '', processed: ''})
+    this.setChartData()
   }
 
   preProcess() {
+    let myText = this.state.html
+      .split(' ')
+      .slice(0, 1000)
+      .join(' ')
+
+    this.setState({...this.state, processed: '--- PROCESSING ---'})
     axios
       .get('/api/processing/preprocess', {
-        params: {text: this.state.html}
+        params: {text: myText}
       })
       .then(response => {
         this.setState({
@@ -185,6 +197,14 @@ class Scraper extends Component {
                 onClick={this.getPrediction.bind(this)}
               >
                 Predict
+              </button>
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="button-addon4"
+                onClick={this.clear.bind(this)}
+              >
+                Clear
               </button>
             </div>
           </div>
