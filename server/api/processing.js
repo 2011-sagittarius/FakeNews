@@ -5,6 +5,8 @@ const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 const axios = require('axios')
 const {domain} = require('process')
 const {Article} = require('../db/models')
+const metascraper = require('metascraper')([require('metascraper-publisher')()])
+const got = require('got')
 
 module.exports = router
 
@@ -165,7 +167,19 @@ router.post('/scrape', async (req, res, next) => {
     if (createdArticle) {
       res.send(createdArticle)
     }
-  } catch (error) {
-    next(error)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// Web scrape publisher from article
+router.get('/scrape/meta', async (req, res, next) => {
+  try {
+    let {targetUrl} = req.query
+    const {body: html, url} = await got(targetUrl)
+    const metadata = await metascraper({html, url})
+    res.json(metadata)
+  } catch (err) {
+    next(err)
   }
 })

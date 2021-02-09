@@ -9,22 +9,25 @@ class Scraper extends Component {
   constructor() {
     super()
     this.state = {
-      url: '',
-      html: '',
-      processed: '',
-      prediction: [],
-      label: [],
       chartData: {},
+      html: '',
+      label: [],
       keywords: [],
+      prediction: [],
+      processed: '',
+      publisher: '',
+      scores: [],
       title: '',
-      scores: []
+      url: ''
     }
+
     this.setUrl = this.setUrl.bind(this)
     this.sendUrl = this.sendUrl.bind(this)
     this.preProcess = this.preProcess.bind(this)
     this.getPrediction = this.getPrediction.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.checkUrl = this.checkUrl.bind(this)
+    this.scrapePublisher = this.scrapePublisher.bind(this)
   }
 
   componentDidMount() {
@@ -42,12 +45,29 @@ class Scraper extends Component {
     return /^(ftp|http|https):\/\/[^ "]+$/.test(this.state.url)
   }
 
+  // Call scrape-publisher route on URL
+  async scrapePublisher() {
+    this.setState({publisher: ''})
+    try {
+      const {data} = await axios.get('/api/processing/scrape/meta', {
+        params: {targetUrl: this.state.url}
+      })
+      this.setState({publisher: data.publisher})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // Call scrape API on URL
   async sendUrl() {
     this.setState({
       html: '--- SCRAPING ---',
       processed: '',
-      keywords: []
+      keywords: [],
+      scores: [],
+      prediction: [],
+      title: '',
+      label: ''
     })
     this.setChartData()
 
@@ -97,27 +117,35 @@ class Scraper extends Component {
     let {fake, political, reliable, satire, unknown} = scores
     this.setChartData([fake, political, reliable, satire, unknown])
 
-    // Sort api response to find highest prediction
-    let order = response.data.sort(
-      (a, b) => b.classification.score - a.classification.score
-    )
+    let max = response.data.reduce((prev, current) => {
+      return prev.classification.score > current.classification.score
+        ? prev
+        : current
+    })
+
+    let obj = {}
+    response.data.forEach(score => {
+      obj[score.displayName] = score.classification.score
+    })
+
     this.setState({
       label: [
-        Math.round(order[0].classification.score * 1000) / 10,
-        order[0].displayName
+        Math.round(max.classification.score * 1000) / 10,
+        max.displayName
       ],
-      scores: response.data
+      scores: obj
     })
 
     this.props.createArticle({
+      publisher: this.state.publisher,
       url: this.state.url,
       text: this.state.html,
       title: this.state.title,
-      fake: this.state.scores[0].classification.score * 100,
-      political: this.state.scores[1].classification.score * 100,
-      reliable: this.state.scores[2].classification.score * 100,
-      satire: this.state.scores[3].classification.score * 100,
-      unknown: this.state.scores[4].classification.score * 100
+      fake: this.state.scores.fake * 100,
+      political: this.state.scores.political * 100,
+      reliable: this.state.scores.reliable * 100,
+      satire: this.state.scores.satire * 100,
+      unknown: this.state.scores.unknown * 100
     })
   }
 
@@ -145,14 +173,21 @@ class Scraper extends Component {
     })
   }
 
-  handleClick() {
+  async handleClick() {
     if (this.checkUrl()) {
-      this.sendUrl().then(() =>
-        this.preProcess().then(() => {
-          if (this.state.processed.length > 1) this.getPrediction()
-          else console.log('NO PROCESSED TEXT')
-        })
-      )
+      // this.sendUrl().then(() => this.scrapePublisher().then(() =>
+      //   this.preProcess().then(() => {
+      //     if (this.state.processed.length > 1) this.getPrediction()
+      //     else console.log('NO PROCESSED TEXT')
+      //   })
+      // )
+      // this.scrapePublisher().then(() => this.sendUrl())
+      await this.scrapePublisher()
+      await this.sendUrl()
+      await this.preProcess().then(() => {
+        if (this.state.processed.length > 1) this.getPrediction()
+        else console.log('NO PROCESSED TEXT')
+      })
     } else console.log('INVALID URL')
     // .then(() => this.getPrediction())
     // await this.preProcess()
