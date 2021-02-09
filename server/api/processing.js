@@ -42,7 +42,7 @@ router.get('/predict', async (req, res, next) => {
       console.log(
         `Predicted class score: ${annotationPayload.classification.score}`
       )
-      console.log(response.payload)
+      // console.log(response.payload)
     }
     res.json(response.payload)
   } catch (err) {
@@ -80,13 +80,11 @@ router.get('/preprocess', async (req, res, next) => {
 router.get('/scrape', (req, res) => {
   let url = req.query.url
   api.get(url).then(response => {
-    // console.log("SCRAPER HERE -->", response.json)
     if (response.statusCode === 200) {
       let data = {
         content: response.json.body.content,
         title: response.json.body.title
       }
-      // console.log(response.json.body.content)
       res.send(data)
     }
   })
@@ -96,10 +94,11 @@ router.get('/scrape', (req, res) => {
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
   const keywords = req.query.keywords.join(' ')
+  console.log('keywords > ', keywords)
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
-    'from=2021-01-08&' +
+    'from=2021-01-10&' +
     'sortBy=relevance&' +
     'pageSize=100&' +
     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
@@ -124,7 +123,7 @@ router.get('/related-articles', async (req, res, next) => {
 
 // // Web Search (contextual) API
 // // Python script to preprocess aka remove filler words/characters from text body
-// router.get('/related-articles-news', async (req, res, next) => {
+// router.get('/related-articles', async (req, res, next) => {
 //   const keywords = req.query.keywords.join(' ')
 //   const options = {
 //     method: 'GET',
@@ -136,12 +135,12 @@ router.get('/related-articles', async (req, res, next) => {
 //       pageSize: '50',
 //       autoCorrect: 'true',
 //       fromPublishedDate: 'null',
-//       toPublishedDate: 'null'
+//       toPublishedDate: 'null',
 //     },
 //     headers: {
 //       'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
-//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-//     }
+//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com',
+//     },
 //   }
 
 //   try {
@@ -149,7 +148,7 @@ router.get('/related-articles', async (req, res, next) => {
 //     const articles = response.data.value
 
 //     res.json(articles.slice(0, 10))
-//   } catch(err) {
+//   } catch (err) {
 //     next(err)
 //   }
 // })
