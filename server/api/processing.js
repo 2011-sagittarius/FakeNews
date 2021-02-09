@@ -93,12 +93,17 @@ router.get('/scrape', (req, res) => {
 // News API
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
+  let today = new Date() // get the date
+  let day = ('0' + today.getDate()).slice(-2) //get day with slice to have double digit day
+  let month = ('0' + today.getMonth()).slice(-2) //get your zero in front of single month digits so you have 2 digit months
+  let date = today.getFullYear() + '-' + month + '-' + day
+
   const keywords = req.query.keywords.join(' ')
   console.log('keywords > ', keywords)
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
-    'from=2021-01-10&' +
+    `from=${date}&` +
     'sortBy=relevance&' +
     'pageSize=100&' +
     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
