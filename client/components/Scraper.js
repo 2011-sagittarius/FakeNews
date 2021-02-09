@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
 import {Chart, RelatedArticles} from '../components'
 // import {framework} from 'passport'
@@ -24,6 +24,7 @@ class Scraper extends Component {
     this.preProcess = this.preProcess.bind(this)
     this.getPrediction = this.getPrediction.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.checkUrl = this.checkUrl.bind(this)
   }
 
   componentDidMount() {
@@ -36,6 +37,12 @@ class Scraper extends Component {
     })
   }
 
+  // Check if URL is valid
+  checkUrl() {
+    return /^(ftp|http|https):\/\/[^ "]+$/.test(this.state.url)
+  }
+
+  // Call scrape API on URL
   async sendUrl() {
     this.setState({
       html: '--- SCRAPING ---',
@@ -44,101 +51,89 @@ class Scraper extends Component {
     })
     this.setChartData()
 
-    await axios
-      .get('/api/processing/scrape', {
+    try {
+      const {data} = await axios.get('/api/processing/scrape', {
         params: {url: this.state.url}
       })
-      .then(response => {
-        this.setState({
-          html: response.data.content,
-          title: response.data.title
-        })
+
+      this.setState({
+        html: data.content,
+        title: data.title
       })
-    this.setChartData()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  clear() {
-    this.setState({html: '', processed: ''})
-    this.setChartData()
-  }
-
+  // Cleans up text for Google NLP API
   async preProcess() {
-    let myText = this.state.html
+    this.setState({processed: '--- PROCESSING ---'})
+    let shortenedText = this.state.html
       .split(' ')
       .slice(0, 1000)
       .join(' ')
 
-    this.setState({processed: '--- PROCESSING ---'})
-    await axios
-      .get('/api/processing/preprocess', {
-        params: {text: myText}
-      })
-      .then(response => {
-        this.setState({
-          processed: response.data.text,
-          keywords: response.data.keywords
-        })
-      })
+    const {data} = await axios.get('/api/processing/preprocess', {
+      params: {text: shortenedText}
+    })
+
+    this.setState({
+      processed: data.text,
+      keywords: data.keywords
+    })
   }
 
+  // Call Google NLP Api
   async getPrediction() {
-    await axios
-      .get('/api/processing/predict', {
-        params: {text: this.state.processed}
-      })
-      .then(res => {
-        let data = {}
-        res.data.forEach(datum => {
-          data[datum.displayName] = datum.classification.score * 100
-        })
-        let {fake, political, reliable, satire, unknown} = data
-        this.setChartData([fake, political, reliable, satire, unknown])
+    const response = await axios.get('/api/processing/predict', {
+      params: {text: this.state.processed}
+    })
 
-        let order = res.data.sort(
-          (a, b) => b.classification.score - a.classification.score
-        )
-        this.setState({
-          ...this.state,
-          label: [
-            Math.round(order[0].classification.score * 1000) / 10,
-            order[0].displayName
-          ],
-          score: res.data
-        })
-      })
+    // Organize API response and set to state
+    let scores = {}
+    response.data.forEach(datum => {
+      scores[datum.displayName] = datum.classification.score * 100
+    })
+    let {fake, political, reliable, satire, unknown} = scores
+    this.setChartData([fake, political, reliable, satire, unknown])
+
+    // Sort api response to find highest prediction
+    let order = response.data.sort(
+      (a, b) => b.classification.score - a.classification.score
+    )
+    this.setState({
+      label: [
+        Math.round(order[0].classification.score * 1000) / 10,
+        order[0].displayName
+      ],
+      scores: response.data
+    })
 
     this.props.createArticle({
       url: this.state.url,
       text: this.state.html,
       title: this.state.title,
-      reliable: this.state.score[0].classification.score * 100,
-      political: this.state.score[1].classification.score * 100,
-      unknown: this.state.score[2].classification.score * 100,
-      fake: this.state.score[3].classification.score * 100,
-      satire: this.state.score[4].classification.score * 100
+      fake: this.state.scores[0].classification.score * 100,
+      political: this.state.scores[1].classification.score * 100,
+      reliable: this.state.scores[2].classification.score * 100,
+      satire: this.state.scores[3].classification.score * 100,
+      unknown: this.state.scores[4].classification.score * 100
     })
   }
 
   setChartData(datum = [0, 0, 0, 0, 0]) {
-    // Ajax calls here
-    // axios
-    //   .get('/api/xyz')
-    //   .then
     this.setState({
       chartData: {
         labels: ['Fake', 'Political', 'Reliable', 'Satire', 'Unknown'],
         datasets: [
           {
-            // label: 'Fake News',
             data: datum,
             backgroundColor: [
               'rgba(255, 99, 132, 0.6)',
-              // 'rgba(54, 162, 235, 0.6)',
               'rgba(255, 206, 86, 0.6)',
               'rgba(75, 192, 192, 0.6)',
               'rgba(153, 102, 255, 0.6)',
               'rgba(255, 159, 64, 0.6)'
-              // 'rgba(255, 99, 132, 0.6)',
             ]
           }
         ],
@@ -151,7 +146,14 @@ class Scraper extends Component {
   }
 
   handleClick() {
-    this.sendUrl().then(() => this.preProcess())
+    if (this.checkUrl()) {
+      this.sendUrl().then(() =>
+        this.preProcess().then(() => {
+          if (this.state.processed.length > 1) this.getPrediction()
+          else console.log('NO PROCESSED TEXT')
+        })
+      )
+    } else console.log('INVALID URL')
     // .then(() => this.getPrediction())
     // await this.preProcess()
     // .then(() => this.getPrediction())
