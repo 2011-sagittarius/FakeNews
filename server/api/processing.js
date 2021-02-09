@@ -85,6 +85,7 @@ router.get('/scrape', (req, res) => {
         content: response.json.body.content,
         title: response.json.body.title
       }
+      console.log('data > ', response.json)
       res.send(data)
     }
   })
@@ -94,6 +95,7 @@ router.get('/scrape', (req, res) => {
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
   const keywords = req.query.keywords.join(' ')
+
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
@@ -122,7 +124,7 @@ router.get('/related-articles', async (req, res, next) => {
 
 // // Web Search (contextual) API
 // // Python script to preprocess aka remove filler words/characters from text body
-// router.get('/related-articles-news', async (req, res, next) => {
+// router.get('/related-articles', async (req, res, next) => {
 //   const keywords = req.query.keywords.join(' ')
 //   const options = {
 //     method: 'GET',
@@ -134,12 +136,12 @@ router.get('/related-articles', async (req, res, next) => {
 //       pageSize: '50',
 //       autoCorrect: 'true',
 //       fromPublishedDate: 'null',
-//       toPublishedDate: 'null'
+//       toPublishedDate: 'null',
 //     },
 //     headers: {
 //       'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
-//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-//     }
+//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com',
+//     },
 //   }
 
 //   try {
@@ -147,7 +149,7 @@ router.get('/related-articles', async (req, res, next) => {
 //     const articles = response.data.value
 
 //     res.json(articles.slice(0, 10))
-//   } catch(err) {
+//   } catch (err) {
 //     next(err)
 //   }
 // })

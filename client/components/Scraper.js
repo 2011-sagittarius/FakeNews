@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect} from 'react'
 import axios from 'axios'
 import {Chart, RelatedArticles} from '../components'
 // import {framework} from 'passport'
@@ -32,14 +32,12 @@ class Scraper extends Component {
 
   setUrl(event) {
     this.setState({
-      ...this.state,
       url: event.target.value
     })
   }
 
   async sendUrl() {
     this.setState({
-      ...this.state,
       html: '--- SCRAPING ---',
       processed: '',
       keywords: []
@@ -52,7 +50,6 @@ class Scraper extends Component {
       })
       .then(response => {
         this.setState({
-          ...this.state,
           html: response.data.content,
           title: response.data.title
         })
@@ -61,24 +58,23 @@ class Scraper extends Component {
   }
 
   clear() {
-    this.setState({...this.state, html: '', processed: ''})
+    this.setState({html: '', processed: ''})
     this.setChartData()
   }
 
-  preProcess() {
+  async preProcess() {
     let myText = this.state.html
       .split(' ')
       .slice(0, 1000)
       .join(' ')
 
-    this.setState({...this.state, processed: '--- PROCESSING ---'})
-    axios
+    this.setState({processed: '--- PROCESSING ---'})
+    await axios
       .get('/api/processing/preprocess', {
         params: {text: myText}
       })
       .then(response => {
         this.setState({
-          ...this.state,
           processed: response.data.text,
           keywords: response.data.keywords
         })
@@ -157,8 +153,11 @@ class Scraper extends Component {
   async handleClick() {
     await this.sendUrl()
     await this.preProcess()
-    // await this.getPrediction()
+    // .then(() => this.getPrediction())
+    await this.getPrediction()
+    // Promise.all([this.sendUrl(), this.preProcess(), this.getPrediction()])
   }
+
   render() {
     let adjective =
       this.state.label[0] > 75
@@ -203,30 +202,6 @@ class Scraper extends Component {
               >
                 Scrape
               </button>
-              {/* <button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon3"
-                onClick={this.preProcess}
-              >
-                Process Text
-              </button> */}
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon4"
-                onClick={this.getPrediction}
-              >
-                Predict
-              </button>
-              {/*<button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon4"
-                onClick={this.clear}
-              >
-                Clear
-              </button> */}
             </div>
           </div>
 
@@ -261,5 +236,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(null, mapDispatch)(Scraper)
-
-// export default Scraper
