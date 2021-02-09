@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 const ADD_ARTICLE = 'ADD_ARTICLE'
 
 export const addArticle = article => ({
