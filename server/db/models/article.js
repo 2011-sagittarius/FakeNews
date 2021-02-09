@@ -6,13 +6,18 @@ const Article = db.define('article', {
     type: Sequelize.TEXT,
     allowNull: false
   },
+  publisher: {
+    type: Sequelize.TEXT,
+    defaultValue: 'N/A'
+  },
   text: {
     type: Sequelize.TEXT,
     allowNull: false
   },
   url: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   reliable: {
     type: Sequelize.FLOAT,
