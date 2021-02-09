@@ -66,7 +66,7 @@ const createApp = () => {
   app.use(passport.session())
 
   // auth and api routes
-  app.use('/auth', require('./auth'))
+  // app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
 
   // static file-serving middleware
@@ -105,6 +105,21 @@ const startListening = () => {
   // set up our socket control center
   const io = socketio(server)
   require('./socket')(io)
+
+  // clean exit the server and node process when one of these events occur
+  const arr = [
+    `exit`,
+    `SIGINT`,
+    `SIGUSR1`,
+    `SIGUSR2`,
+    `uncaughtException`,
+    `SIGTERM`
+  ]
+  arr.forEach(event => {
+    process.on(event, () => {
+      server.close(() => process.exit())
+    })
+  })
 }
 
 const syncDb = () => db.sync()
