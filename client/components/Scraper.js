@@ -150,11 +150,12 @@ class Scraper extends Component {
     })
   }
 
-  async handleClick() {
-    await this.sendUrl()
-    await this.preProcess()
+  handleClick() {
+    this.sendUrl().then(() => this.preProcess())
     // .then(() => this.getPrediction())
-    await this.getPrediction()
+    // await this.preProcess()
+    // .then(() => this.getPrediction())
+    // await this.getPrediction()
     // Promise.all([this.sendUrl(), this.preProcess(), this.getPrediction()])
   }
 

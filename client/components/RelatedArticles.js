@@ -19,7 +19,7 @@ const RelatedArticles = props => {
     [keywords]
   )
 
-  return articles.length < 1 ? (
+  return keywords.length < 1 ? (
     <></>
   ) : (
     <div>

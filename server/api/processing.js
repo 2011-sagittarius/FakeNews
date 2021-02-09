@@ -42,7 +42,7 @@ router.get('/predict', async (req, res, next) => {
       console.log(
         `Predicted class score: ${annotationPayload.classification.score}`
       )
-      console.log(response.payload)
+      // console.log(response.payload)
     }
     res.json(response.payload)
   } catch (err) {
@@ -85,7 +85,6 @@ router.get('/scrape', (req, res) => {
         content: response.json.body.content,
         title: response.json.body.title
       }
-      console.log('data > ', response.json)
       res.send(data)
     }
   })
@@ -95,11 +94,11 @@ router.get('/scrape', (req, res) => {
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
   const keywords = req.query.keywords.join(' ')
-
+  console.log('keywords > ', keywords)
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
-    'from=2021-01-08&' +
+    'from=2021-01-10&' +
     'sortBy=relevance&' +
     'pageSize=100&' +
     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
