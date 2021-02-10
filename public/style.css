@@ -6,7 +6,8 @@
 body {
   font-family: sans-serif;
   padding: 2rem;
-  background: lightblue;
+  font-family: 'Vollkorn', serif;
+  background: #fafafa;
 }
 
 a {
@@ -53,7 +54,7 @@ textarea {
 }
 
 button {
-  margin: 1rem 0.5rem 0rem 0rem;
+  /* margin: 1rem 0.5rem 0rem 0rem; */
   min-height: 25px;
   min-width: 100px;
 }
@@ -83,4 +84,10 @@ canvas {
 .response span {
   color: red;
   font-size: 1.5rem;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

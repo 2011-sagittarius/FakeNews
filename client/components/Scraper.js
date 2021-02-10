@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {Chart, RelatedArticles} from '../components'
+import {Chart, RelatedArticles, Loading} from '../components'
 // import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
+import {FlexRow, FlexCol} from './Components'
+import './Loading.css'
 
 class Scraper extends Component {
   constructor() {
@@ -13,12 +15,12 @@ class Scraper extends Component {
       html: '',
       label: [],
       keywords: [],
-      prediction: [],
       processed: '',
       publisher: '',
       scores: [],
       title: '',
-      url: ''
+      url: '',
+      loaded: 'no'
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -65,9 +67,9 @@ class Scraper extends Component {
       processed: '',
       keywords: [],
       scores: [],
-      prediction: [],
       title: '',
-      label: ''
+      label: '',
+      loaded: 'loading'
     })
     this.setChartData()
 
@@ -117,25 +119,26 @@ class Scraper extends Component {
     let {fake, political, reliable, satire, unknown} = scores
     this.setChartData([fake, political, reliable, satire, unknown])
 
+    // Refactor API response and save to state
+    let obj = {}
+    response.data.forEach(score => {
+      obj[score.displayName] = score.classification.score
+    })
     let max = response.data.reduce((prev, current) => {
       return prev.classification.score > current.classification.score
         ? prev
         : current
     })
-
-    let obj = {}
-    response.data.forEach(score => {
-      obj[score.displayName] = score.classification.score
-    })
-
     this.setState({
       label: [
         Math.round(max.classification.score * 1000) / 10,
         max.displayName
       ],
-      scores: obj
+      scores: obj,
+      loaded: 'yes'
     })
 
+    // Save article to DB
     this.props.createArticle({
       publisher: this.state.publisher,
       url: this.state.url,
@@ -175,13 +178,6 @@ class Scraper extends Component {
 
   async handleClick() {
     if (this.checkUrl()) {
-      // this.sendUrl().then(() => this.scrapePublisher().then(() =>
-      //   this.preProcess().then(() => {
-      //     if (this.state.processed.length > 1) this.getPrediction()
-      //     else console.log('NO PROCESSED TEXT')
-      //   })
-      // )
-      // this.scrapePublisher().then(() => this.sendUrl())
       await this.scrapePublisher()
       await this.sendUrl()
       await this.preProcess().then(() => {
@@ -189,11 +185,6 @@ class Scraper extends Component {
         else console.log('NO PROCESSED TEXT')
       })
     } else console.log('INVALID URL')
-    // .then(() => this.getPrediction())
-    // await this.preProcess()
-    // .then(() => this.getPrediction())
-    // await this.getPrediction()
-    // Promise.all([this.sendUrl(), this.preProcess(), this.getPrediction()])
   }
 
   render() {
@@ -203,64 +194,79 @@ class Scraper extends Component {
         : this.state.label[0] > 50 ? 'probably' : 'somewhat'
 
     const search = (
-      <div className="container">
-        <div className="chart-container">
-          <Chart chartData={this.state.chartData} />
-          {this.state.label.length > 0 ? (
-            <div className="response">
-              This article is <span>{adjective}</span> {this.state.label[1]}
-            </div>
+      <FlexCol>
+        <div className="search">
+          <input
+            type="text"
+            className="form-control"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg"
+            value={this.state.url}
+            onChange={this.setUrl}
+          />
+          <div className="input-group-append">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              onClick={this.handleClick}
+            >
+              Scrape
+            </button>
+          </div>
+        </div>
+        <FlexRow>
+          {this.state.loaded === 'no' ? (
+            <>
+              <FlexCol style={{'max-height': '70vh'}}>
+                <Loading />
+                <h2>Just a moment. We're triple checking our sources.</h2>
+              </FlexCol>
+            </>
+          ) : this.state.loaded === 'loading' ? (
+            <div>LOADING BB</div>
           ) : (
-            <></>
-          )}
-          <RelatedArticles keywords={this.state.keywords} />
-        </div>
-        <div className="input">
-          <div className="input-group input-group-lg">
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="inputGroup-sizing-lg">
+            <>
+              <div>
+                <Chart chartData={this.state.chartData} />
+                {this.state.label.length > 0 ? (
+                  <div className="response">
+                    This article is <span>{adjective}</span>{' '}
+                    {this.state.label[1]}
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <RelatedArticles keywords={this.state.keywords} />
+              </div>
+              <div className="input">
+                <div className="input-group input-group-lg">
+                  {/* <span className="input-group-text" id="inputGroup-sizing-lg">
                 URL
-              </span>
-            </div>
+              </span> */}
+                </div>
 
-            <input
-              type="text"
-              className="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-lg"
-              value={this.state.url}
-              onChange={this.setUrl}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-                onClick={this.handleClick}
-              >
-                Scrape
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <textarea
-              className="result"
-              rows="15"
-              cols="70"
-              defaultValue={this.state.html}
-            />
-          </div>
-          <div>
-            <textarea
-              className="result"
-              rows="15"
-              cols="70"
-              defaultValue={this.state.processed}
-            />
-          </div>
-        </div>
-      </div>
+                <div>
+                  <textarea
+                    className="result"
+                    rows="15"
+                    cols="70"
+                    defaultValue={this.state.html}
+                  />
+                </div>
+                <div>
+                  <textarea
+                    className="result"
+                    rows="15"
+                    cols="70"
+                    defaultValue={this.state.processed}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </FlexRow>
+      </FlexCol>
     )
 
     return <div>{search}</div>
