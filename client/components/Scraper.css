@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  place-content: space-around;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+textarea {
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+button {
+  height: 35px;
+  width: 100px;
+  border-radius: 3px;
+  background: black;
+  color: white;
+  border: 1px solid black;
+}
+
+input {
+  width: 50vw;
+  height: 35px;
+  margin-right: 1rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  max-width: 500px;
+  padding: 0rem 0.5rem;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.chart-container {
+  width: 500px;
+  /* height: 500px; */
+  margin-bottom: 5rem;
+}
+
+h3 {
+  font-weight: 300;
+  font-family: roboto;
+  font-size: 1.25rem;
+}

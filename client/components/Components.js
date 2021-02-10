@@ -3,12 +3,12 @@ import styled from 'styled-components'
 export const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
-  wrap: flex-wrap;
+  flex-wrap: wrap;
+  align-items: center;
 `
 
 export const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
-  wrap: flex-wrap;
   align-items: center;
 `

@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {Chart, RelatedArticles, Loading} from '../components'
+import {Chart, RelatedArticles, Loading, Landing} from '../components'
 // import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 import {FlexRow, FlexCol} from './Components'
-import './Loading.css'
+import './Scraper.css'
 
 class Scraper extends Component {
   constructor() {
@@ -195,7 +195,7 @@ class Scraper extends Component {
 
     const search = (
       <FlexCol>
-        <div className="search">
+        <FlexRow>
           <input
             type="text"
             className="form-control"
@@ -211,20 +211,22 @@ class Scraper extends Component {
               id="button-addon2"
               onClick={this.handleClick}
             >
-              Scrape
+              Check
             </button>
           </div>
-        </div>
-        <FlexRow>
+        </FlexRow>
+        <FlexCol>
           {this.state.loaded === 'no' ? (
             <>
-              <FlexCol style={{'max-height': '70vh'}}>
-                <Loading />
-                <h2>Just a moment. We're triple checking our sources.</h2>
+              <FlexCol style={{maxHeight: '50vh', margin: '9rem 0rem'}}>
+                <Landing />
               </FlexCol>
             </>
           ) : this.state.loaded === 'loading' ? (
-            <div>LOADING BB</div>
+            <FlexCol style={{maxHeight: '60vh', margin: '4rem 0rem'}}>
+              <Loading />
+              <h3>Hold tight. We're triple checking our sources.</h3>
+            </FlexCol>
           ) : (
             <>
               <div>
@@ -265,7 +267,7 @@ class Scraper extends Component {
               </div>
             </>
           )}
-        </FlexRow>
+        </FlexCol>
       </FlexCol>
     )
 
