@@ -4,9 +4,9 @@
 }
 
 body {
-  font-family: sans-serif;
-  padding: 2rem;
-  background: lightblue;
+  font-family: 'Roboto', sans-serif;
+  padding: 5rem;
+  background: #fafafa;
 }
 
 a {
@@ -32,52 +32,23 @@ h1 {
   font-size: 3rem;
 }
 
-nav {
-  margin: 3rem;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  place-content: space-around;
-  padding: 2rem;
-  flex-wrap: wrap;
-}
-
-textarea {
-  margin-bottom: 2rem;
-}
-
-.input-group {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Vollkorn', serif;
   margin-bottom: 1rem;
 }
 
-button {
-  margin: 1rem 0.5rem 0rem 0rem;
-  min-height: 25px;
-  min-width: 100px;
-}
-
-input {
-  width: 100%;
-  height: 30px;
+nav {
+  margin-bottom: 3rem;
 }
 
 canvas {
   height: 200px;
   width: 300px;
-}
-
-.chart-container {
-  width: 500px;
-  /* height: 500px; */
-  margin-bottom: 5rem;
-}
-
-.response {
-  text-align: center;
-  margin: 2rem;
-  font-size: 1.4rem;
 }
 
 .response span {
