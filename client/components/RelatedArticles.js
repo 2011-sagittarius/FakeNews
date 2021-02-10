@@ -20,20 +20,20 @@ const RelatedArticles = props => {
     [keywords]
   )
 
-  return keywords.length < 1 ? (
-    <></>
-  ) : (
-    <div>
-      <h2>Want some more info? 👇</h2>
-      {articles.slice(0, 5).map(article => (
-        <div key={article.title} className="related-article">
-          <p>{article.title}</p>
-          <a href={article.url} target="_blank" rel="noopener noreferrer">
-            {article.url}
-          </a>
-        </div>
-      ))}
-    </div>
+  return (
+    keywords.length < 1 && (
+      <div>
+        <h2>Want some more info? 👇</h2>
+        {articles.slice(0, 5).map(article => (
+          <div key={article.title} className="related-article">
+            <p>{article.title}</p>
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
+              {article.url}
+            </a>
+          </div>
+        ))}
+      </div>
+    )
   )
 }
 

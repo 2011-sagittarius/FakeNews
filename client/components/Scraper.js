@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {Chart, RelatedArticles, Loading, Landing} from '../components'
+import {Chart, RelatedArticles, Loading, Landing, Fade} from '../components'
 // import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
@@ -49,12 +49,12 @@ class Scraper extends Component {
 
   // Call scrape-publisher route on URL
   async scrapePublisher() {
-    this.setState({publisher: ''})
+    this.setState({publisher: '', loaded: 'loading'})
     try {
       const {data} = await axios.get('/api/processing/scrape/meta', {
         params: {targetUrl: this.state.url}
       })
-      this.setState({publisher: data.publisher})
+      this.setState({publisher: data.publisher}, () => this.sendUrl())
     } catch (error) {
       console.log(error)
     }
@@ -78,10 +78,13 @@ class Scraper extends Component {
         params: {url: this.state.url}
       })
 
-      this.setState({
-        html: data.content,
-        title: data.title
-      })
+      this.setState(
+        {
+          html: data.content,
+          title: data.title
+        },
+        () => this.preProcess()
+      )
     } catch (error) {
       console.log(error)
     }
@@ -99,10 +102,13 @@ class Scraper extends Component {
       params: {text: shortenedText}
     })
 
-    this.setState({
-      processed: data.text,
-      keywords: data.keywords
-    })
+    this.setState(
+      {
+        processed: data.text,
+        keywords: data.keywords
+      },
+      () => this.getPrediction()
+    )
   }
 
   // Call Google NLP Api
@@ -179,11 +185,6 @@ class Scraper extends Component {
   async handleClick() {
     if (this.checkUrl()) {
       await this.scrapePublisher()
-      await this.sendUrl()
-      await this.preProcess().then(() => {
-        if (this.state.processed.length > 1) this.getPrediction()
-        else console.log('NO PROCESSED TEXT')
-      })
     } else console.log('INVALID URL')
   }
 
@@ -216,18 +217,18 @@ class Scraper extends Component {
           </div>
         </FlexRow>
         <FlexCol>
-          {this.state.loaded === 'no' ? (
-            <>
-              <FlexCol style={{maxHeight: '50vh', margin: '9rem 0rem'}}>
-                <Landing />
-              </FlexCol>
-            </>
-          ) : this.state.loaded === 'loading' ? (
+          <Fade show={this.state.loaded === 'no'}>
+            <FlexCol style={{maxHeight: '50vh', margin: '9rem 0rem'}}>
+              <Landing />
+            </FlexCol>
+          </Fade>
+          <Fade show={this.state.loaded === 'loading'}>
             <FlexCol style={{maxHeight: '60vh', margin: '4rem 0rem'}}>
               <Loading />
               <h3>Hold tight. We're triple checking our sources.</h3>
             </FlexCol>
-          ) : (
+          </Fade>
+          <Fade show={this.state.loaded === 'yes'}>
             <FlexCol>
               <FlexRow style={{margin: '8rem 0rem'}}>
                 <div>
@@ -249,25 +250,9 @@ class Scraper extends Component {
                   defaultValue={this.state.html}
                 />
               </FlexRow>
-              {/* <div className="input">
-                <div className="input-group input-group-lg">
-                  <span className="input-group-text" id="inputGroup-sizing-lg">
-                URL
-              </span>
-                </div>
-
-                <div>
-                  <textarea
-                    className="result"
-                    rows="15"
-                    cols="70"
-                    defaultValue={this.state.processed}
-                  />
-                </div>
-              </div> */}
               <RelatedArticles keywords={this.state.keywords} />
             </FlexCol>
-          )}
+          </Fade>
         </FlexCol>
       </FlexCol>
     )

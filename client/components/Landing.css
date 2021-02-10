@@ -15,7 +15,7 @@ svg#freepik_stories-fomo:not(.animated) .animable {
 }
 .person {
   animation: 1s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.38) lightSpeedRight,
-    6s Infinite linear wind;
+    6s Infinite linear wind, fadeOut;
   animation-delay: 0s, 1s;
 }
 .likes {
@@ -90,6 +90,14 @@ svg#freepik_stories-fomo:not(.animated) .animable {
   }
   100% {
     opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 @keyframes wind {
