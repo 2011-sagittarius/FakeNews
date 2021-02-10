@@ -5,8 +5,8 @@ import pandas
 import re
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import RegexpTokenizer
+# from nltk.stem.porter import PorterStemmer
+# from nltk.tokenize import RegexpTokenizer
 from nltk.stem.wordnet import WordNetLemmatizer
 
 ##Creating a list of stop words and adding custom stopwords
@@ -22,7 +22,7 @@ text = text.lower() #Convert to lowercase
 text=re.sub("&lt;/?.*?&gt;"," &lt;&gt; ",text) #remove tags
 text=re.sub("(\\d|\\W)+"," ",text) # remove special characters and digits
 text = text.split() #Convert to list from string
-ps=PorterStemmer() #Stemming
+# ps=PorterStemmer() #Stemming
 lem = WordNetLemmatizer() #Lemmatisation
 text = [lem.lemmatize(word) for word in text if not word in stop_words]
 text = " ".join(text)

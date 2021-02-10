@@ -1,4 +1,3 @@
 stopwords
-PorterStemmer
-RegexpTokenizer
-WordNetLemmatizer
+wordnet
+
