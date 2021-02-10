@@ -3,10 +3,10 @@ dataset = sys.argv[1]
 
 import pandas
 import re
-import nltk
+# import nltk
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import RegexpTokenizer
+# from nltk.stem.porter import PorterStemmer
+# from nltk.tokenize import RegexpTokenizer
 from nltk.stem.wordnet import WordNetLemmatizer
 
 ##Creating a list of stop words and adding custom stopwords
