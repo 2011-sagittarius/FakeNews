@@ -24,7 +24,9 @@ class Chart extends Component {
             title: {
               display: this.props.displayTitle,
               text: 'News Content Analysis',
-              fontSize: 25
+              fontSize: 20,
+              fontFamily: "'Vollkorn', serif",
+              marginBottom: '1rem'
             },
             legend: {
               display: false
