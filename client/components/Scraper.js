@@ -228,34 +228,34 @@ class Scraper extends Component {
               <h3>Hold tight. We're triple checking our sources.</h3>
             </FlexCol>
           ) : (
-            <>
-              <div>
-                <Chart chartData={this.state.chartData} />
-                {this.state.label.length > 0 ? (
-                  <div className="response">
-                    This article is <span>{adjective}</span>{' '}
-                    {this.state.label[1]}
-                  </div>
-                ) : (
-                  <></>
-                )}
-                <RelatedArticles keywords={this.state.keywords} />
-              </div>
-              <div className="input">
+            <FlexCol>
+              <FlexRow style={{margin: '8rem 0rem'}}>
+                <div>
+                  <Chart chartData={this.state.chartData} />
+
+                  {this.state.label.length > 0 ? (
+                    <div className="response">
+                      This article is <span>{adjective}</span>{' '}
+                      {this.state.label[1]}
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <textarea
+                  className="result"
+                  rows="25"
+                  cols="60"
+                  defaultValue={this.state.html}
+                />
+              </FlexRow>
+              {/* <div className="input">
                 <div className="input-group input-group-lg">
-                  {/* <span className="input-group-text" id="inputGroup-sizing-lg">
+                  <span className="input-group-text" id="inputGroup-sizing-lg">
                 URL
-              </span> */}
+              </span>
                 </div>
 
-                <div>
-                  <textarea
-                    className="result"
-                    rows="15"
-                    cols="70"
-                    defaultValue={this.state.html}
-                  />
-                </div>
                 <div>
                   <textarea
                     className="result"
@@ -264,8 +264,9 @@ class Scraper extends Component {
                     defaultValue={this.state.processed}
                   />
                 </div>
-              </div>
-            </>
+              </div> */}
+              <RelatedArticles keywords={this.state.keywords} />
+            </FlexCol>
           )}
         </FlexCol>
       </FlexCol>

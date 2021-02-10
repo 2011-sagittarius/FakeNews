@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
+import './RelatedArticles.css'
 
 const RelatedArticles = props => {
   const {keywords} = props
@@ -25,7 +26,7 @@ const RelatedArticles = props => {
     <div>
       <h2>Want some more info? 👇</h2>
       {articles.slice(0, 5).map(article => (
-        <div key={article.title}>
+        <div key={article.title} className="related-article">
           <p>{article.title}</p>
           <a href={article.url} target="_blank" rel="noopener noreferrer">
             {article.url}

@@ -4,9 +4,8 @@
 }
 
 body {
-  font-family: sans-serif;
-  padding: 2rem;
-  font-family: 'Vollkorn', serif;
+  font-family: 'Roboto', sans-serif;
+  padding: 5rem;
   background: #fafafa;
 }
 
@@ -33,19 +32,23 @@ h1 {
   font-size: 3rem;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Vollkorn', serif;
+  margin-bottom: 1rem;
+}
+
 nav {
-  margin: 3rem;
+  margin-bottom: 3rem;
 }
 
 canvas {
   height: 200px;
   width: 300px;
-}
-
-.response {
-  text-align: center;
-  margin: 2rem;
-  font-size: 1.4rem;
 }
 
 .response span {

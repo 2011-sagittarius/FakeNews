@@ -7,7 +7,7 @@
 }
 
 textarea {
-  margin-bottom: 2rem;
+  margin-left: 4rem;
 }
 
 .input-group {
@@ -49,4 +49,10 @@ h3 {
   font-weight: 300;
   font-family: roboto;
   font-size: 1.25rem;
+}
+
+.response {
+  text-align: center;
+  margin: 2rem;
+  font-size: 1.4rem;
 }
