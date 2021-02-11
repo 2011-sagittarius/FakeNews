@@ -3,8 +3,7 @@ import React, {useEffect, useState} from 'react'
 import {FlexCol} from '../components'
 import './RelatedArticles.css'
 
-const RelatedArticles = props => {
-  const {keywords} = props
+const RelatedArticles = ({keywords, url}) => {
   const [articles, setArticles] = useState([])
 
   const fetchArticles = async () => {
@@ -22,17 +21,20 @@ const RelatedArticles = props => {
   )
 
   return (
-    keywords.length > 1 && (
+    articles.length > 1 && (
       <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
         <h4>Want some more info? 👇</h4>
-        {articles.slice(0, 5).map(article => (
-          <div key={article.title} className="related-article">
-            <p>{article.title}</p>
-            <a href={article.url} target="_blank" rel="noopener noreferrer">
-              {article.url}
-            </a>
-          </div>
-        ))}
+        {articles.slice(0, 5).map(article => {
+          if (article.url !== url)
+            return (
+              <div key={article.title} className="related-article">
+                <p>{article.title}</p>
+                <a href={article.url} target="_blank" rel="noopener noreferrer">
+                  {article.url}
+                </a>
+              </div>
+            )
+        })}
       </FlexCol>
     )
   )

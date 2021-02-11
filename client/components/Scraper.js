@@ -66,6 +66,7 @@ class Scraper extends Component {
       })
       this.setState({publisher: data.publisher}, () => this.sendUrl())
     } catch (error) {
+      console.log('~~~META ERROR~~~')
       console.log(error)
     }
   }
@@ -206,9 +207,9 @@ class Scraper extends Component {
     const search = (
       <>
         {this.state.loaded !== 'yes' && (
-          <FlexCol className="illustration">
+          <FlexCol>
             <Fade show={this.state.loaded === 'no'}>
-              <FlexCol style={{margin: '6rem 0rem'}}>
+              <FlexCol className="illustration">
                 <Landing />
               </FlexCol>
               <Input
@@ -219,15 +220,17 @@ class Scraper extends Component {
               />
             </Fade>
             <Fade show={this.state.loaded === 'loading'}>
-              <FlexCol style={{margin: '6rem 0rem'}}>
+              <FlexCol className="illustration">
                 <Loading />
               </FlexCol>
-              <h3>Hold tight. We're triple checking our sources.</h3>
+              <div className="search">
+                <h3>Hold tight. We're triple checking our sources.</h3>
+              </div>
             </Fade>
           </FlexCol>
         )}
         <Fade show={this.state.loaded === 'yes'}>
-          <FlexCol>
+          <FlexCol className="analytics">
             <FlexCol>
               <Chart chartData={this.state.chartData} />
 
@@ -239,8 +242,13 @@ class Scraper extends Component {
                 defaultValue={this.state.html}
               /> */}
             </FlexCol>
-            <RelatedArticles keywords={this.state.keywords} />
-            <SimilarArticles label={this.state.label} />
+            <FlexCol className="articles">
+              <RelatedArticles
+                keywords={this.state.keywords}
+                url={this.state.url}
+              />
+              <SimilarArticles label={this.state.label} url={this.state.url} />
+            </FlexCol>
             <button
               type="button"
               className="back-button"
