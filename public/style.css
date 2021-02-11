@@ -32,7 +32,7 @@ form div {
 
 h1 {
   text-align: center;
-  font-size: 10vw;
+  font-size: 3rem;
   font-family: 'Vollkorn', serif;
 }
 
@@ -58,5 +58,30 @@ h6 {
 }
 
 nav {
-  margin: 3rem 0rem 0rem 0rem;
+  top: 10%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 80vw;
+}
+
+/* large phones and small tablets */
+@media screen and (min-width: 500px) {
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+/* tablets and small monitors */
+@media screen and (min-width: 800px) {
+  h1 {
+    font-size: 4rem;
+  }
+}
+
+/* laptops and desktops */
+@media screen and (min-width: 1200px) {
+  h1 {
+    font-size: 5rem;
+  }
 }

@@ -7,7 +7,7 @@ function Input({url, setUrl, clearUrl, handleClick}) {
   }
 
   return (
-    <FlexCol>
+    <FlexCol className="search">
       <input
         type="text"
         className="form-control"

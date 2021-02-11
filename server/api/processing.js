@@ -1,7 +1,10 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
-const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
+const api = new ScraperAPI({
+  token: `Ua7U7QOgMR1goTyJ-tGEGQ
+`
+})
 const axios = require('axios')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
