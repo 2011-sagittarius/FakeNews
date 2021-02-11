@@ -148,8 +148,8 @@ class Scraper extends Component {
         Math.round(max.classification.score * 1000) / 10,
         max.displayName
       ],
-      scores: obj
-      // loaded: 'yes',
+      scores: obj,
+      loaded: 'yes'
     })
 
     // Save article to DB
