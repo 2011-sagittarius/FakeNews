@@ -1,6 +1,12 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {Chart, RelatedArticles, Loading, Landing} from '../components'
+import {
+  Chart,
+  RelatedArticles,
+  SimilarArticles,
+  Loading,
+  Landing
+} from '../components'
 // import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
@@ -20,7 +26,8 @@ class Scraper extends Component {
       scores: [],
       title: '',
       url: '',
-      loaded: 'no'
+      loaded: 'no',
+      similar: []
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -30,6 +37,7 @@ class Scraper extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
+    // this.fetchSimilarArticles = this.fetchSimilarArticles.bind(this)
   }
 
   componentDidMount() {
@@ -104,6 +112,18 @@ class Scraper extends Component {
       keywords: data.keywords
     })
   }
+
+  //Find similar articles
+  // async fetchSimilarArticles() {
+  //   const {data} = await axios.get('/api/processing/similar-articles', {
+  //     params: {label: this.state.label}
+  //   })
+
+  //   this.setState({
+  //     similar: data
+  //   })
+  //   console.log(data)
+  // }
 
   // Call Google NLP Api
   async getPrediction() {
@@ -184,10 +204,14 @@ class Scraper extends Component {
         if (this.state.processed.length > 1) this.getPrediction()
         else console.log('NO PROCESSED TEXT')
       })
+      // await this.getPrediction()
+      // await this.fetchSimilarArticles()
+      console.log('CLICK STATE', this.state)
     } else console.log('INVALID URL')
   }
 
   render() {
+    // console.log("STATE -->", this.state)
     let adjective =
       this.state.label[0] > 75
         ? 'most likely'
@@ -266,6 +290,8 @@ class Scraper extends Component {
                 </div>
               </div> */}
               <RelatedArticles keywords={this.state.keywords} />
+
+              <SimilarArticles label={this.state.label} />
             </FlexCol>
           )}
         </FlexCol>
