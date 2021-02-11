@@ -13,6 +13,7 @@ import {
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 import './Scraper.css'
+import Card from './LandingParallax'
 
 class Scraper extends Component {
   constructor() {
@@ -207,7 +208,8 @@ class Scraper extends Component {
           <FlexCol className="illustration">
             <Fade show={this.state.loaded === 'no'}>
               <FlexCol style={{margin: '6rem 0rem'}}>
-                <Landing />
+                {/* <Landing /> */}
+                <Card />
               </FlexCol>
               <Input
                 url={this.state.url}
