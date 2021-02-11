@@ -1,0 +1,22 @@
+{
+  "dir": "rtl",
+  "lang": "fr",
+  "name": "Infaux Wars",
+  "short_name": "Infaux Wars",
+  "scope": "/",
+  "display": "browser",
+  "start_url": "https://infaux-wars.herokuapp.com/",
+  "background_color": "#000000",
+  "theme_color": "transparent",
+  "description": "",
+  "orientation": "any",
+  "related_applications": [],
+  "prefer_related_applications": "false",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "512x512"
+    }
+  ],
+  "url": "https://infaux-wars.herokuapp.com/"
+}
