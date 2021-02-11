@@ -47,21 +47,34 @@ input {
   margin-bottom: 5rem;
 }
 
-h3 {
-  font-weight: 300;
-  font-family: roboto;
-  font-size: 1.5rem;
-  text-align: center;
+.illustration {
+  /* height: 62vh; */
+  margin: 0rem 2rem;
+  justify-content: center;
+}
+
+.chart {
+  margin: 3rem 1rem;
 }
 
 .response {
   text-align: center;
-  margin: 2rem;
-  font-size: 1.4rem;
+  margin: 1rem 2rem 3rem 2rem;
+  /* font-size: 1rem; */
 }
 
-.illustration {
-  height: 62vh;
-  margin: 0rem 2rem;
-  justify-content: center;
+canvas {
+  height: 165px;
+  width: 275px;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.back-button {
 }

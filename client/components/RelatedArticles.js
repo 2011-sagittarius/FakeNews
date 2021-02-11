@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
+import {FlexCol} from '../components'
 import './RelatedArticles.css'
 
 const RelatedArticles = props => {
@@ -22,8 +23,8 @@ const RelatedArticles = props => {
 
   return (
     keywords.length > 1 && (
-      <div>
-        <h2>Want some more info? 👇</h2>
+      <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
+        <h4>Want some more info? 👇</h4>
         {articles.slice(0, 5).map(article => (
           <div key={article.title} className="related-article">
             <p>{article.title}</p>
@@ -32,7 +33,7 @@ const RelatedArticles = props => {
             </a>
           </div>
         ))}
-      </div>
+      </FlexCol>
     )
   )
 }

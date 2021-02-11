@@ -4,12 +4,12 @@ import {
   Chart,
   RelatedArticles,
   Loading,
+  Input,
   Landing,
   Fade,
-  FlexRow,
+  Response,
   FlexCol
 } from '../components'
-// import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 import './Scraper.css'
@@ -37,7 +37,7 @@ class Scraper extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
-    this.clearURL = this.clearURL.bind(this)
+    this.clearUrl = this.clearUrl.bind(this)
   }
 
   componentDidMount() {
@@ -148,8 +148,8 @@ class Scraper extends Component {
         Math.round(max.classification.score * 1000) / 10,
         max.displayName
       ],
-      scores: obj,
-      loaded: 'yes'
+      scores: obj
+      // loaded: 'yes',
     })
 
     // Save article to DB
@@ -196,69 +196,58 @@ class Scraper extends Component {
     } else console.log('INVALID URL')
   }
 
-  clearURL() {
-    if (this.state.url === 'Enter URL') this.setState({url: ''})
+  clearUrl() {
+    this.setState({url: ''})
   }
 
   render() {
-    let adjective =
-      this.state.label[0] > 75
-        ? 'most likely'
-        : this.state.label[0] > 50 ? 'probably' : 'somewhat'
-
     const search = (
-      <FlexCol>
+      <>
         {this.state.loaded !== 'yes' && (
-          <>
-            <FlexCol className="illustration">
-              <Fade show={this.state.loaded === 'no'}>
+          <FlexCol className="illustration">
+            <Fade show={this.state.loaded === 'no'}>
+              <FlexCol style={{margin: '6rem 0rem'}}>
                 <Landing />
-              </Fade>
-              <Fade show={this.state.loaded === 'loading'}>
-                <Loading />
-                <h3>Hold tight. We're triple checking our sources.</h3>
-              </Fade>
-            </FlexCol>
-            <FlexCol>
-              <input
-                type="text"
-                className="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-lg"
-                value={this.state.url}
-                onChange={this.setUrl}
-                onClick={this.clearURL}
+              </FlexCol>
+              <Input
+                url={this.state.url}
+                setUrl={this.setUrl}
+                clearUrl={this.clearUrl}
+                handleClick={this.handleClick}
               />
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-                onClick={this.handleClick}
-              >
-                Check
-              </button>
-            </FlexCol>
-          </>
+            </Fade>
+            <Fade show={this.state.loaded === 'loading'}>
+              <FlexCol style={{margin: '6rem 0rem'}}>
+                <Loading />
+              </FlexCol>
+              <h3>Hold tight. We're triple checking our sources.</h3>
+            </Fade>
+          </FlexCol>
         )}
         <Fade show={this.state.loaded === 'yes'}>
           <FlexCol>
-            <Chart chartData={this.state.chartData} />
+            <FlexCol>
+              <Chart chartData={this.state.chartData} />
 
-            {this.state.label.length && (
-              <div className="response">
-                This article is {adjective} {this.state.label[1]}
-              </div>
-            )}
-            {/* <textarea
+              {this.state.label.length && <Response label={this.state.label} />}
+              {/* <textarea
                 className="result"
                 rows="25"
                 cols="60"
                 defaultValue={this.state.html}
               /> */}
+            </FlexCol>
             <RelatedArticles keywords={this.state.keywords} />
+            <button
+              type="button"
+              className="back-button"
+              onClick={() => window.location.reload(false)}
+            >
+              Start Over
+            </button>
           </FlexCol>
         </Fade>
-      </FlexCol>
+      </>
     )
 
     return <>{search}</>
