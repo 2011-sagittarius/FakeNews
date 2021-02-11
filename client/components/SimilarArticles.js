@@ -1,5 +1,7 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
+import {FlexCol} from '../components'
+import './SimilarArticles.css'
 
 const SimilarArticles = props => {
   const {label} = props
@@ -20,10 +22,8 @@ const SimilarArticles = props => {
     [label]
   )
 
-  return label.length < 1 ? (
-    <></>
-  ) : (
-    <div>
+  return (
+    <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
       <h2>Here are some other {label[1]} results 👇</h2>
       {articles.map(article => (
         <div key={article.title} className="related-article">
@@ -33,7 +33,7 @@ const SimilarArticles = props => {
           </a>
         </div>
       ))}
-    </div>
+    </FlexCol>
   )
 }
 
