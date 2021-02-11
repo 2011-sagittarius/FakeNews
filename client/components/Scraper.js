@@ -39,7 +39,6 @@ class Scraper extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
-    // this.fetchSimilarArticles = this.fetchSimilarArticles.bind(this)
     this.clearUrl = this.clearUrl.bind(this)
   }
 
@@ -121,18 +120,6 @@ class Scraper extends Component {
       () => this.getPrediction()
     )
   }
-
-  //Find similar articles
-  // async fetchSimilarArticles() {
-  //   const {data} = await axios.get('/api/processing/similar-articles', {
-  //     params: {label: this.state.label}
-  //   })
-
-  //   this.setState({
-  //     similar: data
-  //   })
-  //   console.log(data)
-  // }
 
   // Call Google NLP Api
   async getPrediction() {
