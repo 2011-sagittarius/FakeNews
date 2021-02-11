@@ -40,6 +40,7 @@ class Scraper extends Component {
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
     this.clearUrl = this.clearUrl.bind(this)
+    this.fetchReliableArticles.bind(this)
   }
 
   componentDidMount() {
@@ -96,6 +97,28 @@ class Scraper extends Component {
         },
         () => this.preProcess()
       )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // Call scrape API on URL
+  async fetchReliableArticles() {
+    try {
+      const {data} = await axios.get('/api/processing/hall-of-articles')
+      console.log(data)
+      // let groupPublishers = data.reduce((r,a) => {
+      //   r[a.publisher] = r[a.publisher] || []
+      //   r[a.publisher].push(a)
+      //   return r
+      // })
+      // console.log("GROUP PUBLISHERS ->", groupPublishers)
+
+      // const keys = Object.keys(groupPublishers)
+      // console.log("KEYS HERE ->", keys)
+
+      // const values = Object.values(groupPublishers)
+      // console.log("VALUES HERE ->", values)
     } catch (error) {
       console.log(error)
     }
@@ -196,6 +219,7 @@ class Scraper extends Component {
   async handleClick() {
     if (this.checkUrl()) {
       await this.scrapePublisher()
+      await this.fetchReliableArticles()
     } else console.log('INVALID URL')
   }
 
@@ -243,10 +267,10 @@ class Scraper extends Component {
               /> */}
             </FlexCol>
             <FlexCol className="articles">
-              <RelatedArticles
+              {/* <RelatedArticles
                 keywords={this.state.keywords}
                 url={this.state.url}
-              />
+              /> */}
               <SimilarArticles label={this.state.label} url={this.state.url} />
             </FlexCol>
             <button

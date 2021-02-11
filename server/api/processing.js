@@ -152,6 +152,19 @@ router.get('/similar-articles', async (req, res, next) => {
   }
 })
 
+//Get reliable publisher data from DB
+router.get('/hall-of-articles', async (req, res, next) => {
+  try {
+    const hallOfArticles = await Article.findAll({
+      attributes: ['publisher', 'reliable']
+      // order: [['createdAt', 'ASC']]
+    })
+    res.json(hallOfArticles)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // // Web Search (contextual) API
 // // Python script to preprocess aka remove filler words/characters from text body
 // router.get('/related-articles', async (req, res, next) => {
