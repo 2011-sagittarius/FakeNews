@@ -3,6 +3,7 @@ import axios from 'axios'
 import {
   Chart,
   RelatedArticles,
+  SimilarArticles,
   Loading,
   Input,
   Landing,
@@ -26,6 +27,7 @@ class Scraper extends Component {
       publisher: '',
       scores: [],
       title: '',
+      // similar: [],
       url: 'Enter URL',
       loaded: 'no'
     }
@@ -241,6 +243,7 @@ class Scraper extends Component {
               /> */}
             </FlexCol>
             <RelatedArticles keywords={this.state.keywords} />
+            <SimilarArticles label={this.state.label} />
             <button
               type="button"
               className="back-button"

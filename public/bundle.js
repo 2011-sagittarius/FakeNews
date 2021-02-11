@@ -5344,6 +5344,7 @@ var Scraper = /*#__PURE__*/function (_Component) {
       publisher: '',
       scores: [],
       title: '',
+      // similar: [],
       url: 'Enter URL',
       loaded: 'no'
     };
@@ -5698,6 +5699,8 @@ var Scraper = /*#__PURE__*/function (_Component) {
         label: this.state.label
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["RelatedArticles"], {
         keywords: this.state.keywords
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["SimilarArticles"], {
+        label: this.state.label
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: "back-button",
@@ -5724,11 +5727,155 @@ var mapDispatch = function mapDispatch(dispatch) {
 
 /***/ }),
 
+/***/ "./client/components/SimilarArticles.css":
+/*!***********************************************!*\
+  !*** ./client/components/SimilarArticles.css ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_SimilarArticles_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./SimilarArticles.css */ "./node_modules/css-loader/dist/cjs.js!./client/components/SimilarArticles.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_SimilarArticles_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (_node_modules_css_loader_dist_cjs_js_SimilarArticles_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./client/components/SimilarArticles.js":
+/*!**********************************************!*\
+  !*** ./client/components/SimilarArticles.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components */ "./client/components/index.js");
+/* harmony import */ var _SimilarArticles_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SimilarArticles.css */ "./client/components/SimilarArticles.css");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var SimilarArticles = function SimilarArticles(props) {
+  var label = props.label;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      articles = _useState2[0],
+      setArticles = _useState2[1];
+
+  var fetchSimilarArticles = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _yield$axios$get, data;
+
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/processing/similar-articles', {
+                params: {
+                  label: label
+                }
+              });
+
+            case 2:
+              _yield$axios$get = _context.sent;
+              data = _yield$axios$get.data;
+              setArticles(data);
+              console.log(data);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function fetchSimilarArticles() {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    if (label.length > 0) fetchSimilarArticles();
+  }, [label]);
+  return articles.length < 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null) : articles.length === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
+    style: {
+      padding: '2rem',
+      alignItems: 'flex-start'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Other ", label[1], " articles users found! \uD83D\uDC47"), articles.map(function (article) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      key: article.title,
+      className: "related-article"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, article.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+      href: article.url,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, article.url));
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
+    style: {
+      padding: '2rem',
+      alignItems: 'flex-start'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Other ", label[1], " articles users found! \uD83D\uDC47"), articles.slice(0, -1).map(function (article) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      key: article.title,
+      className: "related-article"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, article.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+      href: article.url,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, article.url));
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SimilarArticles);
+
+/***/ }),
+
 /***/ "./client/components/index.js":
 /*!************************************!*\
   !*** ./client/components/index.js ***!
   \************************************/
-/*! exports provided: Navbar, Scraper, Chart, RelatedArticles, Loading, Landing, Fade, Response, Input, FlexCol, FlexRow */
+/*! exports provided: Navbar, Scraper, Chart, RelatedArticles, SimilarArticles, Loading, Landing, Fade, Response, Input, FlexCol, FlexRow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5745,31 +5892,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _RelatedArticles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RelatedArticles */ "./client/components/RelatedArticles.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RelatedArticles", function() { return _RelatedArticles__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Loading */ "./client/components/Loading.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Loading", function() { return _Loading__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var _SimilarArticles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SimilarArticles */ "./client/components/SimilarArticles.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SimilarArticles", function() { return _SimilarArticles__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _Landing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Landing */ "./client/components/Landing.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Landing", function() { return _Landing__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Loading */ "./client/components/Loading.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Loading", function() { return _Loading__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _Fade__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Fade */ "./client/components/Fade.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fade", function() { return _Fade__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony import */ var _Landing__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Landing */ "./client/components/Landing.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Landing", function() { return _Landing__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _Response__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Response */ "./client/components/Response.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Response", function() { return _Response__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _Fade__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Fade */ "./client/components/Fade.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fade", function() { return _Fade__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Input */ "./client/components/Input.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Input", function() { return _Input__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _Response__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Response */ "./client/components/Response.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Response", function() { return _Response__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _Components__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Components */ "./client/components/Components.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FlexCol", function() { return _Components__WEBPACK_IMPORTED_MODULE_9__["FlexCol"]; });
+/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Input */ "./client/components/Input.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Input", function() { return _Input__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FlexRow", function() { return _Components__WEBPACK_IMPORTED_MODULE_9__["FlexRow"]; });
+/* harmony import */ var _Components__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Components */ "./client/components/Components.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FlexCol", function() { return _Components__WEBPACK_IMPORTED_MODULE_10__["FlexCol"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FlexRow", function() { return _Components__WEBPACK_IMPORTED_MODULE_10__["FlexRow"]; });
 
 /**
  * `components/index.js` exists simply as a 'central export' for our components.
  * This way, we can import all of our components from the same place, rather than
  * having to figure out which file they belong to!
  */
+
 
 
 
@@ -37751,6 +37902,31 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a);
 // Module
 ___CSS_LOADER_EXPORT___.push([module.i, "/*\n---CONTAINERS---\n*/\n\n.analytics {\n  top: 20vh;\n  position: relative;\n}\n\ncanvas {\n  height: 165px;\n  width: 275px;\n}\n\n.chart {\n  margin: 3rem 1rem;\n}\n\n.chart-container {\n  width: 500px;\n  /* height: 500px; */\n  margin-bottom: 5rem;\n}\n\n.container {\n  display: flex;\n  flex-direction: row;\n  place-content: space-around;\n  padding: 2rem;\n  flex-wrap: wrap;\n}\n\n.illustration {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 75vw;\n  max-height: 50vh;\n}\n\n.input-group {\n  margin-bottom: 1rem;\n}\n\n.response {\n  text-align: center;\n  margin: 1rem 2rem 3rem 2rem;\n  /* font-size: 1rem; */\n}\n\n.search {\n  bottom: 10%;\n  position: fixed;\n  left: 50%;\n  transform: translate(-50%, 0%);\n}\n\n/*\n---ELEMENTS---\n*/\n\n.back-button {\n  margin-bottom: 3rem;\n}\n\nbutton {\n  background: black;\n  border: 1px solid black;\n  border-radius: 3px;\n  color: white;\n  height: 35px;\n  max-width: 518px;\n  width: 64vw;\n  margin-right: 2px;\n}\n\nbutton:hover {\n  cursor: pointer;\n}\n\ninput {\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  height: 34px;\n  margin-bottom: 1rem;\n  max-width: 500px;\n  padding: 0rem 0.5rem;\n  width: 60vw;\n}\n\n.link:hover {\n  cursor: pointer;\n}\n\ntextarea {\n  margin-left: 4rem;\n}\n", "",{"version":3,"sources":["webpack://./client/components/Scraper.css"],"names":[],"mappings":"AAAA;;CAEC;;AAED;EACE,SAAS;EACT,kBAAkB;AACpB;;AAEA;EACE,aAAa;EACb,YAAY;AACd;;AAEA;EACE,iBAAiB;AACnB;;AAEA;EACE,YAAY;EACZ,mBAAmB;EACnB,mBAAmB;AACrB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,2BAA2B;EAC3B,aAAa;EACb,eAAe;AACjB;;AAEA;EACE,eAAe;EACf,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,WAAW;EACX,gBAAgB;AAClB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kBAAkB;EAClB,2BAA2B;EAC3B,qBAAqB;AACvB;;AAEA;EACE,WAAW;EACX,eAAe;EACf,SAAS;EACT,8BAA8B;AAChC;;AAEA;;CAEC;;AAED;EACE,mBAAmB;AACrB;;AAEA;EACE,iBAAiB;EACjB,uBAAuB;EACvB,kBAAkB;EAClB,YAAY;EACZ,YAAY;EACZ,gBAAgB;EAChB,WAAW;EACX,iBAAiB;AACnB;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,sBAAsB;EACtB,kBAAkB;EAClB,YAAY;EACZ,mBAAmB;EACnB,gBAAgB;EAChB,oBAAoB;EACpB,WAAW;AACb;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,iBAAiB;AACnB","sourcesContent":["/*\n---CONTAINERS---\n*/\n\n.analytics {\n  top: 20vh;\n  position: relative;\n}\n\ncanvas {\n  height: 165px;\n  width: 275px;\n}\n\n.chart {\n  margin: 3rem 1rem;\n}\n\n.chart-container {\n  width: 500px;\n  /* height: 500px; */\n  margin-bottom: 5rem;\n}\n\n.container {\n  display: flex;\n  flex-direction: row;\n  place-content: space-around;\n  padding: 2rem;\n  flex-wrap: wrap;\n}\n\n.illustration {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 75vw;\n  max-height: 50vh;\n}\n\n.input-group {\n  margin-bottom: 1rem;\n}\n\n.response {\n  text-align: center;\n  margin: 1rem 2rem 3rem 2rem;\n  /* font-size: 1rem; */\n}\n\n.search {\n  bottom: 10%;\n  position: fixed;\n  left: 50%;\n  transform: translate(-50%, 0%);\n}\n\n/*\n---ELEMENTS---\n*/\n\n.back-button {\n  margin-bottom: 3rem;\n}\n\nbutton {\n  background: black;\n  border: 1px solid black;\n  border-radius: 3px;\n  color: white;\n  height: 35px;\n  max-width: 518px;\n  width: 64vw;\n  margin-right: 2px;\n}\n\nbutton:hover {\n  cursor: pointer;\n}\n\ninput {\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  height: 34px;\n  margin-bottom: 1rem;\n  max-width: 500px;\n  padding: 0rem 0.5rem;\n  width: 60vw;\n}\n\n.link:hover {\n  cursor: pointer;\n}\n\ntextarea {\n  margin-left: 4rem;\n}\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./client/components/SimilarArticles.css":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./client/components/SimilarArticles.css ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a);
+// Module
+___CSS_LOADER_EXPORT___.push([module.i, ".similar-articles {\n  margin-bottom: 1rem;\n}\n", "",{"version":3,"sources":["webpack://./client/components/SimilarArticles.css"],"names":[],"mappings":"AAAA;EACE,mBAAmB;AACrB","sourcesContent":[".similar-articles {\n  margin-bottom: 1rem;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 

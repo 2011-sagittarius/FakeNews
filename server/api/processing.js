@@ -1,14 +1,12 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
-const api = new ScraperAPI({
-  token: `Ua7U7QOgMR1goTyJ-tGEGQ
-`
-})
+const api = new ScraperAPI({token: 'Ua7U7QOgMR1goTyJ-tGEGQ'})
 const axios = require('axios')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
 const got = require('got')
+const {Op} = require('sequelize')
 
 module.exports = router
 
@@ -52,10 +50,10 @@ router.get('/predict', async (req, res, next) => {
     const [response] = await client.predict(request)
 
     for (const annotationPayload of response.payload) {
-      console.log(`Predicted class name: ${annotationPayload.displayName}`)
-      console.log(
-        `Predicted class score: ${annotationPayload.classification.score}`
-      )
+      // console.log(`Predicted class name: ${annotationPayload.displayName}`)
+      // console.log(
+      //   `Predicted class score: ${annotationPayload.classification.score}`
+      // )
       // console.log(response.payload)
     }
     res.json(response.payload)
@@ -76,12 +74,12 @@ router.get('/preprocess', async (req, res, next) => {
 
     // collect data from script
     python.stdout.on('data', function(data) {
-      console.log('Pipe data from python script ...')
+      // console.log('Pipe data from python script ...')
       dataToSend = data.toString()
     })
     // in close event we are sure that stream from child process is closed
     python.on('close', code => {
-      console.log(`child process close all stdio with code ${code}`)
+      // console.log(`child process close all stdio with code ${code}`)
       // send data to browser
       res.send(dataToSend)
     })
@@ -108,7 +106,6 @@ router.get('/scrape', (req, res) => {
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
   const keywords = req.query.keywords.join(' ')
-
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
@@ -132,6 +129,25 @@ router.get('/related-articles', async (req, res, next) => {
     res.json(ans)
   } catch (error) {
     console.log('NEWS API FAILED')
+    next(error)
+  }
+})
+
+//Get similar articles from DB
+router.get('/similar-articles', async (req, res, next) => {
+  try {
+    let className = req.query.label[1]
+    // console.log("HERE LABEL", req.query)
+    const similarArticles = await Article.findAll({
+      where: {
+        [className]: {
+          [Op.between]: [70, 100]
+        }
+      },
+      order: [['createdAt', 'ASC']]
+    })
+    res.json(similarArticles)
+  } catch (error) {
     next(error)
   }
 })
