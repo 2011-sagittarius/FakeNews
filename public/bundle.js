@@ -5127,8 +5127,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var RelatedArticles = function RelatedArticles(props) {
-  var keywords = props.keywords;
+var RelatedArticles = function RelatedArticles(_ref) {
+  var keywords = _ref.keywords,
+      url = _ref.url;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -5136,7 +5137,7 @@ var RelatedArticles = function RelatedArticles(props) {
       setArticles = _useState2[1];
 
   var fetchArticles = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _yield$axios$get, data;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -5164,20 +5165,20 @@ var RelatedArticles = function RelatedArticles(props) {
     }));
 
     return function fetchArticles() {
-      return _ref.apply(this, arguments);
+      return _ref2.apply(this, arguments);
     };
   }();
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (keywords.length > 0) fetchArticles();
   }, [keywords]);
-  return keywords.length > 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
+  return articles.length > 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
     style: {
       padding: '2rem',
       alignItems: 'flex-start'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", null, "Want some more info? \uD83D\uDC47"), articles.slice(0, 5).map(function (article) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    if (article.url !== url) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       key: article.title,
       className: "related-article"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, article.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
@@ -5697,11 +5698,15 @@ var Scraper = /*#__PURE__*/function (_Component) {
         chartData: this.state.chartData
       }), this.state.label.length && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["Response"], {
         label: this.state.label
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["RelatedArticles"], {
-        keywords: this.state.keywords
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
+        className: "articles"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["RelatedArticles"], {
+        keywords: this.state.keywords,
+        url: this.state.url
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["SimilarArticles"], {
-        label: this.state.label
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        label: this.state.label,
+        url: this.state.url
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: "back-button",
         onClick: function onClick() {
@@ -5791,8 +5796,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var SimilarArticles = function SimilarArticles(props) {
-  var label = props.label;
+var SimilarArticles = function SimilarArticles(_ref) {
+  var label = _ref.label,
+      url = _ref.url;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -5800,7 +5806,7 @@ var SimilarArticles = function SimilarArticles(props) {
       setArticles = _useState2[1];
 
   var fetchSimilarArticles = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _yield$axios$get, data;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -5829,34 +5835,20 @@ var SimilarArticles = function SimilarArticles(props) {
     }));
 
     return function fetchSimilarArticles() {
-      return _ref.apply(this, arguments);
+      return _ref2.apply(this, arguments);
     };
   }();
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (label.length > 0) fetchSimilarArticles();
   }, [label]);
-  return articles.length < 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null) : articles.length === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
+  return articles.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
     style: {
       padding: '2rem',
       alignItems: 'flex-start'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Other ", label[1], " articles users found! \uD83D\uDC47"), articles.map(function (article) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      key: article.title,
-      className: "related-article"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, article.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-      href: article.url,
-      target: "_blank",
-      rel: "noopener noreferrer"
-    }, article.url));
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_2__["FlexCol"], {
-    style: {
-      padding: '2rem',
-      alignItems: 'flex-start'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Other ", label[1], " articles users found! \uD83D\uDC47"), articles.slice(0, -1).map(function (article) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", null, "Other ", label[1], " articles users found! \uD83D\uDC47"), articles.map(function (article) {
+    if (article.url !== url) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       key: article.title,
       className: "related-article"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, article.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
@@ -37876,7 +37868,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a);
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, ".related-article {\n  margin-bottom: 1rem;\n}\n", "",{"version":3,"sources":["webpack://./client/components/RelatedArticles.css"],"names":[],"mappings":"AAAA;EACE,mBAAmB;AACrB","sourcesContent":[".related-article {\n  margin-bottom: 1rem;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.i, ".related-article {\n  margin-bottom: 1rem;\n}\n\n.articles {\n  align-items: flex-start;\n  max-width: 80vw;\n}\n\n/* large phones and small tablets */\n@media screen and (min-width: 500px) {\n}\n\n/* tablets and small monitors */\n@media screen and (min-width: 800px) {\n  .articles {\n    max-width: 75vw;\n  }\n}\n\n/* laptops and desktops */\n@media screen and (min-width: 1200px) {\n  .articles {\n    max-width: 50vw;\n  }\n}\n", "",{"version":3,"sources":["webpack://./client/components/RelatedArticles.css"],"names":[],"mappings":"AAAA;EACE,mBAAmB;AACrB;;AAEA;EACE,uBAAuB;EACvB,eAAe;AACjB;;AAEA,mCAAmC;AACnC;AACA;;AAEA,+BAA+B;AAC/B;EACE;IACE,eAAe;EACjB;AACF;;AAEA,yBAAyB;AACzB;EACE;IACE,eAAe;EACjB;AACF","sourcesContent":[".related-article {\n  margin-bottom: 1rem;\n}\n\n.articles {\n  align-items: flex-start;\n  max-width: 80vw;\n}\n\n/* large phones and small tablets */\n@media screen and (min-width: 500px) {\n}\n\n/* tablets and small monitors */\n@media screen and (min-width: 800px) {\n  .articles {\n    max-width: 75vw;\n  }\n}\n\n/* laptops and desktops */\n@media screen and (min-width: 1200px) {\n  .articles {\n    max-width: 50vw;\n  }\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 

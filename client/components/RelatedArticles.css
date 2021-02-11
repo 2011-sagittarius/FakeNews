@@ -1,3 +1,26 @@
 .related-article {
   margin-bottom: 1rem;
 }
+
+.articles {
+  align-items: flex-start;
+  max-width: 80vw;
+}
+
+/* large phones and small tablets */
+@media screen and (min-width: 500px) {
+}
+
+/* tablets and small monitors */
+@media screen and (min-width: 800px) {
+  .articles {
+    max-width: 75vw;
+  }
+}
+
+/* laptops and desktops */
+@media screen and (min-width: 1200px) {
+  .articles {
+    max-width: 50vw;
+  }
+}

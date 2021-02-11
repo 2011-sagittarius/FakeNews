@@ -242,8 +242,13 @@ class Scraper extends Component {
                 defaultValue={this.state.html}
               /> */}
             </FlexCol>
-            <RelatedArticles keywords={this.state.keywords} />
-            <SimilarArticles label={this.state.label} />
+            <FlexCol className="articles">
+              <RelatedArticles
+                keywords={this.state.keywords}
+                url={this.state.url}
+              />
+              <SimilarArticles label={this.state.label} url={this.state.url} />
+            </FlexCol>
             <button
               type="button"
               className="back-button"
