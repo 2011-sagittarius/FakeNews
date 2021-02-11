@@ -3,12 +3,21 @@ const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
 const axios = require('axios')
-const {domain} = require('process')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
 const got = require('got')
 
 module.exports = router
+
+const lastMonth = () => {
+  var current = new Date() //'Mar 11 2015' current.getTime() = 1426060964567
+  var prevMonth = new Date(current.getTime() - 28 * 86400000) // + 1 day in ms
+  let date = prevMonth.toLocaleDateString().split('/')
+  date[0] = ('0' + date[0]).slice(-2)
+  date.unshift(date.pop())
+  date = date.join('-')
+  return date
+}
 
 // Google ML route
 router.get('/predict', async (req, res, next) => {
@@ -95,17 +104,12 @@ router.get('/scrape', (req, res) => {
 // News API
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
-  let today = new Date() // get the date
-  let day = ('0' + today.getDate()).slice(-2) //get day with slice to have double digit day
-  let month = ('0' + today.getMonth()).slice(-2) //get your zero in front of single month digits so you have 2 digit months
-  let date = today.getFullYear() + '-' + month + '-' + day
-
   const keywords = req.query.keywords.join(' ')
-  console.log('keywords > ', keywords)
+
   let url =
     'http://newsapi.org/v2/everything?' +
     `q=${keywords}&` +
-    `from=${date}&` +
+    `from=${lastMonth()}&` +
     'sortBy=relevance&' +
     'pageSize=100&' +
     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
@@ -124,6 +128,7 @@ router.get('/related-articles', async (req, res, next) => {
     })
     res.json(ans)
   } catch (error) {
+    console.log('NEWS API FAILED')
     next(error)
   }
 })

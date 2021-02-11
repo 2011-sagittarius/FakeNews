@@ -8,7 +8,7 @@ const RelatedArticles = props => {
 
   const fetchArticles = async () => {
     let {data} = await axios.get('/api/processing/related-articles', {
-      params: {keywords: keywords.slice(0, 5)}
+      params: {keywords: keywords.slice(0, 4)}
     })
     setArticles(data)
   }
@@ -21,7 +21,7 @@ const RelatedArticles = props => {
   )
 
   return (
-    keywords.length < 1 && (
+    keywords.length > 1 && (
       <div>
         <h2>Want some more info? 👇</h2>
         {articles.slice(0, 5).map(article => (

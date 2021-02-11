@@ -8,6 +8,7 @@ function Landing() {
       className="animated"
       version="1.1"
       viewBox="0 0 500 500"
+      preserveAspectRatio="xMidYMid meet"
     >
       <g
         style={{

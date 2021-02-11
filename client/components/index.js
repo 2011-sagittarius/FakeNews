@@ -4,11 +4,11 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './Navbar'
-export {default as UserHome} from './UserHome'
-export {Login, Signup} from './AuthForm'
 export {default as Scraper} from './Scraper'
 export {default as Chart} from './Chart'
 export {default as RelatedArticles} from './RelatedArticles'
 export {default as Loading} from './Loading'
 export {default as Landing} from './Landing'
 export {default as Fade} from './Fade'
+export {FlexCol} from './Components'
+export {FlexRow} from './Components'

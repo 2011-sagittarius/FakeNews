@@ -1,10 +1,17 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {Chart, RelatedArticles, Loading, Landing, Fade} from '../components'
+import {
+  Chart,
+  RelatedArticles,
+  Loading,
+  Landing,
+  Fade,
+  FlexRow,
+  FlexCol
+} from '../components'
 // import {framework} from 'passport'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
-import {FlexRow, FlexCol} from './Components'
 import './Scraper.css'
 
 class Scraper extends Component {
@@ -19,7 +26,7 @@ class Scraper extends Component {
       publisher: '',
       scores: [],
       title: '',
-      url: '',
+      url: 'Enter URL',
       loaded: 'no'
     }
 
@@ -30,6 +37,7 @@ class Scraper extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
+    this.clearURL = this.clearURL.bind(this)
   }
 
   componentDidMount() {
@@ -188,6 +196,10 @@ class Scraper extends Component {
     } else console.log('INVALID URL')
   }
 
+  clearURL() {
+    if (this.state.url === 'Enter URL') this.setState({url: ''})
+  }
+
   render() {
     let adjective =
       this.state.label[0] > 75
@@ -196,68 +208,60 @@ class Scraper extends Component {
 
     const search = (
       <FlexCol>
-        <FlexRow>
-          <input
-            type="text"
-            className="form-control"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-lg"
-            value={this.state.url}
-            onChange={this.setUrl}
-          />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              id="button-addon2"
-              onClick={this.handleClick}
-            >
-              Check
-            </button>
-          </div>
-        </FlexRow>
-        <FlexCol>
-          <Fade show={this.state.loaded === 'no'}>
-            <FlexCol style={{maxHeight: '50vh', margin: '9rem 0rem'}}>
-              <Landing />
+        {this.state.loaded !== 'yes' && (
+          <>
+            <FlexCol className="illustration">
+              <Fade show={this.state.loaded === 'no'}>
+                <Landing />
+              </Fade>
+              <Fade show={this.state.loaded === 'loading'}>
+                <Loading />
+                <h3>Hold tight. We're triple checking our sources.</h3>
+              </Fade>
             </FlexCol>
-          </Fade>
-          <Fade show={this.state.loaded === 'loading'}>
-            <FlexCol style={{maxHeight: '60vh', margin: '4rem 0rem'}}>
-              <Loading />
-              <h3>Hold tight. We're triple checking our sources.</h3>
-            </FlexCol>
-          </Fade>
-          <Fade show={this.state.loaded === 'yes'}>
             <FlexCol>
-              <FlexRow style={{margin: '8rem 0rem'}}>
-                <div>
-                  <Chart chartData={this.state.chartData} />
-
-                  {this.state.label.length > 0 ? (
-                    <div className="response">
-                      This article is <span>{adjective}</span>{' '}
-                      {this.state.label[1]}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <textarea
-                  className="result"
-                  rows="25"
-                  cols="60"
-                  defaultValue={this.state.html}
-                />
-              </FlexRow>
-              <RelatedArticles keywords={this.state.keywords} />
+              <input
+                type="text"
+                className="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-lg"
+                value={this.state.url}
+                onChange={this.setUrl}
+                onClick={this.clearURL}
+              />
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+                onClick={this.handleClick}
+              >
+                Check
+              </button>
             </FlexCol>
-          </Fade>
-        </FlexCol>
+          </>
+        )}
+        <Fade show={this.state.loaded === 'yes'}>
+          <FlexCol>
+            <Chart chartData={this.state.chartData} />
+
+            {this.state.label.length && (
+              <div className="response">
+                This article is {adjective} {this.state.label[1]}
+              </div>
+            )}
+            {/* <textarea
+                className="result"
+                rows="25"
+                cols="60"
+                defaultValue={this.state.html}
+              /> */}
+            <RelatedArticles keywords={this.state.keywords} />
+          </FlexCol>
+        </Fade>
       </FlexCol>
     )
 
-    return <div>{search}</div>
+    return <>{search}</>
   }
 }
 
