@@ -9,7 +9,9 @@ const SimilarArticles = props => {
 
   const fetchSimilarArticles = async () => {
     let {data} = await axios.get('/api/processing/similar-articles', {
-      params: {label: label}
+      params: {
+        label: label
+      }
     })
     setArticles(data)
     console.log(data)
@@ -22,10 +24,24 @@ const SimilarArticles = props => {
     [label]
   )
 
-  return (
+  return articles.length < 0 ? (
+    <></>
+  ) : articles.length === 1 ? (
     <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
-      <h2>Here are some other {label[1]} results 👇</h2>
+      <h2>Other {label[1]} articles users found! 👇</h2>
       {articles.map(article => (
+        <div key={article.title} className="related-article">
+          <p>{article.title}</p>
+          <a href={article.url} target="_blank" rel="noopener noreferrer">
+            {article.url}
+          </a>
+        </div>
+      ))}
+    </FlexCol>
+  ) : (
+    <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
+      <h2>Other {label[1]} articles users found! 👇</h2>
+      {articles.slice(0, -1).map(article => (
         <div key={article.title} className="related-article">
           <p>{article.title}</p>
           <a href={article.url} target="_blank" rel="noopener noreferrer">

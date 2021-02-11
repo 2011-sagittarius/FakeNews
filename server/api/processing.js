@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
-const api = new ScraperAPI({token: 'Zitr2UjB94g3VuNVuNOgZw'})
+const api = new ScraperAPI({token: 'Ua7U7QOgMR1goTyJ-tGEGQ'})
 const axios = require('axios')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
@@ -141,9 +141,10 @@ router.get('/similar-articles', async (req, res, next) => {
     const similarArticles = await Article.findAll({
       where: {
         [className]: {
-          [Op.between]: [80, 100]
+          [Op.between]: [70, 100]
         }
-      }
+      },
+      order: [['createdAt', 'ASC']]
     })
     res.json(similarArticles)
   } catch (error) {
