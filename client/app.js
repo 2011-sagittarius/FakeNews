@@ -1,14 +1,14 @@
 import React from 'react'
 
-import {Navbar} from './components'
+import {Navbar, FlexCol} from './components'
 import Routes from './routes'
 
 const App = () => {
   return (
-    <div>
+    <FlexCol>
       <Navbar />
       <Routes />
-    </div>
+    </FlexCol>
   )
 }
 

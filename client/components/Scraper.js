@@ -1,10 +1,17 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {Chart, RelatedArticles, Loading, Landing} from '../components'
-// import {framework} from 'passport'
+import {
+  Chart,
+  RelatedArticles,
+  Loading,
+  Input,
+  Landing,
+  Fade,
+  Response,
+  FlexCol
+} from '../components'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
-import {FlexRow, FlexCol} from './Components'
 import './Scraper.css'
 
 class Scraper extends Component {
@@ -19,7 +26,7 @@ class Scraper extends Component {
       publisher: '',
       scores: [],
       title: '',
-      url: '',
+      url: 'Enter URL',
       loaded: 'no'
     }
 
@@ -30,6 +37,7 @@ class Scraper extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
+    this.clearUrl = this.clearUrl.bind(this)
   }
 
   componentDidMount() {
@@ -49,12 +57,12 @@ class Scraper extends Component {
 
   // Call scrape-publisher route on URL
   async scrapePublisher() {
-    this.setState({publisher: ''})
+    this.setState({publisher: '', loaded: 'loading'})
     try {
       const {data} = await axios.get('/api/processing/scrape/meta', {
         params: {targetUrl: this.state.url}
       })
-      this.setState({publisher: data.publisher})
+      this.setState({publisher: data.publisher}, () => this.sendUrl())
     } catch (error) {
       console.log(error)
     }
@@ -78,10 +86,13 @@ class Scraper extends Component {
         params: {url: this.state.url}
       })
 
-      this.setState({
-        html: data.content,
-        title: data.title
-      })
+      this.setState(
+        {
+          html: data.content,
+          title: data.title
+        },
+        () => this.preProcess()
+      )
     } catch (error) {
       console.log(error)
     }
@@ -99,10 +110,13 @@ class Scraper extends Component {
       params: {text: shortenedText}
     })
 
-    this.setState({
-      processed: data.text,
-      keywords: data.keywords
-    })
+    this.setState(
+      {
+        processed: data.text,
+        keywords: data.keywords
+      },
+      () => this.getPrediction()
+    )
   }
 
   // Call Google NLP Api
@@ -179,100 +193,64 @@ class Scraper extends Component {
   async handleClick() {
     if (this.checkUrl()) {
       await this.scrapePublisher()
-      await this.sendUrl()
-      await this.preProcess().then(() => {
-        if (this.state.processed.length > 1) this.getPrediction()
-        else console.log('NO PROCESSED TEXT')
-      })
     } else console.log('INVALID URL')
   }
 
-  render() {
-    let adjective =
-      this.state.label[0] > 75
-        ? 'most likely'
-        : this.state.label[0] > 50 ? 'probably' : 'somewhat'
+  clearUrl() {
+    this.setState({url: ''})
+  }
 
+  render() {
     const search = (
-      <FlexCol>
-        <FlexRow>
-          <input
-            type="text"
-            className="form-control"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-lg"
-            value={this.state.url}
-            onChange={this.setUrl}
-          />
-          <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              id="button-addon2"
-              onClick={this.handleClick}
-            >
-              Check
-            </button>
-          </div>
-        </FlexRow>
-        <FlexCol>
-          {this.state.loaded === 'no' ? (
-            <>
-              <FlexCol style={{maxHeight: '50vh', margin: '9rem 0rem'}}>
+      <>
+        {this.state.loaded !== 'yes' && (
+          <FlexCol className="illustration">
+            <Fade show={this.state.loaded === 'no'}>
+              <FlexCol style={{margin: '6rem 0rem'}}>
                 <Landing />
               </FlexCol>
-            </>
-          ) : this.state.loaded === 'loading' ? (
-            <FlexCol style={{maxHeight: '60vh', margin: '4rem 0rem'}}>
-              <Loading />
+              <Input
+                url={this.state.url}
+                setUrl={this.setUrl}
+                clearUrl={this.clearUrl}
+                handleClick={this.handleClick}
+              />
+            </Fade>
+            <Fade show={this.state.loaded === 'loading'}>
+              <FlexCol style={{margin: '6rem 0rem'}}>
+                <Loading />
+              </FlexCol>
               <h3>Hold tight. We're triple checking our sources.</h3>
-            </FlexCol>
-          ) : (
+            </Fade>
+          </FlexCol>
+        )}
+        <Fade show={this.state.loaded === 'yes'}>
+          <FlexCol>
             <FlexCol>
-              <FlexRow style={{margin: '8rem 0rem'}}>
-                <div>
-                  <Chart chartData={this.state.chartData} />
+              <Chart chartData={this.state.chartData} />
 
-                  {this.state.label.length > 0 ? (
-                    <div className="response">
-                      This article is <span>{adjective}</span>{' '}
-                      {this.state.label[1]}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <textarea
-                  className="result"
-                  rows="25"
-                  cols="60"
-                  defaultValue={this.state.html}
-                />
-              </FlexRow>
-              {/* <div className="input">
-                <div className="input-group input-group-lg">
-                  <span className="input-group-text" id="inputGroup-sizing-lg">
-                URL
-              </span>
-                </div>
-
-                <div>
-                  <textarea
-                    className="result"
-                    rows="15"
-                    cols="70"
-                    defaultValue={this.state.processed}
-                  />
-                </div>
-              </div> */}
-              <RelatedArticles keywords={this.state.keywords} />
+              {this.state.label.length && <Response label={this.state.label} />}
+              {/* <textarea
+                className="result"
+                rows="25"
+                cols="60"
+                defaultValue={this.state.html}
+              /> */}
             </FlexCol>
-          )}
-        </FlexCol>
-      </FlexCol>
+            <RelatedArticles keywords={this.state.keywords} />
+            <button
+              type="button"
+              className="back-button"
+              onClick={() => window.location.reload(false)}
+            >
+              Start Over
+            </button>
+          </FlexCol>
+        </Fade>
+      </>
     )
 
-    return <div>{search}</div>
+    return <>{search}</>
   }
 }
 
