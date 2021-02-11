@@ -15,22 +15,24 @@ textarea {
 }
 
 button {
-  height: 35px;
-  width: 100px;
-  border-radius: 3px;
   background: black;
-  color: white;
   border: 1px solid black;
+  border-radius: 3px;
+  color: white;
+  height: 35px;
+  max-width: 518px;
+  width: 64vw;
+  margin-right: 2px;
 }
 
 input {
-  width: 50vw;
-  height: 35px;
-  margin-right: 1rem;
-  border-radius: 3px;
   border: 1px solid #ccc;
+  border-radius: 3px;
+  height: 34px;
+  margin-bottom: 1rem;
   max-width: 500px;
   padding: 0rem 0.5rem;
+  width: 60vw;
 }
 
 .search {
@@ -45,14 +47,34 @@ input {
   margin-bottom: 5rem;
 }
 
-h3 {
-  font-weight: 300;
-  font-family: roboto;
-  font-size: 1.25rem;
+.illustration {
+  /* height: 62vh; */
+  margin: 0rem 2rem;
+  justify-content: center;
+}
+
+.chart {
+  margin: 3rem 1rem;
 }
 
 .response {
   text-align: center;
-  margin: 2rem;
-  font-size: 1.4rem;
+  margin: 1rem 2rem 3rem 2rem;
+  /* font-size: 1rem; */
+}
+
+canvas {
+  height: 165px;
+  width: 275px;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.back-button {
 }
