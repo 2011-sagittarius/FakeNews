@@ -204,11 +204,11 @@ class Scraper extends Component {
               'rgba(255, 159, 64, 0.6)'
             ]
           }
-        ],
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
+        ]
+        // options: {
+        //   responsive: true,
+        //   maintainAspectRatio: true,
+        // },
       }
     })
   }
@@ -251,7 +251,7 @@ class Scraper extends Component {
           </FlexCol>
         )}
         <Fade show={this.state.loaded === 'yes'} time={5}>
-          <FlexCol className="analytics">
+          <FlexCol id="analytics">
             <FlexCol id="graph">
               <Chart chartData={this.state.chartData} />
               {this.state.label.length && <Response label={this.state.label} />}
@@ -264,13 +264,15 @@ class Scraper extends Component {
               />
               <SimilarArticles label={this.state.label} url={this.state.url} />
             </FlexCol>
-            <button
-              type="button"
-              className="back-button"
-              onClick={() => window.location.reload(false)}
-            >
-              Start Over
-            </button>
+            <FlexCol>
+              <button
+                type="button"
+                className="back-button"
+                onClick={() => window.location.reload(false)}
+              >
+                Start Over
+              </button>
+            </FlexCol>
           </FlexCol>
         </Fade>
       </>
