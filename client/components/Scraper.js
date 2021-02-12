@@ -32,7 +32,7 @@ class Scraper extends Component {
       scores: [],
       title: '',
       url: 'Enter URL',
-      window: 0
+      window: window.innerWidth
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -48,6 +48,7 @@ class Scraper extends Component {
 
   componentDidMount() {
     this.setChartData()
+    console.log('width > ', window.innerWidth)
     window.addEventListener(
       'resize',
       _.debounce(() => {
@@ -251,16 +252,9 @@ class Scraper extends Component {
         )}
         <Fade show={this.state.loaded === 'yes'} time={5}>
           <FlexCol className="analytics">
-            <FlexCol>
+            <FlexCol id="graph">
               <Chart chartData={this.state.chartData} />
-
               {this.state.label.length && <Response label={this.state.label} />}
-              {/* <textarea
-                className="result"
-                rows="25"
-                cols="60"
-                defaultValue={this.state.html}
-              /> */}
             </FlexCol>
             <FlexCol id="articles">
               <RelatedArticles

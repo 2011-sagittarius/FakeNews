@@ -30,6 +30,9 @@ canvas {
   flex-wrap: wrap;
 }
 
+#graph {
+  margin: 6rem 0rem;
+}
 .illustration {
   position: fixed;
   top: 50%;

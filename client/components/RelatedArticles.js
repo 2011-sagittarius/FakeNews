@@ -1,23 +1,8 @@
-import axios from 'axios'
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {FlexCol} from '../components'
 import './RelatedArticles.css'
 
-const RelatedArticles = ({keywords, url, articles}) => {
-  // const [articles, setArticles] = useState([])
-
-  // const fetchArticles = async () => {
-  //   let {data} = await axios.get('/api/processing/related-articles', {
-  //     params: {keywords: keywords.slice(0, 3)},
-  //   })
-  //   setArticles(data)
-  //   setAnalytics()
-  // }
-
-  // useEffect(() => {
-  //   if (keywords.length > 0) fetchArticles()
-  // }, [keywords])
-
+const RelatedArticles = ({url, articles}) => {
   return (
     articles.length > 1 && (
       <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
