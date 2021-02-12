@@ -4,10 +4,10 @@ import {Background, Person, Icons, Posts, SpeechBubbles, Stars} from '../SVG'
 import './LandingParallax.css' // // Icons made by Freepik from www.flaticon.com
 
 const calc = (x, y) => [x - window.innerWidth / 2, y - window.innerHeight / 2]
-const trStars = (x, y) => `translate3d(${x / 44}px,${y / 44}px,0)`
-const trBackground = (x, y) => `translate3d(${x / 15}px,${y / 15}px,0)`
+const trStars = (x, y) => `translate3d(${x / 60}px,${y / 60}px,0)`
+const trBackground = (x, y) => `translate3d(${x / 30}px,${y / 30}px,0)`
 const trPosts = (x, y) => `translate3d(${x / 20}px,${y / 20}px,0)`
-const trPerson = (x, y) => `translate3d(${x / 15}px,${y / 15}px,0)`
+const trPerson = (x, y) => `translate3d(${x / 25}px,${y / 25}px,0)`
 const trIcons = (x, y) => `translate3d(${x / 8}px,${y / 8}px,0)`
 const trSpeechBubbles = (x, y) => `translate3d(${x / 11}px,${y / 11}px,0)`
 
