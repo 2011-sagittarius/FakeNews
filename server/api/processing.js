@@ -7,7 +7,6 @@ const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
 const got = require('got')
 const {Op} = require('sequelize')
-const omit = require('lodash.omit')
 
 module.exports = router
 
@@ -193,16 +192,37 @@ router.get('/hall-of-articles', async (req, res, next) => {
 //       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com',
 //     },
 //   }
+// Web Search (contextual) API
+// Python script to preprocess aka remove filler words/characters from text body
+router.get('/related-articles', async (req, res, next) => {
+  const keywords = req.query.keywords.join(' ')
+  const options = {
+    method: 'GET',
+    url:
+      'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+    params: {
+      q: keywords,
+      pageNumber: '1',
+      pageSize: '50',
+      autoCorrect: 'true',
+      fromPublishedDate: 'null',
+      toPublishedDate: 'null'
+    },
+    headers: {
+      'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+    }
+  }
 
-//   try {
-//     const response = await axios(options)
-//     const articles = response.data.value
+  try {
+    const response = await axios(options)
+    const articles = response.data.value
 
-//     res.json(articles.slice(0, 10))
-//   } catch (err) {
-//     next(err)
-//   }
-// })
+    res.json(articles.slice(0, 10))
+  } catch (err) {
+    next(err)
+  }
+})
 
 // Posting new articles to database
 router.post('/scrape', async (req, res, next) => {

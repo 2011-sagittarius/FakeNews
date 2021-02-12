@@ -1,26 +1,33 @@
 import React from 'react'
-import {Pie, Doughnut, Bar} from 'react-chartjs-2'
+import {Bar} from 'react-chartjs-2'
 
 const Chart = props => {
-  return (
-    <div className="chart">
-      <Bar
-        data={props.chartData}
-        options={{
-          title: {
-            display: props.displayTitle,
-            text: 'News Content Analysis',
-            fontSize: 20,
-            fontFamily: "'Vollkorn', serif",
-            marginBottom: '1rem'
-          },
-          legend: {
-            display: false
+  const options = {
+    title: {
+      display: props.displayTitle,
+      text: 'News Content Analysis',
+      fontSize: 20,
+      fontFamily: "'Vollkorn', serif",
+      marginBottom: '1rem',
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              callback: value => `${value}%`
+            }
           }
-        }}
-      />
-    </div>
-  )
+        ]
+      }
+    },
+    legend: {
+      display: false
+    }
+  }
+
+  return <Bar data={props.chartData} options={options} />
 }
 
 export default Chart

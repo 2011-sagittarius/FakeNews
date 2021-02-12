@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import _ from 'lodash'
 import {
   Chart,
   RelatedArticles,
   SimilarArticles,
-  HallOfArticles,
   Loading,
   Input,
   Landing,
@@ -12,6 +12,7 @@ import {
   Response,
   FlexCol
 } from '../components'
+import Parallax from './LandingParallax'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 import './Scraper.css'
@@ -23,16 +24,15 @@ class Scraper extends Component {
       chartData: {},
       html: '',
       label: [],
+      loaded: 'no',
       keywords: [],
       processed: '',
       publisher: '',
+      relatedArticles: [],
       scores: [],
       title: '',
-      // similar: [],
       url: 'Enter URL',
-      loaded: 'no',
-      hallOfFame: [],
-      hallOfShame: []
+      window: window.innerWidth
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -43,11 +43,18 @@ class Scraper extends Component {
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
     this.clearUrl = this.clearUrl.bind(this)
-    // this.fetchReliableArticles = this.fetchReliableArticles.bind(this)
+    this.fetchArticles = this.fetchArticles.bind(this)
   }
 
   componentDidMount() {
     this.setChartData()
+    console.log('width > ', window.innerWidth)
+    window.addEventListener(
+      'resize',
+      _.debounce(() => {
+        this.setState({window: window.innerWidth})
+      }, 200)
+    )
   }
 
   findAverage(arr) {
@@ -113,68 +120,6 @@ class Scraper extends Component {
     }
   }
 
-  // Call scrape API on URL
-
-  // async fetchReliableArticles() {
-  //   try {
-  //     const {data} = await axios.get('/api/processing/hall-of-articles')
-  //     console.log(data)
-
-  //     let arr = [];
-
-  //     for (const key in data) {
-  //       if (key) {
-  //         let sum = data[key].reduce(function(prev, curr) {
-  //           return {
-  //             reliable: prev.reliable + curr.reliable
-  //           }
-  //         })
-  //         let average = sum.reliable / data[key].length
-  //         arr.push(average)
-  //         console.log("AVERAGE", arr)
-  //       }
-  //     }
-
-  //     const keys = Object.keys(data)
-  //     console.log("KEYS HERE ->", keys)
-
-  //     const arrPercent = arr.map(item => Number(item.toFixed(2)))
-  //     console.log(arrPercent)
-
-  //     const obj = {}
-  //     keys.forEach(function(eachItem, i) {
-  //       obj[eachItem] = arrPercent[i]
-  //     })
-  //     console.log(obj)
-
-  //     const fameArray = Object.entries(obj)
-  //     const fameFilter = fameArray.filter(([item, value]) => value >= 70)
-  //     const hallOfFameObj = fameFilter.reduce(function (res, curr) {
-  //       let [key, value] = curr
-  //       res[key] = value
-  //       return res
-  //     }, {})
-  //     console.log(hallOfFameObj)
-
-  //     const shameArray = Object.entries(obj)
-  //     const shameFilter = shameArray.filter(([item, value]) => value < 70)
-  //     const hallOfShameObj = shameFilter.reduce(function (res, curr) {
-  //       let [key, value] = curr
-  //       res[key] = value
-  //       return res
-  //     }, {})
-  //     console.log(hallOfShameObj)
-
-  //     this.setState({
-  //       hallOfFame: hallOfFameObj,
-  //       hallOfShame: hallOfShameObj
-  //     })
-
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
   // Cleans up text for Google NLP API
   async preProcess() {
     this.setState({processed: '--- PROCESSING ---'})
@@ -220,14 +165,16 @@ class Scraper extends Component {
         ? prev
         : current
     })
-    this.setState({
-      label: [
-        Math.round(max.classification.score * 1000) / 10,
-        max.displayName
-      ],
-      scores: obj,
-      loaded: 'yes'
-    })
+    this.setState(
+      {
+        label: [
+          Math.round(max.classification.score * 1000) / 10,
+          max.displayName
+        ],
+        scores: obj
+      },
+      () => this.fetchArticles()
+    )
 
     // Save article to DB
     this.props.createArticle({
@@ -241,6 +188,13 @@ class Scraper extends Component {
       satire: this.state.scores.satire * 100,
       unknown: this.state.scores.unknown * 100
     })
+  }
+
+  async fetchArticles() {
+    let {data} = await axios.get('/api/processing/related-articles', {
+      params: {keywords: this.state.keywords.slice(0, 3)}
+    })
+    this.setState({relatedArticles: data, loaded: 'yes'})
   }
 
   setChartData(datum = [0, 0, 0, 0, 0]) {
@@ -258,11 +212,11 @@ class Scraper extends Component {
               'rgba(255, 159, 64, 0.6)'
             ]
           }
-        ],
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
+        ]
+        // options: {
+        //   responsive: true,
+        //   maintainAspectRatio: true,
+        // },
       }
     })
   }
@@ -285,7 +239,8 @@ class Scraper extends Component {
           <FlexCol>
             <Fade show={this.state.loaded === 'no'}>
               <FlexCol className="illustration">
-                <Landing />
+                {this.state.window < 1200 && <Landing />}
+                {this.state.window >= 1200 && <Parallax />}
               </FlexCol>
               <Input
                 url={this.state.url}
@@ -304,35 +259,31 @@ class Scraper extends Component {
             </Fade>
           </FlexCol>
         )}
-        <Fade show={this.state.loaded === 'yes'}>
-          <FlexCol className="analytics">
-            <FlexCol>
+        <Fade show={this.state.loaded === 'yes'} time={5}>
+          <FlexCol id="analytics">
+            <FlexCol id="graph">
               <Chart chartData={this.state.chartData} />
-
               {this.state.label.length && <Response label={this.state.label} />}
-              {/* <textarea
-                className="result"
-                rows="25"
-                cols="60"
-                defaultValue={this.state.html}
-              /> */}
             </FlexCol>
-            <FlexCol className="articles">
-              {/* <RelatedArticles
+            <FlexCol id="articles">
+              <RelatedArticles
                 keywords={this.state.keywords}
                 url={this.state.url}
-              /> */}
+                articles={this.state.relatedArticles}
+              />
               <SimilarArticles label={this.state.label} url={this.state.url} />
 
               {/* <HallOfArticles hallOfFame={this.state.hallOfFame} hallOfShame={this.state.hallOfShame}/> */}
             </FlexCol>
-            <button
-              type="button"
-              className="back-button"
-              onClick={() => window.location.reload(false)}
-            >
-              Start Over
-            </button>
+            <FlexCol>
+              <button
+                type="button"
+                className="back-button"
+                onClick={() => window.location.reload(false)}
+              >
+                Start Over
+              </button>
+            </FlexCol>
           </FlexCol>
         </Fade>
       </>
