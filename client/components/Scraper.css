@@ -10,18 +10,12 @@
   max-width: 900px;
 }
 
-canvas {
-  /* height: 165px;
-  width: 275px; */
-}
-
 .chart {
   margin: 3rem 1rem;
 }
 
 .chart-container {
   width: 500px;
-  /* height: 500px; */
   margin-bottom: 5rem;
 }
 
