@@ -2,14 +2,12 @@
 ---CONTAINERS---
 */
 
-.analytics {
+#analytics {
   top: 20vh;
   position: relative;
-}
-
-canvas {
-  height: 165px;
-  width: 275px;
+  width: 85vw;
+  align-items: stretch;
+  max-width: 900px;
 }
 
 .chart {
@@ -18,7 +16,6 @@ canvas {
 
 .chart-container {
   width: 500px;
-  /* height: 500px; */
   margin-bottom: 5rem;
 }
 
@@ -31,7 +28,14 @@ canvas {
 }
 
 #graph {
-  margin: 6rem 0rem;
+  padding: 2rem;
+}
+
+/* laptops and desktops */
+@media screen and (min-width: 1200px) {
+  #graph {
+    margin: 2rem 0rem 4rem 0rem;
+  }
 }
 
 .illustration {

@@ -18,8 +18,8 @@ function Response({label}) {
   return (
     <>
       <h3 className="response">
-        {label[0] === 'unknown'
-          ? `Hmm. We're not to sure about this one 🤔`
+        {label[1] === 'unknown' || label[0] < 33
+          ? `Hmm. We're not too sure about this one 🤔`
           : `${intro} This article is ${adjective} ${label[1]}`}
       </h3>
     </>
