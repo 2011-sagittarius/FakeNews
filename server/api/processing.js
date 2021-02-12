@@ -7,6 +7,7 @@ const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
 const got = require('got')
 const {Op} = require('sequelize')
+const omit = require('lodash.omit')
 
 module.exports = router
 
@@ -155,11 +156,17 @@ router.get('/similar-articles', async (req, res, next) => {
 //Get reliable publisher data from DB
 router.get('/hall-of-articles', async (req, res, next) => {
   try {
-    const hallOfArticles = await Article.findAll({
+    const reliableArticles = await Article.findAll({
       attributes: ['publisher', 'reliable']
-      // order: [['createdAt', 'ASC']]
     })
-    res.json(hallOfArticles)
+
+    const groupedPublishers = reliableArticles.reduce((r, a) => {
+      r[a.publisher] = r[a.publisher] || []
+      r[a.publisher].push(a)
+      return r
+    }, Object.create(null))
+
+    res.json(groupedPublishers)
   } catch (error) {
     next(error)
   }

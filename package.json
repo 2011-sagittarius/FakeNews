@@ -51,6 +51,7 @@
     "express-session": "^1.17.1",
     "got": "^11.8.1",
     "history": "^4.10.1",
+    "lodash.omit": "^4.5.0",
     "metascraper": "^5.18.1",
     "metascraper-publisher": "^5.18.1",
     "morgan": "^1.10.0",

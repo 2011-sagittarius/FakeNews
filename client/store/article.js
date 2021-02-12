@@ -1,9 +1,15 @@
 import axios from 'axios'
 const ADD_ARTICLE = 'ADD_ARTICLE'
+const HALL_ARTICLES = 'HALL_ARTICLES'
 
 export const addArticle = article => ({
   type: ADD_ARTICLE,
   article
+})
+
+export const hallArticles = articles => ({
+  type: HALL_ARTICLES,
+  articles
 })
 
 export const createArticle = newArticle => {
@@ -20,18 +26,76 @@ export const createArticle = newArticle => {
   }
 }
 
+export const fetchReliableArticles = () => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/processing/hall-of-articles')
+      // console.log(data)
+
+      let arr = []
+
+      for (const key in data) {
+        if (key) {
+          let sum = data[key].reduce(function(prev, curr) {
+            return {
+              reliable: prev.reliable + curr.reliable
+            }
+          })
+          let average = sum.reliable / data[key].length
+          arr.push(average)
+          // console.log("AVERAGE", arr)
+        }
+      }
+
+      const keys = Object.keys(data)
+      // console.log("KEYS HERE ->", keys)
+
+      const arrPercent = arr.map(item => Number(item.toFixed(2)))
+      // console.log(arrPercent)
+
+      const obj = {}
+      keys.forEach(function(eachItem, i) {
+        obj[eachItem] = arrPercent[i]
+      })
+      // console.log(obj)
+
+      const fameArray = Object.entries(obj)
+      const fameFilter = fameArray.filter(([item, value]) => value >= 70)
+      const hallOfFameObj = fameFilter.reduce(function(res, curr) {
+        let [key, value] = curr
+        res[key] = value
+        return res
+      }, {})
+      // console.log(hallOfFameObj)
+
+      const shameArray = Object.entries(obj)
+      const shameFilter = shameArray.filter(([item, value]) => value < 70)
+      const hallOfShameObj = shameFilter.reduce(function(res, curr) {
+        let [key, value] = curr
+        res[key] = value
+        return res
+      }, {})
+      // console.log(hallOfShameObj)
+
+      dispatch(hallArticles({hallOfFameObj, hallOfShameObj}))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 const initialState = []
 
 // Take a look at app/redux/index.js to see where this reducer is
 // added to the Redux store with combineReducers
 export default function articlesReducer(state = initialState, action) {
   switch (action.type) {
+    case HALL_ARTICLES: {
+      return action.articles
+    }
     case ADD_ARTICLE: {
       return [...state, action.article]
     }
-    // case DELETE_ROBOT: {
-    //     return state.filter((robot) => robot.id !== action.robotId);
-    // }
     default:
       return state
   }

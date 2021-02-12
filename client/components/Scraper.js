@@ -4,6 +4,7 @@ import {
   Chart,
   RelatedArticles,
   SimilarArticles,
+  HallOfArticles,
   Loading,
   Input,
   Landing,
@@ -29,7 +30,9 @@ class Scraper extends Component {
       title: '',
       // similar: [],
       url: 'Enter URL',
-      loaded: 'no'
+      loaded: 'no',
+      hallOfFame: [],
+      hallOfShame: []
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -40,11 +43,19 @@ class Scraper extends Component {
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
     this.clearUrl = this.clearUrl.bind(this)
-    this.fetchReliableArticles.bind(this)
+    // this.fetchReliableArticles = this.fetchReliableArticles.bind(this)
   }
 
   componentDidMount() {
     this.setChartData()
+  }
+
+  findAverage(arr) {
+    let total = 0
+    for (let i = 0; i < arr.length; i++) {
+      total += arr[i].reliable
+    }
+    return total / arr.length
   }
 
   setUrl(event) {
@@ -103,26 +114,66 @@ class Scraper extends Component {
   }
 
   // Call scrape API on URL
-  async fetchReliableArticles() {
-    try {
-      const {data} = await axios.get('/api/processing/hall-of-articles')
-      console.log(data)
-      // let groupPublishers = data.reduce((r,a) => {
-      //   r[a.publisher] = r[a.publisher] || []
-      //   r[a.publisher].push(a)
-      //   return r
-      // })
-      // console.log("GROUP PUBLISHERS ->", groupPublishers)
 
-      // const keys = Object.keys(groupPublishers)
-      // console.log("KEYS HERE ->", keys)
+  // async fetchReliableArticles() {
+  //   try {
+  //     const {data} = await axios.get('/api/processing/hall-of-articles')
+  //     console.log(data)
 
-      // const values = Object.values(groupPublishers)
-      // console.log("VALUES HERE ->", values)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     let arr = [];
+
+  //     for (const key in data) {
+  //       if (key) {
+  //         let sum = data[key].reduce(function(prev, curr) {
+  //           return {
+  //             reliable: prev.reliable + curr.reliable
+  //           }
+  //         })
+  //         let average = sum.reliable / data[key].length
+  //         arr.push(average)
+  //         console.log("AVERAGE", arr)
+  //       }
+  //     }
+
+  //     const keys = Object.keys(data)
+  //     console.log("KEYS HERE ->", keys)
+
+  //     const arrPercent = arr.map(item => Number(item.toFixed(2)))
+  //     console.log(arrPercent)
+
+  //     const obj = {}
+  //     keys.forEach(function(eachItem, i) {
+  //       obj[eachItem] = arrPercent[i]
+  //     })
+  //     console.log(obj)
+
+  //     const fameArray = Object.entries(obj)
+  //     const fameFilter = fameArray.filter(([item, value]) => value >= 70)
+  //     const hallOfFameObj = fameFilter.reduce(function (res, curr) {
+  //       let [key, value] = curr
+  //       res[key] = value
+  //       return res
+  //     }, {})
+  //     console.log(hallOfFameObj)
+
+  //     const shameArray = Object.entries(obj)
+  //     const shameFilter = shameArray.filter(([item, value]) => value < 70)
+  //     const hallOfShameObj = shameFilter.reduce(function (res, curr) {
+  //       let [key, value] = curr
+  //       res[key] = value
+  //       return res
+  //     }, {})
+  //     console.log(hallOfShameObj)
+
+  //     this.setState({
+  //       hallOfFame: hallOfFameObj,
+  //       hallOfShame: hallOfShameObj
+  //     })
+
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   // Cleans up text for Google NLP API
   async preProcess() {
@@ -219,7 +270,7 @@ class Scraper extends Component {
   async handleClick() {
     if (this.checkUrl()) {
       await this.scrapePublisher()
-      await this.fetchReliableArticles()
+      // await this.fetchReliableArticles()
     } else console.log('INVALID URL')
   }
 
@@ -272,6 +323,8 @@ class Scraper extends Component {
                 url={this.state.url}
               /> */}
               <SimilarArticles label={this.state.label} url={this.state.url} />
+
+              {/* <HallOfArticles hallOfFame={this.state.hallOfFame} hallOfShame={this.state.hallOfShame}/> */}
             </FlexCol>
             <button
               type="button"
