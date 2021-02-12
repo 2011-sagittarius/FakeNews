@@ -2,9 +2,9 @@
   margin-bottom: 1rem;
 }
 
-.articles {
+#articles {
   align-items: flex-start;
-  max-width: 80vw;
+  max-width: 900px;
 }
 
 /* large phones and small tablets */

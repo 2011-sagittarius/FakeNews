@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import _ from 'lodash'
 import {
   Chart,
   RelatedArticles,
@@ -23,14 +24,15 @@ class Scraper extends Component {
       chartData: {},
       html: '',
       label: [],
+      loaded: 'no',
       keywords: [],
       processed: '',
       publisher: '',
+      relatedArticles: [],
       scores: [],
       title: '',
-      // similar: [],
       url: 'Enter URL',
-      loaded: 'no'
+      window: 0
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -41,10 +43,17 @@ class Scraper extends Component {
     this.checkUrl = this.checkUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
     this.clearUrl = this.clearUrl.bind(this)
+    this.fetchArticles = this.fetchArticles.bind(this)
   }
 
   componentDidMount() {
     this.setChartData()
+    window.addEventListener(
+      'resize',
+      _.debounce(() => {
+        this.setState({window: window.innerWidth})
+      }, 200)
+    )
   }
 
   setUrl(event) {
@@ -147,14 +156,16 @@ class Scraper extends Component {
         ? prev
         : current
     })
-    this.setState({
-      label: [
-        Math.round(max.classification.score * 1000) / 10,
-        max.displayName
-      ],
-      scores: obj,
-      loaded: 'yes'
-    })
+    this.setState(
+      {
+        label: [
+          Math.round(max.classification.score * 1000) / 10,
+          max.displayName
+        ],
+        scores: obj
+      },
+      () => this.fetchArticles()
+    )
 
     // Save article to DB
     this.props.createArticle({
@@ -168,6 +179,13 @@ class Scraper extends Component {
       satire: this.state.scores.satire * 100,
       unknown: this.state.scores.unknown * 100
     })
+  }
+
+  async fetchArticles() {
+    let {data} = await axios.get('/api/processing/related-articles', {
+      params: {keywords: this.state.keywords.slice(0, 3)}
+    })
+    this.setState({relatedArticles: data, loaded: 'yes'})
   }
 
   setChartData(datum = [0, 0, 0, 0, 0]) {
@@ -211,8 +229,8 @@ class Scraper extends Component {
           <FlexCol>
             <Fade show={this.state.loaded === 'no'}>
               <FlexCol className="illustration">
-                {/* <Landing /> */}
-                <Parallax />
+                {this.state.window < 1200 && <Landing />}
+                {this.state.window >= 1200 && <Parallax />}
               </FlexCol>
               <Input
                 url={this.state.url}
@@ -244,10 +262,11 @@ class Scraper extends Component {
                 defaultValue={this.state.html}
               /> */}
             </FlexCol>
-            <FlexCol className="articles">
+            <FlexCol id="articles">
               <RelatedArticles
                 keywords={this.state.keywords}
                 url={this.state.url}
+                articles={this.state.relatedArticles}
               />
               <SimilarArticles label={this.state.label} url={this.state.url} />
             </FlexCol>
