@@ -1,7 +1,7 @@
 import React from 'react'
 import '../components/Landing.css'
 
-function LandingPosts() {
+function Posts() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -575,4 +575,4 @@ function LandingPosts() {
   )
 }
 
-export default LandingPosts
+export default Posts

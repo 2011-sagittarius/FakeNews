@@ -1,7 +1,7 @@
 import React from 'react'
 import '../components/Landing.css'
 
-function LandingSpeechBubbles() {
+function SpeechBubbles() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -805,4 +805,4 @@ function LandingSpeechBubbles() {
   )
 }
 
-export default LandingSpeechBubbles
+export default SpeechBubbles

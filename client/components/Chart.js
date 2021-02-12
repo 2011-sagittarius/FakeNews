@@ -3,7 +3,7 @@ import {Pie, Doughnut, Bar} from 'react-chartjs-2'
 
 const Chart = props => {
   return (
-    <div className="chart" style={{width: '80vw', height: '20vh'}}>
+    <div className="chart">
       <Bar
         data={props.chartData}
         options={{

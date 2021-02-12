@@ -3,6 +3,7 @@ import axios from 'axios'
 import {
   Chart,
   RelatedArticles,
+  SimilarArticles,
   Loading,
   Input,
   Landing,
@@ -10,10 +11,10 @@ import {
   Response,
   FlexCol
 } from '../components'
+import Parallax from './LandingParallax'
 import {connect} from 'react-redux'
 import {createArticle} from '../store/article'
 import './Scraper.css'
-import Card from './LandingParallax'
 
 class Scraper extends Component {
   constructor() {
@@ -27,6 +28,7 @@ class Scraper extends Component {
       publisher: '',
       scores: [],
       title: '',
+      // similar: [],
       url: 'Enter URL',
       loaded: 'no'
     }
@@ -65,6 +67,7 @@ class Scraper extends Component {
       })
       this.setState({publisher: data.publisher}, () => this.sendUrl())
     } catch (error) {
+      console.log('~~~META ERROR~~~')
       console.log(error)
     }
   }
@@ -205,11 +208,11 @@ class Scraper extends Component {
     const search = (
       <>
         {this.state.loaded !== 'yes' && (
-          <FlexCol className="illustration">
+          <FlexCol>
             <Fade show={this.state.loaded === 'no'}>
-              <FlexCol style={{margin: '6rem 0rem'}}>
+              <FlexCol className="illustration">
                 {/* <Landing /> */}
-                <Card />
+                <Parallax />
               </FlexCol>
               <Input
                 url={this.state.url}
@@ -219,15 +222,17 @@ class Scraper extends Component {
               />
             </Fade>
             <Fade show={this.state.loaded === 'loading'}>
-              <FlexCol style={{margin: '6rem 0rem'}}>
+              <FlexCol className="illustration">
                 <Loading />
               </FlexCol>
-              <h3>Hold tight. We're triple checking our sources.</h3>
+              <div className="search">
+                <h3>Hold tight. We're triple checking our sources.</h3>
+              </div>
             </Fade>
           </FlexCol>
         )}
-        <Fade show={this.state.loaded === 'yes'}>
-          <FlexCol>
+        <Fade show={this.state.loaded === 'yes'} time={5}>
+          <FlexCol className="analytics">
             <FlexCol>
               <Chart chartData={this.state.chartData} />
 
@@ -239,7 +244,13 @@ class Scraper extends Component {
                 defaultValue={this.state.html}
               /> */}
             </FlexCol>
-            <RelatedArticles keywords={this.state.keywords} />
+            <FlexCol className="articles">
+              <RelatedArticles
+                keywords={this.state.keywords}
+                url={this.state.url}
+              />
+              <SimilarArticles label={this.state.label} url={this.state.url} />
+            </FlexCol>
             <button
               type="button"
               className="back-button"

@@ -1,7 +1,7 @@
 import React from 'react'
 import '../components/Landing.css'
 
-function LandingIcons() {
+function Icons() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -370,4 +370,4 @@ function LandingIcons() {
   )
 }
 
-export default LandingIcons
+export default Icons

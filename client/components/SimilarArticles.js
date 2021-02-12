@@ -1,30 +1,33 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import {FlexCol} from '../components'
-import './RelatedArticles.css'
+import './SimilarArticles.css'
 
-const RelatedArticles = ({keywords, url}) => {
+const SimilarArticles = ({label, url}) => {
   const [articles, setArticles] = useState([])
 
-  const fetchArticles = async () => {
-    let {data} = await axios.get('/api/processing/related-articles', {
-      params: {keywords: keywords.slice(0, 3)}
+  const fetchSimilarArticles = async () => {
+    let {data} = await axios.get('/api/processing/similar-articles', {
+      params: {
+        label: label
+      }
     })
     setArticles(data)
+    console.log(data)
   }
 
   useEffect(
     () => {
-      if (keywords.length > 0) fetchArticles()
+      if (label.length > 0) fetchSimilarArticles()
     },
-    [keywords]
+    [label]
   )
 
   return (
-    articles.length > 1 && (
+    articles.length > 0 && (
       <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
-        <h4>Want some more info? 👇</h4>
-        {articles.slice(0, 5).map(article => {
+        <h4>Other {label[1]} articles users found! 👇</h4>
+        {articles.map(article => {
           if (article.url !== url)
             return (
               <div key={article.title} className="related-article">
@@ -40,4 +43,4 @@ const RelatedArticles = ({keywords, url}) => {
   )
 }
 
-export default RelatedArticles
+export default SimilarArticles

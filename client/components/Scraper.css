@@ -1,3 +1,27 @@
+/*
+---CONTAINERS---
+*/
+
+.analytics {
+  top: 20vh;
+  position: relative;
+}
+
+canvas {
+  height: 165px;
+  width: 275px;
+}
+
+.chart {
+  margin: 3rem 1rem;
+}
+
+.chart-container {
+  width: 500px;
+  /* height: 500px; */
+  margin-bottom: 5rem;
+}
+
 .container {
   display: flex;
   flex-direction: row;
@@ -6,12 +30,38 @@
   flex-wrap: wrap;
 }
 
-textarea {
-  margin-left: 4rem;
+.illustration {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75vw;
+  max-height: 50vh;
 }
 
 .input-group {
   margin-bottom: 1rem;
+}
+
+.response {
+  text-align: center;
+  margin: 1rem 2rem 3rem 2rem;
+  /* font-size: 1rem; */
+}
+
+.search {
+  bottom: 10%;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+/*
+---ELEMENTS---
+*/
+
+.back-button {
+  margin-bottom: 3rem;
 }
 
 button {
@@ -25,6 +75,10 @@ button {
   margin-right: 2px;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 input {
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -35,46 +89,10 @@ input {
   width: 60vw;
 }
 
-.search {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.chart-container {
-  width: 500px;
-  /* height: 500px; */
-  margin-bottom: 5rem;
-}
-
-.illustration {
-  /* height: 62vh; */
-  margin: 0rem 2rem;
-  justify-content: center;
-}
-
-.chart {
-  margin: 3rem 1rem;
-}
-
-.response {
-  text-align: center;
-  margin: 1rem 2rem 3rem 2rem;
-  /* font-size: 1rem; */
-}
-
-canvas {
-  height: 165px;
-  width: 275px;
-}
-
 .link:hover {
   cursor: pointer;
 }
 
-button:hover {
-  cursor: pointer;
-}
-
-.back-button {
+textarea {
+  margin-left: 4rem;
 }
