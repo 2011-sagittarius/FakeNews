@@ -5,6 +5,7 @@ const compression = require('compression')
 const db = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
+import sslRedirect from 'heroku-ssl-redirect'
 
 module.exports = app
 
@@ -25,6 +26,10 @@ module.exports = app
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 const createApp = () => {
+  // enable SSL redirect
+  app.use(sslRedirect())
+  app.use(sslRedirect(['production'], 301))
+
   // logging middleware
   app.use(morgan('dev'))
 
