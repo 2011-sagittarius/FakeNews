@@ -1,6 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {fetchReliableArticles} from '../store/article'
+import {Fade, FlexCol, FlexColLeft, FlexRow} from '../components'
+import {Fame, Shame} from '../SVG'
+
 import './HallPage.css'
 
 export class HallPage extends React.Component {
@@ -14,37 +18,57 @@ export class HallPage extends React.Component {
     const shameData = hallData.hallOfShameObj
 
     return (
-      <div>
-        <div className="hall-of-fame">
+      <FlexCol id="hall-of-fame">
+        <div className="hall-description">
+          We combed through previous articles and ranked publishers by
+          reliability.
+        </div>
+        <div className="hall-illustration">
+          <Fame />
+        </div>
+        <FlexColLeft id="fame">
           <h2>Hall of Fame</h2>
-          <ul>
-            {fameData !== undefined &&
-              Object.keys(fameData).map((publisher, index) => (
-                <li key={index}>
-                  <mark className="blue">
-                    {fameData[publisher]}%&nbsp;&nbsp;&nbsp;
-                  </mark>
-                  {publisher}
-                </li>
-              ))}
-          </ul>
+          <FlexRow>
+            <FlexCol id="rating-blue">
+              {fameData !== undefined &&
+                Object.keys(fameData).map((publisher, index) => (
+                  <div key={index}>{fameData[publisher]}%</div>
+                ))}
+            </FlexCol>
+            <FlexColLeft style={{marginLeft: '1rem'}}>
+              {fameData !== undefined &&
+                Object.keys(fameData).map((publisher, index) => (
+                  <div key={index}>{publisher}</div>
+                ))}
+            </FlexColLeft>
+          </FlexRow>
+        </FlexColLeft>
+        <div className="hall-illustration">
+          <Shame />
         </div>
-
-        <div className="hall-of-shame">
+        <FlexColLeft id="shame">
           <h2>Hall of Shame</h2>
-          <ul>
-            {shameData !== undefined &&
-              Object.keys(shameData).map((publisher, index) => (
-                <li key={index}>
-                  <mark className="red">
-                    {shameData[publisher]}%&nbsp;&nbsp;&nbsp;
-                  </mark>
-                  {publisher}
-                </li>
-              ))}
-          </ul>
-        </div>
-      </div>
+          <FlexRow>
+            <FlexCol id="rating-red">
+              {shameData !== undefined &&
+                Object.keys(shameData).map((publisher, index) => (
+                  <div key={index}>{shameData[publisher]}%</div>
+                ))}
+            </FlexCol>
+            <FlexColLeft style={{marginLeft: '1rem'}}>
+              {shameData !== undefined &&
+                Object.keys(shameData).map((publisher, index) => (
+                  <div key={index}>{publisher}</div>
+                ))}
+            </FlexColLeft>
+          </FlexRow>
+        </FlexColLeft>
+        <Link to="/">
+          <button type="button" className="hof-back-button">
+            Back
+          </button>
+        </Link>
+      </FlexCol>
     )
   }
 }
