@@ -96,18 +96,18 @@ class Scraper extends Component {
     this.setChartData()
 
     try {
-      const {data} = await axios.get('/api/processing/scrape', {
+      const {data} = await axios.get('/api/python/scrape', {
         params: {url: this.state.url}
       })
-
       this.setState(
         {
-          html: data.content,
+          html: data.text,
           title: data.title
         },
         () => this.preProcess()
       )
     } catch (error) {
+      console.log('~~~SCRAPE~~~')
       console.log(error)
     }
   }
@@ -120,53 +120,63 @@ class Scraper extends Component {
       .slice(0, 1000)
       .join(' ')
 
-    const {data} = await axios.get('/api/processing/preprocess', {
-      params: {text: shortenedText}
-    })
+    try {
+      const {data} = await axios.get('/api/python/preprocess', {
+        params: {text: shortenedText}
+      })
 
-    this.setState(
-      {
-        processed: data.text,
-        keywords: data.keywords
-      },
-      () => this.getPrediction()
-    )
+      this.setState(
+        {
+          processed: data.text,
+          keywords: data.keywords
+        },
+        () => this.getPrediction()
+      )
+    } catch (error) {
+      console.log('~~~PREPROCESS ERROR~~~')
+      console.log(error)
+    }
   }
 
   // Call Google NLP Api
   async getPrediction() {
-    const response = await axios.get('/api/processing/predict', {
-      params: {text: this.state.processed}
-    })
+    try {
+      const response = await axios.get('/api/processing/predict', {
+        params: {text: this.state.processed}
+      })
 
-    // Organize API response and set to state
-    let scores = {}
-    response.data.forEach(datum => {
-      scores[datum.displayName] = datum.classification.score * 100
-    })
-    let {fake, political, reliable, satire, unknown} = scores
-    this.setChartData([fake, political, reliable, satire, unknown])
+      // Organize API response and set to state
+      let scores = {}
+      response.data.forEach(datum => {
+        scores[datum.displayName] = datum.classification.score * 100
+      })
+      let {fake, political, reliable, satire, unknown} = scores
+      this.setChartData([fake, political, reliable, satire, unknown])
 
-    // Refactor API response and save to state
-    let obj = {}
-    response.data.forEach(score => {
-      obj[score.displayName] = score.classification.score
-    })
-    let max = response.data.reduce((prev, current) => {
-      return prev.classification.score > current.classification.score
-        ? prev
-        : current
-    })
-    this.setState(
-      {
-        label: [
-          Math.round(max.classification.score * 1000) / 10,
-          max.displayName
-        ],
-        scores: obj
-      },
-      () => this.fetchArticles()
-    )
+      // Refactor API response and save to state
+      let obj = {}
+      response.data.forEach(score => {
+        obj[score.displayName] = score.classification.score
+      })
+      let max = response.data.reduce((prev, current) => {
+        return prev.classification.score > current.classification.score
+          ? prev
+          : current
+      })
+      this.setState(
+        {
+          label: [
+            Math.round(max.classification.score * 1000) / 10,
+            max.displayName
+          ],
+          scores: obj
+        },
+        () => this.fetchArticles()
+      )
+    } catch (error) {
+      console.log('~~~PREDICTION ERROR~~~')
+      console.log(error)
+    }
 
     // Save article to DB
     this.props.createArticle({
@@ -183,10 +193,15 @@ class Scraper extends Component {
   }
 
   async fetchArticles() {
-    let {data} = await axios.get('/api/processing/related-articles', {
-      params: {keywords: this.state.keywords.slice(0, 3)}
-    })
-    this.setState({relatedArticles: data, loaded: 'yes'})
+    try {
+      let {data} = await axios.get('/api/processing/related-articles', {
+        params: {keywords: this.state.keywords.slice(0, 3)}
+      })
+      this.setState({relatedArticles: data, loaded: 'yes'})
+    } catch (error) {
+      console.log('~~~FETCH ARTICLES ERROR~~~')
+      console.log(error)
+    }
   }
 
   setChartData(datum = [0, 0, 0, 0, 0]) {
@@ -237,7 +252,7 @@ class Scraper extends Component {
                 url={this.state.url}
                 setUrl={this.setUrl}
                 clearUrl={this.clearUrl}
-                handleClick={this.handleClick}
+                handleClick={this.sendUrl}
               />
             </Fade>
             <Fade show={this.state.loaded === 'loading'}>

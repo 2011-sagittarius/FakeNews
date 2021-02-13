@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Ua7U7QOgMR1goTyJ-tGEGQ'})
+
 const axios = require('axios')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
@@ -62,95 +62,69 @@ router.get('/predict', async (req, res, next) => {
   }
 })
 
-// Python script to preprocess aka remove filler words/characters from text body
-router.get('/preprocess', async (req, res, next) => {
-  try {
-    let dataToSend
-    // spawn new child process to call the python script
-    const python = await spawn('python3', [
-      './python/KeywordExtraction.py',
-      req.query.text
-    ])
-
-    // collect data from script
-    python.stdout.on('data', function(data) {
-      // console.log('Pipe data from python script ...')
-      dataToSend = data.toString()
-    })
-    // in close event we are sure that stream from child process is closed
-    python.on('close', code => {
-      // console.log(`child process close all stdio with code ${code}`)
-      // send data to browser
-      res.send(dataToSend)
-    })
-  } catch (err) {
-    next(err)
-  }
-})
-
-// web scraping - Cheerio
-router.get('/scrape', (req, res) => {
-  let url = req.query.url
-  api.get(url).then(response => {
-    if (response.statusCode === 200) {
-      let data = {
-        content: response.json.body.content,
-        title: response.json.body.title
-      }
-      res.send(data)
-    }
-  })
-})
-
-// // News API
-// // Python script to preprocess aka remove filler words/characters from text body
-// router.get('/related-articles', async (req, res, next) => {
-//   const keywords = req.query.keywords.join(' ')
-//   let url =
-//     'http://newsapi.org/v2/everything?' +
-//     `q=${keywords}&` +
-//     `from=${lastMonth()}&` +
-//     'sortBy=relevance&' +
-//     'pageSize=100&' +
-//     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
-
-//   try {
-//     const response = await axios.get(url)
-//     let {articles} = response.data
-
-//     let ans = []
-//     let domains = []
-//     articles.forEach(article => {
-//       if (!domains.includes(article.source.name)) {
-//         ans.push(article)
-//         domains.push(article.source.name)
+// // web scraping - proxyUrl
+// router.get('/scrape', (req, res) => {
+//   let url = req.query.url
+//   api.get(url).then((response) => {
+//     if (response.statusCode === 200) {
+//       let data = {
+//         content: response.json.body.content,
+//         title: response.json.body.title,
 //       }
-//     })
-//     res.json(ans)
-//   } catch (error) {
-//     console.log('NEWS API FAILED')
-//     next(error)
-//   }
+//       res.send(data)
+//     }
+//   })
 // })
 
-//Get similar articles from DB
-router.get('/similar-articles', async (req, res, next) => {
+// News API
+// Python script to preprocess aka remove filler words/characters from text body
+router.get('/related-articles', async (req, res, next) => {
+  const keywords = req.query.keywords.join(' ')
+  let url =
+    'http://newsapi.org/v2/everything?' +
+    `q=${keywords}&` +
+    `from=${lastMonth()}&` +
+    'sortBy=relevance&' +
+    'pageSize=100&' +
+    'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
+
   try {
-    let className = req.query.label[1]
-    // console.log("HERE LABEL", req.query)
-    const similarArticles = await Article.findAll({
-      where: {
-        [className]: {
-          [Op.between]: [70, 100]
-        }
-      },
-      order: [['createdAt', 'ASC']]
+    const response = await axios.get(url)
+    let {articles} = response.data
+
+    let ans = []
+    let domains = []
+    articles.forEach(article => {
+      if (!domains.includes(article.source.name)) {
+        ans.push(article)
+        domains.push(article.source.name)
+      }
     })
-    res.json(similarArticles)
+    res.json(ans)
   } catch (error) {
+    console.log('NEWS API FAILED')
     next(error)
   }
 })
+
+// //Get similar articles from DB
+// router.get('/similar-articles', async (req, res, next) => {
+//   try {
+//     let className = req.query.label[1]
+//     // console.log("HERE LABEL", req.query)
+//     const similarArticles = await Article.findAll({
+//       where: {
+//         [className]: {
+//           [Op.between]: [70, 100],
+//         },
+//       },
+//       order: [['createdAt', 'ASC']],
+//     })
+//     res.json(similarArticles)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 // Web Search (contextual) API
 // Python script to preprocess aka remove filler words/characters from text body
