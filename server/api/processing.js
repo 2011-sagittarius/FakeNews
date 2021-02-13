@@ -102,36 +102,36 @@ router.get('/scrape', (req, res) => {
   })
 })
 
-// // News API
-// // Python script to preprocess aka remove filler words/characters from text body
-// router.get('/related-articles', async (req, res, next) => {
-//   const keywords = req.query.keywords.join(' ')
-//   let url =
-//     'http://newsapi.org/v2/everything?' +
-//     `q=${keywords}&` +
-//     `from=${lastMonth()}&` +
-//     'sortBy=relevance&' +
-//     'pageSize=100&' +
-//     'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
+// News API
+// Python script to preprocess aka remove filler words/characters from text body
+router.get('/related-articles', async (req, res, next) => {
+  const keywords = req.query.keywords.join(' ')
+  let url =
+    'http://newsapi.org/v2/everything?' +
+    `q=${keywords}&` +
+    `from=${lastMonth()}&` +
+    'sortBy=relevance&' +
+    'pageSize=100&' +
+    'apiKey=c34cbe9c82224dd9b6aebcc8266348d2'
 
-//   try {
-//     const response = await axios.get(url)
-//     let {articles} = response.data
+  try {
+    const response = await axios.get(url)
+    let {articles} = response.data
 
-//     let ans = []
-//     let domains = []
-//     articles.forEach(article => {
-//       if (!domains.includes(article.source.name)) {
-//         ans.push(article)
-//         domains.push(article.source.name)
-//       }
-//     })
-//     res.json(ans)
-//   } catch (error) {
-//     console.log('NEWS API FAILED')
-//     next(error)
-//   }
-// })
+    let ans = []
+    let domains = []
+    articles.forEach(article => {
+      if (!domains.includes(article.source.name)) {
+        ans.push(article)
+        domains.push(article.source.name)
+      }
+    })
+    res.json(ans)
+  } catch (error) {
+    console.log('NEWS API FAILED')
+    next(error)
+  }
+})
 
 //Get similar articles from DB
 router.get('/similar-articles', async (req, res, next) => {
@@ -152,6 +152,46 @@ router.get('/similar-articles', async (req, res, next) => {
   }
 })
 
+//Get reliable publisher data from DB
+router.get('/hall-of-articles', async (req, res, next) => {
+  try {
+    const reliableArticles = await Article.findAll({
+      attributes: ['publisher', 'reliable']
+    })
+
+    const groupedPublishers = reliableArticles.reduce((r, a) => {
+      r[a.publisher] = r[a.publisher] || []
+      r[a.publisher].push(a)
+      return r
+    }, Object.create(null))
+
+    res.json(groupedPublishers)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// // Web Search (contextual) API
+// // Python script to preprocess aka remove filler words/characters from text body
+// router.get('/related-articles', async (req, res, next) => {
+//   const keywords = req.query.keywords.join(' ')
+//   const options = {
+//     method: 'GET',
+//     url:
+//       'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+//     params: {
+//       q: keywords,
+//       pageNumber: '1',
+//       pageSize: '50',
+//       autoCorrect: 'true',
+//       fromPublishedDate: 'null',
+//       toPublishedDate: 'null',
+//     },
+//     headers: {
+//       'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com',
+//     },
+//   }
 // Web Search (contextual) API
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
