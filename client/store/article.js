@@ -30,47 +30,29 @@ export const fetchReliableArticles = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/processing/hall-of-articles')
-
       let arr = []
 
-      for (const key in data) {
-        if (key) {
-          let sum = data[key].reduce(function(prev, curr) {
-            return {
-              reliable: prev.reliable + curr.reliable
-            }
+      for (const publisher in data) {
+        if (publisher) {
+          let avg = {fake: 0, reliable: 0, unknown: 0, satire: 0, political: 0}
+
+          data[publisher].forEach(article => {
+            Object.keys(article).forEach(label => {
+              if (label !== 'publisher') avg[label] += article[label]
+            })
           })
-          let average = sum.reliable / data[key].length
-          arr.push(average)
+          Object.keys(avg).forEach(label => {
+            avg[label] = avg[label] / data[publisher].length
+          })
+
+          arr.push({publisher: publisher, scores: avg})
         }
       }
+      const articles = arr.sort(
+        (a, b) => (a.scores.reliable < b.scores.reliable ? 1 : -1)
+      )
 
-      const keys = Object.keys(data)
-
-      const arrPercent = arr.map(item => Number(item.toFixed(2)))
-
-      const obj = {}
-      keys.forEach(function(eachItem, i) {
-        obj[eachItem] = arrPercent[i]
-      })
-
-      const fameArray = Object.entries(obj)
-      const fameFilter = fameArray.filter(([item, value]) => value >= 70)
-      const hallOfFameObj = fameFilter.reduce(function(res, curr) {
-        let [key, value] = curr
-        res[key] = value
-        return res
-      }, {})
-
-      const shameArray = Object.entries(obj)
-      const shameFilter = shameArray.filter(([item, value]) => value < 70)
-      const hallOfShameObj = shameFilter.reduce(function(res, curr) {
-        let [key, value] = curr
-        res[key] = value
-        return res
-      }, {})
-
-      dispatch(hallArticles({hallOfFameObj, hallOfShameObj}))
+      dispatch(hallArticles(articles))
     } catch (error) {
       console.log(error)
     }
