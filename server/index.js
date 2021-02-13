@@ -31,7 +31,7 @@ const createApp = () => {
   // if (app.get('env') === 'production') {
   //   app.use(enforce.HTTPS({trustProtoHeader: true}))
   // }
-  //app.use(enforce.HTTPS({trustProtoHeader: true}))
+  app.use(enforce.HTTPS({trustProtoHeader: true}))
 
   // logging middleware
   app.use(morgan('dev'))
