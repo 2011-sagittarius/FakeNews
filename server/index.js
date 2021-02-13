@@ -5,6 +5,10 @@ const compression = require('compression')
 const db = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
+const forceSSL = require('express-force-ssl')
+const fs = require('fs')
+const http = require('http')
+const https = require('https')
 
 module.exports = app
 
@@ -23,6 +27,12 @@ module.exports = app
  * Node process on process.env
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
+
+const secureServer = https.createServer(ssl_options, app)
+
+app.use(express.bodyParser())
+app.use(forceSSL)
+app.use(app.router)
 
 const createApp = () => {
   // logging middleware
