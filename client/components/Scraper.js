@@ -272,8 +272,6 @@ class Scraper extends Component {
                 articles={this.state.relatedArticles}
               />
               <SimilarArticles label={this.state.label} url={this.state.url} />
-
-              {/* <HallOfArticles hallOfFame={this.state.hallOfFame} hallOfShame={this.state.hallOfShame}/> */}
             </FlexCol>
             <FlexCol>
               <button

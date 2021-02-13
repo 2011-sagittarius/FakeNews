@@ -30,7 +30,6 @@ export const fetchReliableArticles = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/processing/hall-of-articles')
-      // console.log(data)
 
       let arr = []
 
@@ -43,21 +42,17 @@ export const fetchReliableArticles = () => {
           })
           let average = sum.reliable / data[key].length
           arr.push(average)
-          // console.log("AVERAGE", arr)
         }
       }
 
       const keys = Object.keys(data)
-      // console.log("KEYS HERE ->", keys)
 
       const arrPercent = arr.map(item => Number(item.toFixed(2)))
-      // console.log(arrPercent)
 
       const obj = {}
       keys.forEach(function(eachItem, i) {
         obj[eachItem] = arrPercent[i]
       })
-      // console.log(obj)
 
       const fameArray = Object.entries(obj)
       const fameFilter = fameArray.filter(([item, value]) => value >= 70)
@@ -66,7 +61,6 @@ export const fetchReliableArticles = () => {
         res[key] = value
         return res
       }, {})
-      // console.log(hallOfFameObj)
 
       const shameArray = Object.entries(obj)
       const shameFilter = shameArray.filter(([item, value]) => value < 70)
@@ -75,7 +69,6 @@ export const fetchReliableArticles = () => {
         res[key] = value
         return res
       }, {})
-      // console.log(hallOfShameObj)
 
       dispatch(hallArticles({hallOfFameObj, hallOfShameObj}))
     } catch (error) {

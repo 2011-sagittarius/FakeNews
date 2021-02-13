@@ -1,0 +1,28 @@
+.hall-of-fame {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  margin: -25px 0 0 -25px;
+}
+
+.hall-of-shame {
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  margin: -25px 0 0 -25px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+mark.blue {
+  color: blue;
+  background: none;
+}
+
+mark.red {
+  color: red;
+  background: none;
+  white-space: pre;
+}

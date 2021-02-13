@@ -6,7 +6,9 @@ const Navbar = () => (
     <h1 onClick={() => window.location.reload(false)} className="link">
       Infaux Wars
     </h1>
-    <Link to="/hall">Hall</Link>
+    <Link href="style.css" to="/hall">
+      More Info
+    </Link>
   </nav>
 )
 
