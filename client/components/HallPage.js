@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {fetchReliableArticles} from '../store/article'
-import {FlexCol, FlexColLeft, FlexRow} from '../components'
+import {Fade, FlexCol, FlexColLeft, FlexRow} from '../components'
 import {Fame, Shame} from '../SVG'
 
 import './HallPage.css'
@@ -62,6 +63,11 @@ export class HallPage extends React.Component {
             </FlexColLeft>
           </FlexRow>
         </FlexColLeft>
+        <Link to="/">
+          <button type="button" className="hof-back-button">
+            Back
+          </button>
+        </Link>
       </FlexCol>
     )
   }

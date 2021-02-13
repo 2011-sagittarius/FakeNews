@@ -7,13 +7,13 @@
 }
 
 #hall-of-fame h2 {
-  font-family: 'vollkorn', serif;
+  font-family: 'Vollkorn', serif;
   font-size: 1.75rem;
 }
 
 #fame,
 #shame {
-  margin: 2rem 0rem 6rem 0rem;
+  margin: 2rem 0rem;
 }
 
 ul {
@@ -41,4 +41,9 @@ ul {
   max-height: 70ch;
   width: 60vh;
   max-width: 70ch;
+}
+
+.hof-back-button {
+  margin: 3rem 0rem 5rem 0rem;
+  max-width: 400px;
 }
