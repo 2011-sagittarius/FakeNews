@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const compression = require('compression')
 const db = require('./db')
 const PORT = process.env.PORT || 8080
-const sslRedirect = require('heroku-ssl-redirect')
+const enforce = require('express-sslify')
 const app = express()
 
 module.exports = app
@@ -29,8 +29,7 @@ if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 const createApp = () => {
   // enable SSL redirect
-  //app.use(sslRedirect)
-  //app.use(sslRedirect(['production'], 301))
+  app.use(enforce.HTTPS({trustProtoHeader: true}))
 
   // logging middleware
   app.use(morgan('dev'))
@@ -61,16 +60,16 @@ const createApp = () => {
 
   // sends index.html
   app.use('*', (req, res, next) => {
-    //res.sendFile(path.join(__dirname, '..', 'public/index.html'))
-    if (
-      'https' !== req.headers['x-forwarded-proto'] &&
-      'production' === process.env.NODE_ENV
-    ) {
-      res.redirect('https://' + req.hostname + req.url)
-    } else {
-      // Continue to other routes if we're not redirecting
-      next()
-    }
+    res.sendFile(path.join(__dirname, '..', 'public/index.html'))
+    // if (
+    //   'https' !== req.headers['x-forwarded-proto'] &&
+    //   'production' === process.env.NODE_ENV
+    // ) {
+    //   res.redirect('https://' + req.hostname + req.url)
+    // } else {
+    //   // Continue to other routes if we're not redirecting
+    //   next()
+    // }
   })
 
   // error handling endware
