@@ -57,14 +57,6 @@ class Scraper extends Component {
     )
   }
 
-  findAverage(arr) {
-    let total = 0
-    for (let i = 0; i < arr.length; i++) {
-      total += arr[i].reliable
-    }
-    return total / arr.length
-  }
-
   setUrl(event) {
     this.setState({
       url: event.target.value
@@ -261,7 +253,7 @@ class Scraper extends Component {
                 url={this.state.url}
                 setUrl={this.setUrl}
                 clearUrl={this.clearUrl}
-                handleClick={this.sendUrl}
+                handleClick={this.scrapePublisher}
               />
             </Fade>
             <Fade show={this.state.loaded === 'loading'}>

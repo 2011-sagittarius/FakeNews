@@ -1,17 +1,26 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {fetchReliableArticles} from '../store/article'
+import {
+  fetchReliableArticles,
+  fetchFrequentArticles,
+  fetchRecentArticles
+} from '../store/article'
 import './HallPage.css'
 
 export class HallPage extends React.Component {
   componentDidMount() {
     this.props.loadReliableArticles()
+    this.props.loadFrequentArticles()
+    this.props.loadRecentArticles()
   }
 
   render() {
     const {hallData} = this.props
-    const fameData = hallData.hallOfFameObj
-    const shameData = hallData.hallOfShameObj
+    const fameData = hallData.hallArticles.hallOfFameObj
+    const shameData = hallData.hallArticles.hallOfShameObj
+    const freqData = hallData.freqArticles.slice(0, 3)
+    const recData = hallData.recArticles.slice(0, 3)
+    console.log(hallData)
 
     return (
       <div>
@@ -44,6 +53,20 @@ export class HallPage extends React.Component {
               ))}
           </ul>
         </div>
+
+        <div className="frequent-articles">
+          <h2>Other users frequently check</h2>
+          <ul>
+            {freqData.map(publisher => <li key={publisher}>{publisher}</li>)}
+          </ul>
+        </div>
+
+        <div className="recent-articles">
+          <h2>Other users recently checked</h2>
+          <ul>
+            {recData.map(publisher => <li key={publisher}>{publisher}</li>)}
+          </ul>
+        </div>
       </div>
     )
   }
@@ -57,7 +80,15 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadReliableArticles: () => dispatch(fetchReliableArticles())
+    loadReliableArticles: () => {
+      dispatch(fetchReliableArticles())
+    },
+    loadFrequentArticles: () => {
+      dispatch(fetchFrequentArticles())
+    },
+    loadRecentArticles: () => {
+      dispatch(fetchRecentArticles())
+    }
   }
 }
 
