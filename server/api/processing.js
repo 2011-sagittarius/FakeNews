@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const {spawn} = require('child_process')
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Ua7U7QOgMR1goTyJ-tGEGQ'})
+
 const axios = require('axios')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
@@ -62,48 +62,7 @@ router.get('/predict', async (req, res, next) => {
   }
 })
 
-// Python script to preprocess aka remove filler words/characters from text body
-router.get('/preprocess', async (req, res, next) => {
-  try {
-    let dataToSend
-    // spawn new child process to call the python script
-    const python = await spawn('python3', [
-      './python/KeywordExtraction.py',
-      req.query.text
-    ])
-
-    // collect data from script
-    python.stdout.on('data', function(data) {
-      // console.log('Pipe data from python script ...')
-      dataToSend = data.toString()
-    })
-    // in close event we are sure that stream from child process is closed
-    python.on('close', code => {
-      // console.log(`child process close all stdio with code ${code}`)
-      // send data to browser
-      res.send(dataToSend)
-    })
-  } catch (err) {
-    next(err)
-  }
-})
-
-// web scraping - Cheerio
-router.get('/scrape', (req, res) => {
-  let url = req.query.url
-  api.get(url).then(response => {
-    if (response.statusCode === 200) {
-      let data = {
-        content: response.json.body.content,
-        title: response.json.body.title
-      }
-      res.send(data)
-    }
-  })
-})
-
 // News API
-// Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
   const keywords = req.query.keywords.join(' ')
   let url =
@@ -192,37 +151,6 @@ router.get('/hall-of-articles', async (req, res, next) => {
 //       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com',
 //     },
 //   }
-// Web Search (contextual) API
-// Python script to preprocess aka remove filler words/characters from text body
-router.get('/related-articles', async (req, res, next) => {
-  const keywords = req.query.keywords.join(' ')
-  const options = {
-    method: 'GET',
-    url:
-      'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      q: keywords,
-      pageNumber: '1',
-      pageSize: '50',
-      autoCorrect: 'true',
-      fromPublishedDate: 'null',
-      toPublishedDate: 'null'
-    },
-    headers: {
-      'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }
-
-  try {
-    const response = await axios(options)
-    const articles = response.data.value
-
-    res.json(articles.slice(0, 10))
-  } catch (err) {
-    next(err)
-  }
-})
 
 // Posting new articles to database
 router.post('/scrape', async (req, res, next) => {

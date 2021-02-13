@@ -10,7 +10,7 @@ const RelatedArticles = ({url, articles}) => {
         {articles.slice(0, 5).map(article => {
           if (article.url !== url)
             return (
-              <div key={article.title} className="related-article">
+              <div key={article.url} className="related-article">
                 <p>{article.title}</p>
                 <a href={article.url} target="_blank" rel="noopener noreferrer">
                   {article.url}
