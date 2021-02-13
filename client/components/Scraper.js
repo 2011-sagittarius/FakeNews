@@ -220,10 +220,6 @@ class Scraper extends Component {
             ]
           }
         ]
-        // options: {
-        //   responsive: true,
-        //   maintainAspectRatio: true,
-        // },
       }
     })
   }
@@ -231,7 +227,6 @@ class Scraper extends Component {
   async handleClick() {
     if (this.checkUrl()) {
       await this.scrapePublisher()
-      // await this.fetchReliableArticles()
     } else console.log('INVALID URL')
   }
 
