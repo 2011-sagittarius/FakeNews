@@ -62,22 +62,7 @@ router.get('/predict', async (req, res, next) => {
   }
 })
 
-// // web scraping - proxyUrl
-// router.get('/scrape', (req, res) => {
-//   let url = req.query.url
-//   api.get(url).then((response) => {
-//     if (response.statusCode === 200) {
-//       let data = {
-//         content: response.json.body.content,
-//         title: response.json.body.title,
-//       }
-//       res.send(data)
-//     }
-//   })
-// })
-
 // News API
-// Python script to preprocess aka remove filler words/characters from text body
 router.get('/related-articles', async (req, res, next) => {
   const keywords = req.query.keywords.join(' ')
   let url =
@@ -107,56 +92,65 @@ router.get('/related-articles', async (req, res, next) => {
   }
 })
 
-// //Get similar articles from DB
-// router.get('/similar-articles', async (req, res, next) => {
-//   try {
-//     let className = req.query.label[1]
-//     // console.log("HERE LABEL", req.query)
-//     const similarArticles = await Article.findAll({
-//       where: {
-//         [className]: {
-//           [Op.between]: [70, 100],
-//         },
-//       },
-//       order: [['createdAt', 'ASC']],
-//     })
-//     res.json(similarArticles)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
-// Web Search (contextual) API
-// Python script to preprocess aka remove filler words/characters from text body
-router.get('/related-articles', async (req, res, next) => {
-  const keywords = req.query.keywords.join(' ')
-  const options = {
-    method: 'GET',
-    url:
-      'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
-    params: {
-      q: keywords,
-      pageNumber: '1',
-      pageSize: '50',
-      autoCorrect: 'true',
-      fromPublishedDate: 'null',
-      toPublishedDate: 'null'
-    },
-    headers: {
-      'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
-      'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-    }
-  }
-
+//Get similar articles from DB
+router.get('/similar-articles', async (req, res, next) => {
   try {
-    const response = await axios(options)
-    const articles = response.data.value
-
-    res.json(articles.slice(0, 10))
-  } catch (err) {
-    next(err)
+    let className = req.query.label[1]
+    // console.log("HERE LABEL", req.query)
+    const similarArticles = await Article.findAll({
+      where: {
+        [className]: {
+          [Op.between]: [70, 100]
+        }
+      },
+      order: [['createdAt', 'ASC']]
+    })
+    res.json(similarArticles)
+  } catch (error) {
+    next(error)
   }
 })
+
+//Get reliable publisher data from DB
+router.get('/hall-of-articles', async (req, res, next) => {
+  try {
+    const reliableArticles = await Article.findAll({
+      attributes: ['publisher', 'reliable']
+    })
+
+    const groupedPublishers = reliableArticles.reduce((r, a) => {
+      r[a.publisher] = r[a.publisher] || []
+      r[a.publisher].push(a)
+      return r
+    }, Object.create(null))
+
+    res.json(groupedPublishers)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// // Web Search (contextual) API
+// // Python script to preprocess aka remove filler words/characters from text body
+// router.get('/related-articles', async (req, res, next) => {
+//   const keywords = req.query.keywords.join(' ')
+//   const options = {
+//     method: 'GET',
+//     url:
+//       'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI',
+//     params: {
+//       q: keywords,
+//       pageNumber: '1',
+//       pageSize: '50',
+//       autoCorrect: 'true',
+//       fromPublishedDate: 'null',
+//       toPublishedDate: 'null',
+//     },
+//     headers: {
+//       'x-rapidapi-key': '9d408c82f7msh3dc0cdcca9d8571p1a2f26jsn95d0bdac7160',
+//       'x-rapidapi-host': 'contextualwebsearch-websearch-v1.p.rapidapi.com',
+//     },
+//   }
 
 // Posting new articles to database
 router.post('/scrape', async (req, res, next) => {
