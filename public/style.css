@@ -22,7 +22,7 @@ label {
 
 nav a {
   display: inline-block;
-  margin: 1em;
+  /* margin: 1em; */
 }
 
 form div {
@@ -54,7 +54,7 @@ h4 {
 }
 
 nav {
-  top: 10%;
+  top: 8%;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0%);

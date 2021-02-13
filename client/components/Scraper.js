@@ -261,7 +261,7 @@ class Scraper extends Component {
                 url={this.state.url}
                 setUrl={this.setUrl}
                 clearUrl={this.clearUrl}
-                handleClick={this.sendUrl}
+                handleClick={this.scrapePublisher}
               />
             </Fade>
             <Fade show={this.state.loaded === 'loading'}>
