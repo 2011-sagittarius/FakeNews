@@ -5,6 +5,7 @@ const compression = require('compression')
 const db = require('./db')
 const PORT = process.env.PORT || 8080
 const enforce = require('express-sslify')
+const http = require('http')
 const app = express()
 
 module.exports = app
@@ -25,11 +26,12 @@ module.exports = app
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
-//app.use(sslRedirect())
-
 const createApp = () => {
-  // enable SSL redirect
-  app.use(enforce.HTTPS({trustProtoHeader: true}))
+  // enable SSL redirect: comment out this line to run local host and make sure it is http:/ not https:/
+  // if (app.get('env') === 'production') {
+  //   app.use(enforce.HTTPS({trustProtoHeader: true}))
+  // }
+  //app.use(enforce.HTTPS({trustProtoHeader: true}))
 
   // logging middleware
   app.use(morgan('dev'))
@@ -82,9 +84,9 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`)
-  )
+  const server = http
+    .createServer(app)
+    .listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 
   // clean exit the server and node process when one of these events occur
   const arr = [
