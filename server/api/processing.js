@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const {ScraperAPI} = require('proxycrawl')
 const api = new ScraperAPI({token: 'Ua7U7QOgMR1goTyJ-tGEGQ'})
-
 const axios = require('axios')
 const {Article} = require('../db/models')
 const metascraper = require('metascraper')([require('metascraper-publisher')()])
@@ -133,6 +132,39 @@ router.get('/hall-of-articles', async (req, res, next) => {
     }, Object.create(null))
 
     res.json(groupedPublishers)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//Get most scraped publishers
+router.get('/frequent-articles', async (req, res, next) => {
+  try {
+    const publisherArticles = await Article.findAll({
+      attributes: ['publisher']
+    })
+
+    const groupedPublishers = publisherArticles.reduce((r, a) => {
+      r[a.publisher] = r[a.publisher] || []
+      r[a.publisher].push(a)
+      return r
+    }, Object.create(null))
+
+    res.json(groupedPublishers)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//Get recently scraped publishers
+router.get('/recent-articles', async (req, res, next) => {
+  try {
+    const recentArticles = await Article.findAll({
+      attributes: ['publisher'],
+      order: [['createdAt', 'DESC']]
+    })
+
+    res.json(recentArticles)
   } catch (error) {
     next(error)
   }

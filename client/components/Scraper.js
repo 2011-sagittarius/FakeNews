@@ -57,14 +57,6 @@ class Scraper extends Component {
     )
   }
 
-  findAverage(arr) {
-    let total = 0
-    for (let i = 0; i < arr.length; i++) {
-      total += arr[i].reliable
-    }
-    return total / arr.length
-  }
-
   setUrl(event) {
     this.setState({
       url: event.target.value
