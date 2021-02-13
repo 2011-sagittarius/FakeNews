@@ -14,14 +14,17 @@ export class HallPage extends React.Component {
 
   render() {
     const {hallData} = this.props
-    const fameData = hallData.hallOfFameObj
-    const shameData = hallData.hallOfShameObj
+    const fameData = hallData.filter(
+      publisher => publisher.scores.reliable > 70
+    )
+    const shameData = hallData
+      .filter(publisher => publisher.scores.reliable < 30)
+      .reverse()
 
     return (
       <FlexCol id="hall-of-fame">
         <div className="hall-description">
-          We combed through previous articles and ranked publishers by
-          reliability.
+          Truth tellers shall be exalted. Liars will be shamed.
         </div>
         <div className="hall-illustration">
           <Fame />
@@ -29,16 +32,18 @@ export class HallPage extends React.Component {
         <FlexColLeft id="fame">
           <h2>Hall of Fame</h2>
           <FlexRow>
-            <FlexCol id="rating-blue">
+            <FlexCol id="rating-green">
               {fameData !== undefined &&
-                Object.keys(fameData).map((publisher, index) => (
-                  <div key={index}>{fameData[publisher]}%</div>
+                fameData.map(el => (
+                  <div key={el.scores.reliable}>
+                    {el.scores.reliable.toFixed(1)}%
+                  </div>
                 ))}
             </FlexCol>
-            <FlexColLeft style={{marginLeft: '1rem'}}>
+            <FlexColLeft style={{marginLeft: '.75rem'}}>
               {fameData !== undefined &&
-                Object.keys(fameData).map((publisher, index) => (
-                  <div key={index}>{publisher}</div>
+                fameData.map(el => (
+                  <div key={el.scores.reliable}>{el.publisher}</div>
                 ))}
             </FlexColLeft>
           </FlexRow>
@@ -51,14 +56,16 @@ export class HallPage extends React.Component {
           <FlexRow>
             <FlexCol id="rating-red">
               {shameData !== undefined &&
-                Object.keys(shameData).map((publisher, index) => (
-                  <div key={index}>{shameData[publisher]}%</div>
+                shameData.map(el => (
+                  <div key={el.scores.reliable}>
+                    {el.scores.reliable.toFixed(1)}%
+                  </div>
                 ))}
             </FlexCol>
-            <FlexColLeft style={{marginLeft: '1rem'}}>
+            <FlexColLeft style={{marginLeft: '.75rem'}}>
               {shameData !== undefined &&
-                Object.keys(shameData).map((publisher, index) => (
-                  <div key={index}>{publisher}</div>
+                shameData.map(el => (
+                  <div key={el.scores.reliable}>{el.publisher}</div>
                 ))}
             </FlexColLeft>
           </FlexRow>

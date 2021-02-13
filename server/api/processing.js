@@ -114,12 +114,20 @@ router.get('/similar-articles', async (req, res, next) => {
 //Get reliable publisher data from DB
 router.get('/hall-of-articles', async (req, res, next) => {
   try {
-    const reliableArticles = await Article.findAll({
-      attributes: ['publisher', 'reliable']
+    const articles = await Article.findAll({
+      attributes: [
+        'publisher',
+        'fake',
+        'reliable',
+        'political',
+        'satire',
+        'unknown'
+      ]
     })
 
-    const groupedPublishers = reliableArticles.reduce((r, a) => {
+    const groupedPublishers = articles.reduce((r, a) => {
       r[a.publisher] = r[a.publisher] || []
+
       r[a.publisher].push(a)
       return r
     }, Object.create(null))
