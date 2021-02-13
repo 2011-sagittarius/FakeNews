@@ -32,22 +32,27 @@ export const fetchReliableArticles = () => {
       const {data} = await axios.get('/api/processing/hall-of-articles')
       let arr = []
 
+      // iterate through each publisher
       for (const publisher in data) {
         if (publisher) {
           let avg = {fake: 0, reliable: 0, unknown: 0, satire: 0, political: 0}
 
+          // iterate through each publisher's articles
           data[publisher].forEach(article => {
             Object.keys(article).forEach(label => {
               if (label !== 'publisher') avg[label] += article[label]
             })
           })
+          // calculate each publisher's average score for the 5 labels
           Object.keys(avg).forEach(label => {
             avg[label] = avg[label] / data[publisher].length
           })
 
+          // store publisher and scores in arr
           arr.push({publisher: publisher, scores: avg})
         }
       }
+      // sort arr by reliability
       const articles = arr.sort(
         (a, b) => (a.scores.reliable < b.scores.reliable ? 1 : -1)
       )

@@ -21,8 +21,6 @@ export class HallPage extends React.Component {
       .filter(publisher => publisher.scores.reliable < 30)
       .reverse()
 
-    console.log('fameData > ', fameData)
-    console.log('shameData > ', shameData)
     return (
       <FlexCol id="hall-of-fame">
         <div className="hall-description">
@@ -43,7 +41,7 @@ export class HallPage extends React.Component {
                   </div>
                 ))}
             </FlexCol>
-            <FlexColLeft style={{marginLeft: '1rem'}}>
+            <FlexColLeft style={{marginLeft: '.75rem'}}>
               {fameData !== undefined &&
                 fameData.map(el => (
                   <div key={el.scores.reliable}>{el.publisher}</div>
@@ -65,7 +63,7 @@ export class HallPage extends React.Component {
                   </div>
                 ))}
             </FlexCol>
-            <FlexColLeft style={{marginLeft: '1rem'}}>
+            <FlexColLeft style={{marginLeft: '.75rem'}}>
               {shameData !== undefined &&
                 shameData.map(el => (
                   <div key={el.scores.reliable}>{el.publisher}</div>
