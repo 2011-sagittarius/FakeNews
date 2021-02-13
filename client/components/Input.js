@@ -6,6 +6,12 @@ function Input({url, setUrl, clearUrl, handleClick}) {
     if (url === 'Enter URL') clearUrl()
   }
 
+  const handleKey = evt => {
+    if (evt.key === 'Enter') {
+      handleClick()
+    }
+  }
+
   return (
     <FlexCol className="search">
       <input
@@ -15,6 +21,7 @@ function Input({url, setUrl, clearUrl, handleClick}) {
         aria-describedby="inputGroup-sizing-lg"
         value={url}
         onChange={setUrl}
+        onKeyDown={handleKey}
         onClick={click}
       />
       <button

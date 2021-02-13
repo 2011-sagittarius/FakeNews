@@ -12,3 +12,9 @@ export const FlexCol = styled.div`
   flex-direction: column;
   align-items: center;
 `
+
+export const FlexColLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
