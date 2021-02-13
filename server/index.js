@@ -4,8 +4,8 @@ const morgan = require('morgan')
 const compression = require('compression')
 const db = require('./db')
 const PORT = process.env.PORT || 8080
-const enforce = require('express-sslify')
-const http = require('http')
+// const enforce = require('express-sslify')
+// const http = require('http')
 const app = express()
 
 module.exports = app
@@ -31,7 +31,7 @@ const createApp = () => {
   // if (app.get('env') === 'production') {
   //   app.use(enforce.HTTPS({trustProtoHeader: true}))
   // }
-  app.use(enforce.HTTPS({trustProtoHeader: true}))
+  //app.use(enforce.HTTPS({trustProtoHeader: true}))
 
   // logging middleware
   app.use(morgan('dev'))
@@ -84,9 +84,9 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = http
-    .createServer(app)
-    .listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
+  const server =
+    //http.createServer(app).
+    app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 
   // clean exit the server and node process when one of these events occur
   const arr = [
