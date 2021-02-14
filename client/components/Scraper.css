@@ -72,9 +72,10 @@
   cursor: pointer;
 }
 
-#title a {
+#read-more {
   margin-bottom: 1rem;
-  color: blue;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 #title h3 {
@@ -85,6 +86,11 @@
 /*
 ---ELEMENTS---
 */
+
+#article-text {
+  line-height: 1.5rem;
+  font-weight: 300;
+}
 
 .back-button {
   margin: 3rem 0rem 5rem 0rem;

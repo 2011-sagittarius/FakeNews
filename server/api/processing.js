@@ -195,9 +195,13 @@ router.get('/recent-articles', async (req, res, next) => {
 // Posting new articles to database
 router.post('/scrape', async (req, res, next) => {
   try {
-    const createdArticle = await Article.create(req.body)
-    if (createdArticle) {
-      res.send(createdArticle)
+    const findArticle = await Article.findOne({where: {url: req.body.url}})
+    if (findArticle) res.json('Article already exists in database')
+    else {
+      const createdArticle = await Article.create(req.body)
+      if (createdArticle) {
+        res.json(createdArticle)
+      }
     }
   } catch (err) {
     next(err)
