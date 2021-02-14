@@ -7,7 +7,7 @@ import {
 } from '../store/article'
 import {Link} from 'react-router-dom'
 import {Fade, FlexCol, FlexColLeft, FlexRow} from '../components'
-import {Fame, Shame} from '../SVG'
+import {Fame, Shame, Share} from '../SVG'
 
 import './HallPage.css'
 
@@ -79,6 +79,9 @@ export class HallPage extends React.Component {
           </FlexRow>
         </FlexColLeft>
         <FlexCol id="recent-container">
+          <div className="share-illustration">
+            <Share />
+          </div>
           <FlexColLeft id="frequent">
             <h2>Other users frequently check</h2>
             <FlexRow>

@@ -3,8 +3,6 @@
 */
 
 #analytics {
-  top: 20vh;
-  position: relative;
   width: 85vw;
   align-items: stretch;
   max-width: 900px;
@@ -81,6 +79,7 @@
 
 #title h3 {
   margin: 1rem 0rem;
+  text-align: left;
 }
 
 /*
