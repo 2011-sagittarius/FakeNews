@@ -32,7 +32,8 @@ export class HallPage extends React.Component {
     return (
       <FlexCol id="hall-of-fame">
         <div className="hall-description">
-          Truth tellers shall be exalted. Liars will be shamed.
+          We combed through previous articles and ranked publishers by
+          reliability.
         </div>
         <div className="hall-illustration">
           <Fame />
