@@ -1,7 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {
+  fetchReliableArticles,
+  fetchFrequentArticles,
+  fetchRecentArticles
+} from '../store/article'
 import {Link} from 'react-router-dom'
-import {fetchReliableArticles} from '../store/article'
 import {Fade, FlexCol, FlexColLeft, FlexRow} from '../components'
 import {Fame, Shame} from '../SVG'
 
@@ -10,16 +14,21 @@ import './HallPage.css'
 export class HallPage extends React.Component {
   componentDidMount() {
     this.props.loadReliableArticles()
+    this.props.loadFrequentArticles()
+    this.props.loadRecentArticles()
   }
 
   render() {
     const {hallData} = this.props
-    const fameData = hallData.filter(
+    console.log(hallData)
+    const fameData = hallData.hallArticles.filter(
       publisher => publisher.scores.reliable > 70
     )
-    const shameData = hallData
+    const shameData = hallData.hallArticles
       .filter(publisher => publisher.scores.reliable < 30)
       .reverse()
+    const freqData = hallData.freqArticles.slice(0, 3)
+    const recData = hallData.recArticles.slice(0, 3)
 
     return (
       <FlexCol id="hall-of-fame">
@@ -70,6 +79,22 @@ export class HallPage extends React.Component {
             </FlexColLeft>
           </FlexRow>
         </FlexColLeft>
+        <FlexColLeft id="frequent">
+          <h2>Other users frequently check</h2>
+          <FlexRow>
+            <ul>
+              {freqData.map(publisher => <li key={publisher}>{publisher}</li>)}
+            </ul>
+          </FlexRow>
+        </FlexColLeft>
+        <FlexColLeft id="recent">
+          <h2>Other users recently checked</h2>
+          <FlexRow>
+            <ul>
+              {recData.map(publisher => <li key={publisher}>{publisher}</li>)}
+            </ul>
+          </FlexRow>
+        </FlexColLeft>
         <Link to="/">
           <button type="button" className="hof-back-button">
             Back
@@ -88,7 +113,15 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadReliableArticles: () => dispatch(fetchReliableArticles())
+    loadReliableArticles: () => {
+      dispatch(fetchReliableArticles())
+    },
+    loadFrequentArticles: () => {
+      dispatch(fetchFrequentArticles())
+    },
+    loadRecentArticles: () => {
+      dispatch(fetchRecentArticles())
+    }
   }
 }
 
