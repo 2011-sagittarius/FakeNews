@@ -13,7 +13,6 @@ const SimilarArticles = ({label, url}) => {
       }
     })
     setArticles(data)
-    console.log(data)
   }
 
   useEffect(
@@ -24,8 +23,8 @@ const SimilarArticles = ({label, url}) => {
   )
 
   return (
-    articles.length > 0 && (
-      <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
+    articles.length > 1 && (
+      <FlexCol style={{marginBottom: '2rem', alignItems: 'flex-start'}}>
         <h4>Other {label[1]} articles users found! 👇</h4>
         {articles.map(article => {
           if (article.url !== url)

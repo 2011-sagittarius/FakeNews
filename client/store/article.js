@@ -27,11 +27,13 @@ export const recentArticles = recArticles => ({
 export const createArticle = newArticle => {
   return async dispatch => {
     try {
-      const createdArticle = (await axios.post(
+      const createdArticle = await axios.post(
         '/api/processing/scrape',
         newArticle
-      )).data
-      dispatch(addArticle(createdArticle))
+      )
+      if (!createdArticle === 'Article already exists in the database') {
+        dispatch(addArticle(createdArticle))
+      }
     } catch (error) {
       console.error(error)
     }

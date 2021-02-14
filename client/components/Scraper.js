@@ -269,11 +269,15 @@ class Scraper extends Component {
         <Fade show={this.state.loaded === 'yes'} time={5}>
           <FlexCol id="analytics">
             <FlexCol id="title">
-              <h3>{this.state.title}</h3>
-              <a href="#" onClick={this.toggleHide}>
-                Read {this.state.hide ? '▼' : '▲'}
-              </a>
-              {!this.state.hide && <div>{this.state.html}</div>}
+              <h3>
+                {this.state.publisher}: {this.state.title}
+              </h3>
+              <div id="read-more" onClick={this.toggleHide}>
+                Read More{this.state.hide ? '▼' : '▲'}
+              </div>
+              {!this.state.hide && (
+                <div id="article-text">{this.state.html}</div>
+              )}
             </FlexCol>
             <FlexCol id="graph">
               <Chart chartData={this.state.chartData} />

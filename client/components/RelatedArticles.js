@@ -5,7 +5,7 @@ import './RelatedArticles.css'
 const RelatedArticles = ({url, articles}) => {
   return (
     articles.length > 1 && (
-      <FlexCol style={{padding: '2rem', alignItems: 'flex-start'}}>
+      <FlexCol style={{margin: '2rem 0rem', alignItems: 'flex-start'}}>
         <h4>Want some more info? 📰 </h4>
         {articles.slice(0, 5).map(article => {
           if (article.url !== url)
