@@ -20,7 +20,6 @@ export class HallPage extends React.Component {
 
   render() {
     const {hallData} = this.props
-    console.log(hallData)
     const fameData = hallData.hallArticles.filter(
       publisher => publisher.scores.reliable > 70
     )
@@ -79,22 +78,26 @@ export class HallPage extends React.Component {
             </FlexColLeft>
           </FlexRow>
         </FlexColLeft>
-        <FlexColLeft id="frequent">
-          <h2>Other users frequently check</h2>
-          <FlexRow>
-            <ul>
-              {freqData.map(publisher => <li key={publisher}>{publisher}</li>)}
-            </ul>
-          </FlexRow>
-        </FlexColLeft>
-        <FlexColLeft id="recent">
-          <h2>Other users recently checked</h2>
-          <FlexRow>
-            <ul>
-              {recData.map(publisher => <li key={publisher}>{publisher}</li>)}
-            </ul>
-          </FlexRow>
-        </FlexColLeft>
+        <FlexCol id="recent-container">
+          <FlexColLeft id="frequent">
+            <h2>Other users frequently check</h2>
+            <FlexRow>
+              <ul>
+                {freqData.map(publisher => (
+                  <li key={publisher}>{publisher}</li>
+                ))}
+              </ul>
+            </FlexRow>
+          </FlexColLeft>
+          <FlexColLeft id="recent">
+            <h2>Other users recently checked</h2>
+            <FlexRow>
+              <ul>
+                {recData.map(publisher => <li key={publisher}>{publisher}</li>)}
+              </ul>
+            </FlexRow>
+          </FlexColLeft>
+        </FlexCol>
         <Link to="/">
           <button type="button" className="hof-back-button">
             Back

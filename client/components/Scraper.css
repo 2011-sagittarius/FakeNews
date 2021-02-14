@@ -29,6 +29,7 @@
 
 #graph {
   padding: 2rem;
+  background: #f4f4f4;
 }
 
 /* laptops and desktops */
@@ -39,7 +40,7 @@
 }
 
 .illustration {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -53,15 +54,33 @@
 
 .response {
   text-align: center;
-  margin: 1rem 2rem 3rem 2rem;
-  /* font-size: 1rem; */
+  margin: 2rem 2rem 1rem 2rem;
 }
 
 .search {
   bottom: 10%;
-  position: fixed;
+  position: absolute;
   left: 50%;
   transform: translate(-50%, 0%);
+}
+
+#title {
+  border-radius: 5px;
+  margin: 3rem 0rem;
+  align-items: flex-start;
+}
+
+#title:hover {
+  cursor: pointer;
+}
+
+#title a {
+  margin-bottom: 1rem;
+  color: blue;
+}
+
+#title h3 {
+  margin: 1rem 0rem;
 }
 
 /*
