@@ -32,7 +32,8 @@ class Scraper extends Component {
       scores: [],
       title: '',
       url: 'Enter URL',
-      window: window.innerWidth
+      window: window.innerWidth,
+      hide: true
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -44,11 +45,11 @@ class Scraper extends Component {
     this.scrapePublisher = this.scrapePublisher.bind(this)
     this.clearUrl = this.clearUrl.bind(this)
     this.fetchArticles = this.fetchArticles.bind(this)
+    this.toggleHide = this.toggleHide.bind(this)
   }
 
   componentDidMount() {
     this.setChartData()
-    console.log('width > ', window.innerWidth)
     window.addEventListener(
       'resize',
       _.debounce(() => {
@@ -234,6 +235,10 @@ class Scraper extends Component {
     this.setState({url: ''})
   }
 
+  toggleHide() {
+    this.setState({hide: !this.state.hide})
+  }
+
   render() {
     const search = (
       <>
@@ -241,8 +246,7 @@ class Scraper extends Component {
           <FlexCol>
             <Fade show={this.state.loaded === 'no'}>
               <FlexCol className="illustration">
-                {this.state.window < 1200 && <Landing />}
-                {this.state.window >= 1200 && <Parallax />}
+                {this.state.window < 1200 ? <Landing /> : <Parallax />}
               </FlexCol>
               <Input
                 url={this.state.url}
@@ -263,6 +267,13 @@ class Scraper extends Component {
         )}
         <Fade show={this.state.loaded === 'yes'} time={5}>
           <FlexCol id="analytics">
+            <FlexCol id="title">
+              <h3>{this.state.title}</h3>
+              <a href="#" onClick={this.toggleHide}>
+                Read {this.state.hide ? '▼' : '▲'}
+              </a>
+              {!this.state.hide && <div>{this.state.html}</div>}
+            </FlexCol>
             <FlexCol id="graph">
               <Chart chartData={this.state.chartData} />
               {this.state.label.length && <Response label={this.state.label} />}

@@ -1,7 +1,5 @@
 #hall-of-fame {
   margin-bottom: 2rem;
-  position: relative;
-  top: 20vh;
   font-size: 1.1rem;
   max-width: 80vw;
 }
@@ -43,7 +41,34 @@ ul {
   max-width: 70ch;
 }
 
+.share-illustration {
+  height: 60vh;
+  max-height: 70ch;
+  width: 60vh;
+  max-width: 70ch;
+}
+
 .hof-back-button {
   margin: 3rem 0rem 5rem 0rem;
   max-width: 400px;
+}
+
+#recent,
+#frequent {
+  margin: 2rem 0rem;
+}
+
+#recent h2 {
+  text-align: left;
+}
+
+#frequent h2 {
+  text-align: left;
+}
+
+#recent-container {
+  padding: 2rem;
+  margin: 3rem 0rem;
+  /* background: #eee; */
+  border-radius: 5px;
 }

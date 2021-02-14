@@ -108,7 +108,6 @@ export const fetchRecentArticles = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/processing/recent-articles')
-      console.log(data)
 
       let arr = []
 
@@ -117,10 +116,8 @@ export const fetchRecentArticles = () => {
           arr.push(data[key].publisher)
         }
       }
-      console.log(arr)
 
       const removeDuplicates = [...new Set(arr)]
-      console.log(removeDuplicates)
 
       dispatch(recentArticles(removeDuplicates))
     } catch (error) {
