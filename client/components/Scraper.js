@@ -100,6 +100,7 @@ class Scraper extends Component {
       const {data} = await axios.get('/api/python/scrape', {
         params: {url: this.state.url}
       })
+      console.log(data)
       this.setState(
         {
           html: data.text,
