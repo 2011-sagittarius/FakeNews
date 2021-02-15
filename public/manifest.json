@@ -14,12 +14,12 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/news512.png",
+      "src": "/faux512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/news128.png",
+      "src": "/faux128.png",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "maskable"
