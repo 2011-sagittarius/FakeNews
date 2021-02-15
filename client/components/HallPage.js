@@ -83,7 +83,7 @@ export class HallPage extends React.Component {
             <Share />
           </div>
           <FlexColLeft id="frequent">
-            <h2>Other users frequently check</h2>
+            <h2>Most Popular</h2>
             <FlexRow>
               <ul>
                 {freqData.map(publisher => (
@@ -93,7 +93,7 @@ export class HallPage extends React.Component {
             </FlexRow>
           </FlexColLeft>
           <FlexColLeft id="recent">
-            <h2>Other users recently checked</h2>
+            <h2>Most Recent</h2>
             <FlexRow>
               <ul>
                 {recData.map(publisher => <li key={publisher}>{publisher}</li>)}

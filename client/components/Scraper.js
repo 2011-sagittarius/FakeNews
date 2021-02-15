@@ -32,7 +32,8 @@ class Scraper extends Component {
       scores: [],
       title: '',
       url: 'Enter URL',
-      window: window.innerWidth,
+      windowHeight: window.innerHeight,
+      windowWidth: window.innerWidth,
       hide: true
     }
 
@@ -53,7 +54,10 @@ class Scraper extends Component {
     window.addEventListener(
       'resize',
       _.debounce(() => {
-        this.setState({window: window.innerWidth})
+        this.setState({
+          windowHeight: window.innerHeight,
+          windowWidth: window.innerWidth
+        })
       }, 200)
     )
   }
@@ -240,13 +244,19 @@ class Scraper extends Component {
   }
 
   render() {
+    console.log('window > ', window)
     const search = (
       <>
         {this.state.loaded !== 'yes' && (
           <FlexCol>
             <Fade show={this.state.loaded === 'no'}>
               <FlexCol className="illustration">
-                {this.state.window < 1200 ? <Landing /> : <Parallax />}
+                {this.state.windowWidth < 1200 ||
+                this.state.windowHeight < 1100 ? (
+                  <Landing />
+                ) : (
+                  <Parallax />
+                )}
               </FlexCol>
               <Input
                 url={this.state.url}
