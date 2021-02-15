@@ -26,7 +26,7 @@ const SimilarArticles = ({label, url}) => {
     articles.length > 1 && (
       <FlexCol style={{marginBottom: '2rem', alignItems: 'flex-start'}}>
         <h4>Other {label[1]} articles users found! 👇</h4>
-        {articles.map(article => {
+        {articles.slice(0, 5).map(article => {
           if (article.url !== url)
             return (
               <div key={article.title} className="related-article">
