@@ -154,7 +154,7 @@ class Scraper extends Component {
     this.setChartData()
 
     try {
-      const {data} = await axios.get('/api/python/scrape', {
+      const {data} = await axios.get('/api/processing/scrape', {
         params: {url: this.state.url}
       })
       // If scraped text is too small either scrape failed or is not enough info for prediction
