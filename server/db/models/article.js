@@ -58,6 +58,10 @@ const Article = db.define('article', {
       min: 0,
       max: 100
     }
+  },
+  keywords: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    allowNull: false
   }
 })
 
