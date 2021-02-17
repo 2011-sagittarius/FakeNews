@@ -34,7 +34,8 @@ class Scraper extends Component {
       url: 'Enter URL',
       windowHeight: window.innerHeight,
       windowWidth: window.innerWidth,
-      hide: true
+      hide: true,
+      error: false
     }
 
     this.setUrl = this.setUrl.bind(this)
@@ -75,7 +76,7 @@ class Scraper extends Component {
 
   // Call scrape-publisher route on URL
   async scrapePublisher() {
-    this.setState({publisher: '', loaded: 'loading'})
+    this.setState({publisher: '', loaded: 'loading', error: false})
     try {
       const {data} = await axios.get('/api/processing/scrape/meta', {
         params: {targetUrl: this.state.url}
@@ -104,13 +105,26 @@ class Scraper extends Component {
       const {data} = await axios.get('/api/python/scrape', {
         params: {url: this.state.url}
       })
-      this.setState(
-        {
-          html: data.text,
-          title: data.title
-        },
-        () => this.preProcess()
-      )
+      // If scraped text is too small either scrape failed or is not enough info for prediction
+      if (data.text.length < 100) {
+        // console.log(`Sorry. We're having trouble with this one`)
+        this.setState({
+          error: true,
+          html: '',
+          loaded: 'no',
+          processed: '',
+          title: '',
+          url: 'Enter URL'
+        })
+      } else {
+        this.setState(
+          {
+            html: data.text,
+            title: data.title
+          },
+          () => this.preProcess()
+        )
+      }
     } catch (error) {
       console.log('~~~SCRAPE~~~')
       console.log(error)
@@ -244,28 +258,48 @@ class Scraper extends Component {
   }
 
   render() {
-    console.log('window > ', window)
+    const {
+      chartData,
+      error,
+      html,
+      hide,
+      keywords,
+      label,
+      loaded,
+      publisher,
+      relatedArticles,
+      title,
+      url,
+      windowHeight,
+      windowWidth
+    } = this.state
+
+    console.log('error > ', error)
     const search = (
       <>
-        {this.state.loaded !== 'yes' && (
+        {loaded !== 'yes' && (
           <FlexCol>
-            <Fade show={this.state.loaded === 'no'}>
+            <Fade show={loaded === 'no'}>
+              {error && (
+                <div className="error">
+                  Oops! There was an error with that article.
+                </div>
+              )}
               <FlexCol className="illustration">
-                {this.state.windowWidth < 1200 ||
-                this.state.windowHeight < 1100 ? (
+                {windowWidth < 1200 || windowHeight < 1100 ? (
                   <Landing />
                 ) : (
                   <Parallax />
                 )}
               </FlexCol>
               <Input
-                url={this.state.url}
+                url={url}
                 setUrl={this.setUrl}
                 clearUrl={this.clearUrl}
                 handleClick={this.scrapePublisher}
               />
             </Fade>
-            <Fade show={this.state.loaded === 'loading'}>
+            <Fade show={loaded === 'loading'}>
               <FlexCol className="illustration">
                 <Loading />
               </FlexCol>
@@ -275,30 +309,28 @@ class Scraper extends Component {
             </Fade>
           </FlexCol>
         )}
-        <Fade show={this.state.loaded === 'yes'} time={5}>
+        <Fade show={loaded === 'yes'} time={5}>
           <FlexCol id="analytics">
             <FlexCol id="title">
               <h3>
-                {this.state.publisher}: {this.state.title}
+                {publisher}: {title}
               </h3>
               <div id="read-more" onClick={this.toggleHide}>
-                Read {this.state.hide ? '▼' : '▲'}
+                Read {hide ? '▼' : '▲'}
               </div>
-              {!this.state.hide && (
-                <div id="article-text">{this.state.html}</div>
-              )}
+              {!hide && <div id="article-text">{html}</div>}
             </FlexCol>
             <FlexCol id="graph">
-              <Chart chartData={this.state.chartData} />
-              {this.state.label.length && <Response label={this.state.label} />}
+              <Chart chartData={chartData} />
+              {label.length && <Response label={label} />}
             </FlexCol>
             <FlexCol id="articles">
               <RelatedArticles
-                keywords={this.state.keywords}
-                url={this.state.url}
-                articles={this.state.relatedArticles}
+                keywords={keywords}
+                url={url}
+                articles={relatedArticles}
               />
-              <SimilarArticles label={this.state.label} url={this.state.url} />
+              <SimilarArticles label={label} url={url} />
             </FlexCol>
             <FlexCol>
               <button
