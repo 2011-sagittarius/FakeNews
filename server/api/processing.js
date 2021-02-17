@@ -170,6 +170,20 @@ router.get('/recent-articles', async (req, res, next) => {
   }
 })
 
+// check if article exists in db
+router.get('/prev', async (req, res, next) => {
+  console.log('req > ', req.query.url)
+  try {
+    const response = await Article.findOne({
+      where: {url: req.query.url}
+    })
+    console.log('response > ', response)
+    if (response) res.json(response)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // // Web Search (contextual) API
 // // Python script to preprocess aka remove filler words/characters from text body
 // router.get('/related-articles', async (req, res, next) => {

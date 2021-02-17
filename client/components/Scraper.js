@@ -47,6 +47,7 @@ class Scraper extends Component {
     this.clearUrl = this.clearUrl.bind(this)
     this.fetchArticles = this.fetchArticles.bind(this)
     this.toggleHide = this.toggleHide.bind(this)
+    this.checkPrev = this.checkPrev.bind(this)
   }
 
   componentDidMount() {
@@ -71,6 +72,36 @@ class Scraper extends Component {
   // Check if URL is valid
   checkUrl() {
     return /^(ftp|http|https):\/\/[^ "]+$/.test(this.state.url)
+  }
+
+  async checkPrev() {
+    this.setState({publisher: '', loaded: 'loading'})
+
+    try {
+      const {data} = await axios.get('/api/processing/prev', {
+        params: {url: this.state.url}
+      })
+      console.log('data > ', data)
+      if (data) {
+        this.setState(
+          {
+            processed: data.text,
+            publisher: data.publisher,
+            title: data.title,
+            scores: {
+              fake: data.fake,
+              political: data.political,
+              reliable: data.reliable,
+              satire: data.satire,
+              unkown: data.unknown
+            }
+          },
+          () => this.fetchArticles()
+        )
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // Call scrape-publisher route on URL
@@ -145,9 +176,14 @@ class Scraper extends Component {
 
   // Call Google NLP Api
   async getPrediction() {
+    let shortenedText = this.state.processed
+      .split(' ')
+      .slice(0, 400)
+      .join(' ')
+
     try {
       const response = await axios.get('/api/processing/predict', {
-        params: {text: this.state.processed}
+        params: {text: shortenedText}
       })
 
       // Organize API response and set to state
@@ -244,7 +280,7 @@ class Scraper extends Component {
   }
 
   render() {
-    console.log('window > ', window)
+    console.log('this.state.scores > ', this.state.scores)
     const search = (
       <>
         {this.state.loaded !== 'yes' && (
@@ -262,7 +298,7 @@ class Scraper extends Component {
                 url={this.state.url}
                 setUrl={this.setUrl}
                 clearUrl={this.clearUrl}
-                handleClick={this.scrapePublisher}
+                handleClick={this.checkPrev}
               />
             </Fade>
             <Fade show={this.state.loaded === 'loading'}>
