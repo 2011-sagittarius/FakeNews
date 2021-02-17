@@ -111,6 +111,12 @@ button:hover {
   cursor: pointer;
 }
 
+.error {
+  color: red;
+  font-size: 1rem;
+  text-align: center;
+}
+
 input {
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -139,5 +145,9 @@ textarea {
 @media screen and (min-height: 1000px) {
   .search {
     bottom: 12%;
+  }
+
+  .error {
+    font-size: 1.25rem;
   }
 }
