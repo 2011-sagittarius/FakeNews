@@ -189,6 +189,7 @@ class Scraper extends Component {
       url: 'Enter URL'
     })
   }
+
   // Cleans up text for Google NLP API
   async preProcess() {
     this.setState({processed: '--- PROCESSING ---'})

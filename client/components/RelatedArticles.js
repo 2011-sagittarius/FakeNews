@@ -7,7 +7,7 @@ const RelatedArticles = ({url, articles}) => {
     articles.length > 1 && (
       <FlexCol style={{margin: '2rem 0rem', alignItems: 'flex-start'}}>
         <h4>Want some more info? 📰 </h4>
-        {articles.slice(0, 5).map(article => {
+        {articles.slice(0, 3).map(article => {
           if (article.url !== url)
             return (
               <div key={article.url} className="related-article">
