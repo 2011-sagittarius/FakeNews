@@ -20,12 +20,13 @@ export class HallPage extends React.Component {
 
   render() {
     const {hallData} = this.props
-    const fameData = hallData.hallArticles.filter(
-      publisher => publisher.scores.reliable > 70
-    )
+    const fameData = hallData.hallArticles
+      .filter(publisher => publisher.scores.reliable > 70)
+      .slice(0, 5)
     const shameData = hallData.hallArticles
       .filter(publisher => publisher.scores.reliable < 30)
       .reverse()
+      .slice(0, 5)
     const freqData = hallData.freqArticles.slice(0, 3)
     const recData = hallData.recArticles.slice(0, 3)
 
