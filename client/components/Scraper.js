@@ -104,13 +104,19 @@ class Scraper extends Component {
       const {data} = await axios.get('/api/python/scrape', {
         params: {url: this.state.url}
       })
-      this.setState(
-        {
-          html: data.text,
-          title: data.title
-        },
-        () => this.preProcess()
-      )
+      // If scraped text is too small either scrape failed or is not enough info for prediction
+      if (data.text.length < 100) {
+        console.log(`Sorry. We're having trouble with this one`)
+        window.location.reload(false)
+      } else {
+        this.setState(
+          {
+            html: data.text,
+            title: data.title
+          },
+          () => this.preProcess()
+        )
+      }
     } catch (error) {
       console.log('~~~SCRAPE~~~')
       console.log(error)
