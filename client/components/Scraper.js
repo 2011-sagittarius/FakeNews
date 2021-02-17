@@ -75,14 +75,14 @@ class Scraper extends Component {
     return /^(ftp|http|https):\/\/[^ "]+$/.test(this.state.url)
   }
 
+  // Check if URL exists in DB. If so, use DB data instead of re-running prediction
   async checkPrev() {
     this.setState({publisher: '', loaded: 'loading'})
     try {
       const {data} = await axios.get('/api/processing/prev', {
         params: {url: this.state.url}
       })
-      console.log('url > ', this.state.url)
-      console.log('data > ', data)
+
       if (data) {
         this.setChartData([
           data.fake,
@@ -92,11 +92,23 @@ class Scraper extends Component {
           data.unknown
         ])
 
+        const scores = {
+          fake: data.fake,
+          satire: data.satire,
+          reliable: data.reliable,
+          unknown: data.unknown,
+          political: data.political
+        }
+        const label = Object.keys(scores).reduce(
+          (a, b) => (scores[a] > scores[b] ? a : b)
+        )
+
         this.setState(
           {
             html: data.text,
             publisher: data.publisher,
             title: data.title,
+            label: [scores[label], label],
             scores: {
               fake: data.fake,
               political: data.political,
@@ -147,7 +159,6 @@ class Scraper extends Component {
       })
       // If scraped text is too small either scrape failed or is not enough info for prediction
       if (data.text.length < 100) {
-        // console.log(`Sorry. We're having trouble with this one`)
         this.setState({
           error: true,
           html: '',
