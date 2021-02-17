@@ -75,7 +75,8 @@
     "request": "^2.88.2",
     "sequelize": "^5.22.3",
     "styled-components": "^5.2.1",
-    "unfluff": "^3.2.0"
+    "unfluff": "^3.2.0",
+    "unirest": "^0.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
