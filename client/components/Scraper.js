@@ -38,17 +38,19 @@ class Scraper extends Component {
       error: false
     }
 
-    this.setUrl = this.setUrl.bind(this)
-    this.sendUrl = this.sendUrl.bind(this)
-    this.preProcess = this.preProcess.bind(this)
+    this.checkPrev = this.checkPrev.bind(this)
+    this.checkUrl = this.checkUrl.bind(this)
+    this.clearUrl = this.clearUrl.bind(this)
+    this.errorMsg = this.errorMsg.bind(this)
+    this.fetchArticles = this.fetchArticles.bind(this)
     this.getPrediction = this.getPrediction.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.checkUrl = this.checkUrl.bind(this)
+    this.preProcess = this.preProcess.bind(this)
+    this.saveArticle = this.saveArticle.bind(this)
+    this.setUrl = this.setUrl.bind(this)
+    this.sendUrl = this.sendUrl.bind(this)
     this.scrapePublisher = this.scrapePublisher.bind(this)
-    this.clearUrl = this.clearUrl.bind(this)
-    this.fetchArticles = this.fetchArticles.bind(this)
     this.toggleHide = this.toggleHide.bind(this)
-    this.checkPrev = this.checkPrev.bind(this)
   }
 
   componentDidMount() {
@@ -137,6 +139,7 @@ class Scraper extends Component {
     } catch (error) {
       console.log('~~~META ERROR~~~')
       console.log(error)
+      this.errorMsg()
     }
   }
 
@@ -158,15 +161,8 @@ class Scraper extends Component {
         params: {url: this.state.url}
       })
       // If scraped text is too small either scrape failed or is not enough info for prediction
-      if (data.text.length < 100) {
-        this.setState({
-          error: true,
-          html: '',
-          loaded: 'no',
-          processed: '',
-          title: '',
-          url: 'Enter URL'
-        })
+      if (data.text.split(' ').length < 100) {
+        throw new Error('scrape err')
       } else {
         this.setState(
           {
@@ -177,11 +173,22 @@ class Scraper extends Component {
         )
       }
     } catch (error) {
-      console.log('~~~SCRAPE~~~')
+      console.log('~~~SCRAPE ERROR~~~')
       console.log(error)
+      this.errorMsg()
     }
   }
 
+  errorMsg() {
+    this.setState({
+      error: true,
+      html: '',
+      loaded: 'no',
+      processed: '',
+      title: '',
+      url: 'Enter URL'
+    })
+  }
   // Cleans up text for Google NLP API
   async preProcess() {
     this.setState({processed: '--- PROCESSING ---'})
@@ -205,6 +212,7 @@ class Scraper extends Component {
     } catch (error) {
       console.log('~~~PREPROCESS ERROR~~~')
       console.log(error)
+      this.errorMsg()
     }
   }
 
@@ -246,26 +254,48 @@ class Scraper extends Component {
           ],
           scores: obj
         },
-        () => this.fetchArticles()
+        () => this.saveArticle()
       )
     } catch (error) {
       console.log('~~~PREDICTION ERROR~~~')
       console.log(error)
+      this.errorMsg()
     }
 
+    // // Save article to DB
+    // this.props.createArticle({
+    //   publisher: this.state.publisher,
+    //   url: this.state.url,
+    //   text: this.state.html,
+    //   title: this.state.title,
+    //   fake: this.state.scores.fake * 100,
+    //   political: this.state.scores.political * 100,
+    //   reliable: this.state.scores.reliable * 100,
+    //   satire: this.state.scores.satire * 100,
+    //   unknown: this.state.scores.unknown * 100,
+    //   keywords: this.state.keywords,
+    // })
+  }
+
+  async saveArticle() {
     // Save article to DB
-    this.props.createArticle({
-      publisher: this.state.publisher,
-      url: this.state.url,
-      text: this.state.html,
-      title: this.state.title,
-      fake: this.state.scores.fake * 100,
-      political: this.state.scores.political * 100,
-      reliable: this.state.scores.reliable * 100,
-      satire: this.state.scores.satire * 100,
-      unknown: this.state.scores.unknown * 100,
-      keywords: this.state.keywords
-    })
+    try {
+      await this.props.createArticle({
+        publisher: this.state.publisher,
+        url: this.state.url,
+        text: this.state.html,
+        title: this.state.title,
+        fake: this.state.scores.fake * 100,
+        political: this.state.scores.political * 100,
+        reliable: this.state.scores.reliable * 100,
+        satire: this.state.scores.satire * 100,
+        unknown: this.state.scores.unknown * 100,
+        keywords: this.state.keywords
+      })
+      this.fetchArticles()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async fetchArticles() {
@@ -277,6 +307,7 @@ class Scraper extends Component {
     } catch (error) {
       console.log('~~~FETCH ARTICLES ERROR~~~')
       console.log(error)
+      this.errorMsg()
     }
   }
 
