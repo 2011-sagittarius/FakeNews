@@ -4,3 +4,4 @@ pip==20.1.1
 nltk==3.5
 scikit-learn==0.23.2
 goose3==3.1.7
+newspaper3k==0.2.8
