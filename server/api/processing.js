@@ -178,7 +178,7 @@ router.get('/prev', async (req, res, next) => {
       where: {url: req.query.url}
     })
     console.log('response > ', response)
-    if (response) res.json(response)
+    res.json(response)
   } catch (err) {
     next(err)
   }

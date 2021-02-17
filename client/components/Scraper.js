@@ -77,16 +77,24 @@ class Scraper extends Component {
 
   async checkPrev() {
     this.setState({publisher: '', loaded: 'loading'})
-
     try {
       const {data} = await axios.get('/api/processing/prev', {
         params: {url: this.state.url}
       })
+      console.log('url > ', this.state.url)
       console.log('data > ', data)
       if (data) {
+        this.setChartData([
+          data.fake,
+          data.political,
+          data.reliable,
+          data.satire,
+          data.unknown
+        ])
+
         this.setState(
           {
-            processed: data.text,
+            html: data.text,
             publisher: data.publisher,
             title: data.title,
             scores: {
@@ -95,11 +103,12 @@ class Scraper extends Component {
               reliable: data.reliable,
               satire: data.satire,
               unkown: data.unknown
-            }
+            },
+            keywords: data.keywords
           },
           () => this.fetchArticles()
         )
-      }
+      } else this.scrapePublisher()
     } catch (error) {
       console.log(error)
     }
@@ -243,7 +252,8 @@ class Scraper extends Component {
       political: this.state.scores.political * 100,
       reliable: this.state.scores.reliable * 100,
       satire: this.state.scores.satire * 100,
-      unknown: this.state.scores.unknown * 100
+      unknown: this.state.scores.unknown * 100,
+      keywords: this.state.keywords
     })
   }
 
@@ -310,7 +320,6 @@ class Scraper extends Component {
       windowWidth
     } = this.state
 
-    console.log('error > ', error)
     const search = (
       <>
         {loaded !== 'yes' && (
