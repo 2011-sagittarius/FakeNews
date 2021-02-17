@@ -233,9 +233,9 @@ router.get('/scrape/meta', async (req, res, next) => {
 })
 
 router.get('/scrape', async (req, res, next) => {
-  try {
-    let url = req.query.url
+  let url = req.query.url
 
+  try {
     var options = {
       method: 'GET',
       url: 'https://full-text-rss.p.rapidapi.com/makefulltextfeed.php',
@@ -248,6 +248,7 @@ router.get('/scrape', async (req, res, next) => {
         content: 'text',
         xss: '1',
         lang: '2',
+        use_extracted_title: '1',
         accept: 'auto',
         parser: 'html5php'
       },
@@ -263,7 +264,7 @@ router.get('/scrape', async (req, res, next) => {
         let text = response.data.rss.channel.item.content_encoded
         let title = response.data.rss.channel.title
         const data = {text: text, title: title}
-        console.log(response.data)
+        console.log(response.data.rss.channel.item)
         res.send(data)
       })
       .catch(function(error) {
