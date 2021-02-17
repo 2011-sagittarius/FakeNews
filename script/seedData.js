@@ -10,7 +10,19 @@ const articles = [
     political: 0.05771517753601074,
     fake: 1.962059736251831,
     satire: 0.24666786193847656,
-    unknown: 1.6406327486038208
+    unknown: 1.6406327486038208,
+    keywords: [
+      'swift',
+      'fearless',
+      'album',
+      'song',
+      'version',
+      'taylor',
+      'recorded',
+      'first',
+      'file',
+      'music'
+    ]
   },
   {
     title: `Chilling video footage becomes key exhibit in Trump trial`,
@@ -23,7 +35,19 @@ const articles = [
     political: 0.001953990249603521,
     fake: 0.00010089825082104653,
     satire: 3.6299837802289403e-6,
-    unknown: 2.344164252281189
+    unknown: 2.344164252281189,
+    keywords: [
+      'trump',
+      'president',
+      'impeachment',
+      'house',
+      'senate',
+      'video',
+      'said',
+      'trial',
+      'prosecutor',
+      'day'
+    ]
   },
   {
     title: `'Overwhelm the problem': Inside Biden’s war on COVID-19`,
@@ -36,7 +60,19 @@ const articles = [
     political: 8.631486707599834e-5,
     fake: 1.813763361724341e-5,
     satire: 1.173184216440859e-5,
-    unknown: 0.0001332034798906534
+    unknown: 0.0001332034798906534,
+    keywords: [
+      'biden',
+      'vaccine',
+      'team',
+      'week',
+      'virus',
+      'vaccination',
+      'nih',
+      'day',
+      'office',
+      'health'
+    ]
   },
   {
     title: `COVID-defying nun toasts 117th birthday with wine and prayer`,
@@ -49,7 +85,19 @@ const articles = [
     political: 0.000363018489224487,
     fake: 0.007231222843984142,
     satire: 0.12142062187194824,
-    unknown: 0.008871818135958165
+    unknown: 0.008871818135958165,
+    keywords: [
+      'birthday',
+      'world',
+      'tavella',
+      'sister',
+      'thursday',
+      'said',
+      'sister andr',
+      'oldest',
+      'home',
+      'care home'
+    ]
   },
   {
     title: `Woman Quick To Clarify That Child In Dating Profile Picture Not Alive Anymore`,
@@ -62,7 +110,19 @@ const articles = [
     political: 0.0057187153288396075,
     fake: 1.2137532234191895,
     satire: 99.55779314041138,
-    unknown: 0.5365967750549316
+    unknown: 0.5365967750549316,
+    keywords: [
+      'dugas',
+      'totally',
+      'since',
+      'second',
+      'profile',
+      'picture',
+      'know',
+      'get',
+      'even',
+      'date'
+    ]
   },
   {
     title: `‘Hope You Don’t Mind I Shoveled Your Sidewalk Too,’ Says Neighbor In Devastating Blow To Dad’s Masculinity`,
@@ -75,7 +135,19 @@ const articles = [
     political: 66.29225015640259,
     fake: 3.296738862991333,
     satire: 26.609861850738525,
-    unknown: 0.9602159261703491
+    unknown: 0.9602159261703491,
+    keywords: [
+      'banzino',
+      'stewart',
+      'shovel',
+      'manhood',
+      'yet impotent effeminate',
+      'yet impotent',
+      'yet',
+      'wife car know',
+      'wife car',
+      'wife'
+    ]
   },
   {
     title: `Senate acquits Trump as Republicans save him in impeachment again`,
@@ -139,34 +211,48 @@ const articles = [
     political: 0.006708381988573819,
     fake: 0.013366341590881348,
     satire: 4.4882703109649924e-8,
-    unknown: 0.04780590534210205
-  },
-  {
-    title: `Bitcoin to Come to America’s Oldest Bank, BNY Mellon - WSJ`,
-    publisher: 'The Wall Street Journal',
-    text:
-      'Dow Jones.Bitcoin to Come to America’s Oldest Bank, BNY Mellon.The custody bank plans to eventually treat digital currencies like any other asset.After tweets from Tesla CEO Elon Musk and rapper Snoop Dogg, the cryptocurrency Dogecoin, which started as a joke, topped $10 billion in market value. WSJ looks at why online investors are pouring money into the meme-inspired virtual currency. Photo: Yuriko Nakao/Aflo/Zuma Press.By.Updated Feb. 11, 2021 9:54 am ET.Bank of New York Mellon Corp. , the nation’s oldest bank, is making the leap into the market for cryptocurrencies.The custody bank said Thursday it will hold, transfer and issue bitcoin and other cryptocurrencies on behalf of its asset-management clients. In time, BNY Mellon will allow those digital assets to pass through the same plumbing used by managers’ other, more traditional holdings—from Treasurys to technology stocks—using a platform that is now in prototype. The bank is already discussing plans with clients to bring their digital currencies into the fold.“Digital assets are becoming part of the mainstream,” said Roman Regelman, chief executive of BNY Mellon’s asset-servicing and digital businesses.It is a big step for Wall Street’s back-office banks, whose concerns over regulatory, legal and stability risks left them reluctant to come into direct contact with crypto markets. But as prices of bitcoin and other digital assets have continued to rise, they have become more popular with asset managers, hedge funds and other institutional investors.And those firms’ top executives started asking BNY Mellon and their peers to treat digital assets as they would their other holdings, Mr. Regelman said.To Read the Full Story.',
-    url:
-      'https://www.wsj.com/articles/bitcoin-to-come-to-america-s-oldest-bank-bny-mellon-11613044810?mod=hp_lead_pos5',
-    reliable: 99.57687854766846,
-    political: 1.0847240686416626,
-    fake: 0.33698081970214844,
-    satire: 0.06569027900695801,
-    unknown: 0.12818574905395508
-  },
-  {
-    title: `GameStop Mania Is Focus of Federal Probes Into Possible Manipulation - WSJ`,
-    publisher: 'The Wall Street Journal',
-    text:
-      'Dow Jones.Justice Department has subpoenaed information from Robinhood Markets, others.In just five days, GameStop’s shares soared up to 500%. WSJ analyzed how Reddit posts, YouTube videos and tweets by personalities including Elon Musk spread online and fueled a trading craze that turned Wall Street upside down. Photo illustration: George Downs/WSJ.By Dave Michaels.Updated Feb. 11, 2021 1:47 pm ET.WASHINGTON—Federal prosecutors and regulators are investigating whether market manipulation or other types of misconduct fueled the rapid rise last month in prices of stocks such as GameStop Corp. and AMC Entertainment Holdings Inc., according to people familiar with the matter.The Justice Department’s fraud section and the San Francisco U.S. attorney’s office have sought information about the activity from brokers and social-media companies that were hubs for the trading frenzy, the people said. Prosecutors have subpoenaed information from brokers such as Robinhood Markets Inc., the popular online brokerage that many individual investors used to trade GameStop and other shares, the people said.GameStop shares surged from about $20 to $483 over a period of two weeks in January. The stock has since fallen to around $50. It was fueled by an army of bullish individual traders exhorting one another on Reddit to buy the shares and squeeze hedge funds that bet the price would fall. Traders who bet stock prices will decline are known as short sellers.In addition to the probe by the Justice Department, the Commodity Futures Trading Commission is examining similar trading, the people said. The CFTC has opened a preliminary investigation into whether misconduct occurred as some Reddit traders targeted silver futures and the largest exchange-traded fund tied to silver, the iShares Silver Trust , one of the people said.The Wall Street Journal has reported that the Securities and Exchange Commission is reviewing the trading frenzy as well. The SEC and CFTC are civil regulators. The burden of proof in a regulatory enforcement action is lower than in a criminal case.To Read the Full Story.',
-    url:
-      'https://www.wsj.com/articles/gamestop-mania-is-focus-of-federal-probes-into-possible-manipulation-11613066950?mod=hp_lead_pos3',
-    reliable: 99.99192953109741,
-    political: 0.0007079860552039463,
-    fake: 0.00811266218079254,
-    satire: 0.0035272933018859476,
-    unknown: 0.10795891284942627
+    unknown: 0.04780590534210205,
+    keywords: [
+      'trump',
+      'impeachment',
+      'president',
+      'trial',
+      'office',
+      'senate',
+      'political',
+      'republican',
+      'house',
+      'vote'
+    ]
   }
+  // {
+  //   title: `Bitcoin to Come to America’s Oldest Bank, BNY Mellon - WSJ`,
+  //   publisher: 'The Wall Street Journal',
+  //   text:
+  //     'Dow Jones.Bitcoin to Come to America’s Oldest Bank, BNY Mellon.The custody bank plans to eventually treat digital currencies like any other asset.After tweets from Tesla CEO Elon Musk and rapper Snoop Dogg, the cryptocurrency Dogecoin, which started as a joke, topped $10 billion in market value. WSJ looks at why online investors are pouring money into the meme-inspired virtual currency. Photo: Yuriko Nakao/Aflo/Zuma Press.By.Updated Feb. 11, 2021 9:54 am ET.Bank of New York Mellon Corp. , the nation’s oldest bank, is making the leap into the market for cryptocurrencies.The custody bank said Thursday it will hold, transfer and issue bitcoin and other cryptocurrencies on behalf of its asset-management clients. In time, BNY Mellon will allow those digital assets to pass through the same plumbing used by managers’ other, more traditional holdings—from Treasurys to technology stocks—using a platform that is now in prototype. The bank is already discussing plans with clients to bring their digital currencies into the fold.“Digital assets are becoming part of the mainstream,” said Roman Regelman, chief executive of BNY Mellon’s asset-servicing and digital businesses.It is a big step for Wall Street’s back-office banks, whose concerns over regulatory, legal and stability risks left them reluctant to come into direct contact with crypto markets. But as prices of bitcoin and other digital assets have continued to rise, they have become more popular with asset managers, hedge funds and other institutional investors.And those firms’ top executives started asking BNY Mellon and their peers to treat digital assets as they would their other holdings, Mr. Regelman said.To Read the Full Story.',
+  //   url:
+  //     'https://www.wsj.com/articles/bitcoin-to-come-to-america-s-oldest-bank-bny-mellon-11613044810?mod=hp_lead_pos5',
+  //   reliable: 99.57687854766846,
+  //   political: 1.0847240686416626,
+  //   fake: 0.33698081970214844,
+  //   satire: 0.06569027900695801,
+  //   unknown: 0.12818574905395508,
+  //   keywords: [],
+  // },
+  // {
+  //   title: `GameStop Mania Is Focus of Federal Probes Into Possible Manipulation - WSJ`,
+  //   publisher: 'The Wall Street Journal',
+  //   text:
+  //     'Dow Jones.Justice Department has subpoenaed information from Robinhood Markets, others.In just five days, GameStop’s shares soared up to 500%. WSJ analyzed how Reddit posts, YouTube videos and tweets by personalities including Elon Musk spread online and fueled a trading craze that turned Wall Street upside down. Photo illustration: George Downs/WSJ.By Dave Michaels.Updated Feb. 11, 2021 1:47 pm ET.WASHINGTON—Federal prosecutors and regulators are investigating whether market manipulation or other types of misconduct fueled the rapid rise last month in prices of stocks such as GameStop Corp. and AMC Entertainment Holdings Inc., according to people familiar with the matter.The Justice Department’s fraud section and the San Francisco U.S. attorney’s office have sought information about the activity from brokers and social-media companies that were hubs for the trading frenzy, the people said. Prosecutors have subpoenaed information from brokers such as Robinhood Markets Inc., the popular online brokerage that many individual investors used to trade GameStop and other shares, the people said.GameStop shares surged from about $20 to $483 over a period of two weeks in January. The stock has since fallen to around $50. It was fueled by an army of bullish individual traders exhorting one another on Reddit to buy the shares and squeeze hedge funds that bet the price would fall. Traders who bet stock prices will decline are known as short sellers.In addition to the probe by the Justice Department, the Commodity Futures Trading Commission is examining similar trading, the people said. The CFTC has opened a preliminary investigation into whether misconduct occurred as some Reddit traders targeted silver futures and the largest exchange-traded fund tied to silver, the iShares Silver Trust , one of the people said.The Wall Street Journal has reported that the Securities and Exchange Commission is reviewing the trading frenzy as well. The SEC and CFTC are civil regulators. The burden of proof in a regulatory enforcement action is lower than in a criminal case.To Read the Full Story.',
+  //   url:
+  //     'https://www.wsj.com/articles/gamestop-mania-is-focus-of-federal-probes-into-possible-manipulation-11613066950?mod=hp_lead_pos3',
+  //   reliable: 99.99192953109741,
+  //   political: 0.0007079860552039463,
+  //   fake: 0.00811266218079254,
+  //   satire: 0.0035272933018859476,
+  //   unknown: 0.10795891284942627,
+  //   keywords: [],
+  // },
 ]
 
 module.exports = articles

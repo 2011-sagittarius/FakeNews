@@ -1,5 +1,8 @@
 const router = require('express').Router()
 const {spawn} = require('child_process')
+const {withoutBody} = require('got/dist/source')
+const {ScraperAPI} = require('proxycrawl')
+const api = new ScraperAPI({token: '_PF2vwHVDGaG1QIytL2wgA'})
 
 module.exports = router
 
@@ -26,6 +29,17 @@ router.get('/scrape', async (req, res, next) => {
     next(err)
   }
 })
+
+// router.get('/scrape', async (req, res, next) => {
+//   try {
+//     const {json} = await api.get(req.query.url)
+//     let response = {title: json.body.title, text: json.body.content}
+//     console.log('response > ', json.body)
+//     res.json(response)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
 // Python script to preprocess aka remove filler words/characters from text body
 router.get('/preprocess', async (req, res, next) => {

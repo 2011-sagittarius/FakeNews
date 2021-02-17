@@ -48,6 +48,7 @@ class Scraper extends Component {
     this.clearUrl = this.clearUrl.bind(this)
     this.fetchArticles = this.fetchArticles.bind(this)
     this.toggleHide = this.toggleHide.bind(this)
+    this.checkPrev = this.checkPrev.bind(this)
   }
 
   componentDidMount() {
@@ -72,6 +73,57 @@ class Scraper extends Component {
   // Check if URL is valid
   checkUrl() {
     return /^(ftp|http|https):\/\/[^ "]+$/.test(this.state.url)
+  }
+
+  // Check if URL exists in DB. If so, use DB data instead of re-running prediction
+  async checkPrev() {
+    this.setState({publisher: '', loaded: 'loading'})
+    try {
+      const {data} = await axios.get('/api/processing/prev', {
+        params: {url: this.state.url}
+      })
+
+      if (data) {
+        this.setChartData([
+          data.fake,
+          data.political,
+          data.reliable,
+          data.satire,
+          data.unknown
+        ])
+
+        const scores = {
+          fake: data.fake,
+          satire: data.satire,
+          reliable: data.reliable,
+          unknown: data.unknown,
+          political: data.political
+        }
+        const label = Object.keys(scores).reduce(
+          (a, b) => (scores[a] > scores[b] ? a : b)
+        )
+
+        this.setState(
+          {
+            html: data.text,
+            publisher: data.publisher,
+            title: data.title,
+            label: [scores[label], label],
+            scores: {
+              fake: data.fake,
+              political: data.political,
+              reliable: data.reliable,
+              satire: data.satire,
+              unkown: data.unknown
+            },
+            keywords: data.keywords
+          },
+          () => this.fetchArticles()
+        )
+      } else this.scrapePublisher()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // Call scrape-publisher route on URL
@@ -107,7 +159,6 @@ class Scraper extends Component {
       })
       // If scraped text is too small either scrape failed or is not enough info for prediction
       if (data.text.length < 100) {
-        // console.log(`Sorry. We're having trouble with this one`)
         this.setState({
           error: true,
           html: '',
@@ -159,9 +210,14 @@ class Scraper extends Component {
 
   // Call Google NLP Api
   async getPrediction() {
+    let shortenedText = this.state.processed
+      .split(' ')
+      .slice(0, 400)
+      .join(' ')
+
     try {
       const response = await axios.get('/api/processing/predict', {
-        params: {text: this.state.processed}
+        params: {text: shortenedText}
       })
 
       // Organize API response and set to state
@@ -207,7 +263,8 @@ class Scraper extends Component {
       political: this.state.scores.political * 100,
       reliable: this.state.scores.reliable * 100,
       satire: this.state.scores.satire * 100,
-      unknown: this.state.scores.unknown * 100
+      unknown: this.state.scores.unknown * 100,
+      keywords: this.state.keywords
     })
   }
 
@@ -274,7 +331,6 @@ class Scraper extends Component {
       windowWidth
     } = this.state
 
-    console.log('error > ', error)
     const search = (
       <>
         {loaded !== 'yes' && (
@@ -296,7 +352,7 @@ class Scraper extends Component {
                 url={url}
                 setUrl={this.setUrl}
                 clearUrl={this.clearUrl}
-                handleClick={this.scrapePublisher}
+                handleClick={this.checkPrev}
               />
             </Fade>
             <Fade show={loaded === 'loading'}>
