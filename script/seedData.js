@@ -224,7 +224,7 @@ const articles = [
       'house',
       'vote'
     ]
-  }
+  },
   // {
   //   title: `Bitcoin to Come to America’s Oldest Bank, BNY Mellon - WSJ`,
   //   publisher: 'The Wall Street Journal',
@@ -253,6 +253,82 @@ const articles = [
   //   unknown: 0.10795891284942627,
   //   keywords: [],
   // },
+  {
+    title: ``,
+    publisher: ``,
+    text: ``,
+    url: '',
+    reliable: 0,
+    political: 0,
+    fake: 0,
+    satire: 0,
+    unknown: 0,
+    keywords: []
+  },
+  {
+    title: `Trump Assassination Foiled, Deep State in Panic Mode!`,
+    publisher: `Before It's News | People Powered News`,
+    text: `
+
+
+
+    On Tuesday morning at approximately 3:00 am, a sniper’s bullet struck a panoramic casement window on the east wall of Trump’s bedroom at his Mar-a-Lago estate. The round might have slain Trump had he not recently replaced tempered glass with Blast Structures International’s bullet resistant glass, which, according to the company’s website, can stop anything less powerful than a .50 round.
+
+    A confidential source within Trump’s inner circle told Real Raw News that Trump was asleep in bed, and, a light sleeper, was awakened by the “sharp crack” of the bullet striking glass. The round did not penetrate the glass, but caused a material-science dissipation fracture, or spiderweb pattern.
+
+    The strike, our source said, triggered a silent alarm that instantly notified the Palm Beach Police Dept. and Trump’s Secret Service Detail, which sleeps in a guest house ten yards from the main building. Agents whisked Trump to safety, escorting him to a fortified saferoom, and said they’d coordinate with local authorities.
+
+    But Trump demanded they call the Palm Beach Police Dept. and say it was a false alarm.
+
+    “Trump was adamant no police get involved,” our source said. “He told his guys he wants to keep it in the family. No law enforcement. No media. He was very stern about keeping the media blind to the event. Trump made a phone call, and inside of thirty minutes, some heavy-hitting dudes who were definitely not Secret Service arrived at the estate,” our source said.
+
+    With Trump safe, his private security fanned across the 20-acre estate searching for signs of intrusion, while the Secret Service detail began its own investigation as to how a would-be assassin got within shooting distance of one of the most secure residences in the world.
+
+    At 7:00am a forensic ballistic expert from Quantico arrived at Mar-a-Lago and determined the bullet fragments were from a 7mm Remington Magnum round. He found himself amid an intractable dilemma, our source said. The round had been fired at a downward angle and, had it pierced glass, would have sizzled through Trump’s skull, but an attack on the east window meant one of two things. The sniper had taken the shot from either estate grounds, which lacks elevated terrain, or from somewhere above the Atlantic swell, a seemingly impossible feat.
+
+    “Trump’s bedroom is 23 feet above ground level. Besides the main building, no structure on the property is higher. The ballistics guy figured the shot could only have been made by someone in a hovering helicopter two hundred yards or more off the coast. If true, that guy must have been the best marksman in the world. From a helicopter and at night. Crazy,” our source said.
+
+    The concept of sniping from a helicopter seemed so unrealistic that RRL reached out to Marine Corps Staff Sgt. Hunter Bernius, a scout-sniper and instructor at the Marine Corps. School of Infantry in Geiger, North Carolina. Without mentioning the nature of our inquiry, we asked Staff Sgt. Bernius about the odds of successfully pulling off a 200-400 yard shot from a hovering chopper with little or no natural light.
+
+    “Only with proper training specifically for that type of mission. To shoot precisely, the shooter has to account for aircraft vibration and wind speed and direction, all wind whipping up around him from blades spinning at 400rpm. Then there’s a dozen other variables. Takes months and months of training from a qualified instructor, and there’s still no guarantee. Aerial sniping is a skill all its own,” Staff Sgt. Bernius said.
+
+    By noon, the Secret Service had discretely interviewed all persons on estate property, but no one reported seeing or hearing a helicopter, or hearing gunfire.
+
+    According to our source, Trump’s people suspected the attack was carried out by the Deep State, to stop Trump from amassing incriminating evidence that, if released, could sink every Democrat from Joe Biden to the most junior member of the Democratic caucus.
+
+    READ MORE ON THIS STORY HERE
+
+    (For those people asking What about Melania? Where was Melania? Anyone who knows anything about the Trumps, knows they sleep in separate bedrooms.)`,
+    url:
+      'https://beforeitsnews.com/blogging-citizen-journalism/2021/01/trump-assasination-foiled-deep-state-in-panic-mode-2649691.html',
+    reliable: 0.5447566509246826,
+    political: 0.0001129050247073,
+    fake: 99.61671829223633,
+    satire: 0.0027624353606370278,
+    unknown: 0.050893425941467285,
+    keywords: [
+      'trump',
+      'source',
+      'said',
+      'source said',
+      'round',
+      'glass',
+      'estate',
+      'service',
+      'secret service',
+      'secret',
+      'helicopter',
+      'bullet',
+      'yard',
+      'staff sgt',
+      'staff',
+      'sniper',
+      'shot',
+      'sgt',
+      'police',
+      'guy'
+    ]
+  }
 ]
 
 module.exports = articles

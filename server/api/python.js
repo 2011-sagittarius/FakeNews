@@ -22,7 +22,9 @@ router.get('/scrape', async (req, res, next) => {
     python.on('close', code => {
       console.log(`child process close all stdio with code ${code}`)
       // send data to browser
-      const ans = JSON.parse(dataToSend)
+      let ans
+      if (code === 0) ans = JSON.parse(dataToSend)
+      else ans = 'SCRAPE ERROR'
       res.send(ans)
     })
   } catch (err) {
