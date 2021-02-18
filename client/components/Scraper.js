@@ -22,20 +22,21 @@ class Scraper extends Component {
     super()
     this.state = {
       chartData: {},
+      error: false,
+      hide: true,
       html: '',
       label: [],
       loaded: 'no',
       keywords: [],
       processed: '',
+      progress: 0,
       publisher: '',
       relatedArticles: [],
       scores: [],
       title: '',
       url: 'Enter URL',
       windowHeight: window.innerHeight,
-      windowWidth: window.innerWidth,
-      hide: true,
-      error: false
+      windowWidth: window.innerWidth
     }
 
     this.checkPrev = this.checkPrev.bind(this)
@@ -130,7 +131,12 @@ class Scraper extends Component {
 
   // Call scrape-publisher route on URL
   async scrapePublisher() {
-    this.setState({publisher: '', loaded: 'loading', error: false})
+    this.setState({
+      publisher: '',
+      loaded: 'loading',
+      error: false,
+      progress: 16.7
+    })
     try {
       const {data} = await axios.get('/api/processing/scrape/meta', {
         params: {targetUrl: this.state.url}
@@ -146,13 +152,13 @@ class Scraper extends Component {
   // Call scrape API on URL
   async sendUrl() {
     this.setState({
-      html: '--- SCRAPING ---',
       processed: '',
       keywords: [],
       scores: [],
       title: '',
       label: '',
-      loaded: 'loading'
+      loaded: 'loading',
+      progress: 33.3
     })
     this.setChartData()
 
@@ -192,15 +198,12 @@ class Scraper extends Component {
 
   // Cleans up text for Google NLP API
   async preProcess() {
-    this.setState({processed: '--- PROCESSING ---'})
-    let shortenedText = this.state.html
-      .split(' ')
-      .slice(0, 1000)
-      .join(' ')
+    this.setState({progress: 50})
+    // let shortenedText = this.state.html.split(' ').slice(0, 1000).join(' ')
 
     try {
       const {data} = await axios.get('/api/python/preprocess', {
-        params: {text: shortenedText}
+        params: {text: this.state.html}
       })
 
       this.setState(
@@ -219,6 +222,7 @@ class Scraper extends Component {
 
   // Call Google NLP Api
   async getPrediction() {
+    this.setState({progress: 66.7})
     let shortenedText = this.state.processed
       .split(' ')
       .slice(0, 400)
@@ -262,20 +266,6 @@ class Scraper extends Component {
       console.log(error)
       this.errorMsg()
     }
-
-    // // Save article to DB
-    // this.props.createArticle({
-    //   publisher: this.state.publisher,
-    //   url: this.state.url,
-    //   text: this.state.html,
-    //   title: this.state.title,
-    //   fake: this.state.scores.fake * 100,
-    //   political: this.state.scores.political * 100,
-    //   reliable: this.state.scores.reliable * 100,
-    //   satire: this.state.scores.satire * 100,
-    //   unknown: this.state.scores.unknown * 100,
-    //   keywords: this.state.keywords,
-    // })
   }
 
   async saveArticle() {
@@ -300,11 +290,12 @@ class Scraper extends Component {
   }
 
   async fetchArticles() {
+    this.setState({progress: 83.3})
     try {
       let {data} = await axios.get('/api/processing/related-articles', {
         params: {keywords: this.state.keywords.slice(0, 3)}
       })
-      this.setState({relatedArticles: data, loaded: 'yes'})
+      this.setState({relatedArticles: data, loaded: 'yes', progress: 100})
     } catch (error) {
       console.log('~~~FETCH ARTICLES ERROR~~~')
       console.log(error)
@@ -355,6 +346,7 @@ class Scraper extends Component {
       keywords,
       label,
       loaded,
+      progress,
       publisher,
       relatedArticles,
       title,
@@ -393,6 +385,7 @@ class Scraper extends Component {
               </FlexCol>
               <div className="search">
                 <h3>Hold tight. We're triple checking our sources.</h3>
+                <h3 style={{marginTop: '1rem'}}>{progress.toFixed(1)}%</h3>
               </div>
             </Fade>
           </FlexCol>
@@ -406,7 +399,15 @@ class Scraper extends Component {
               <div id="read-more" onClick={this.toggleHide}>
                 Read {hide ? '▼' : '▲'}
               </div>
-              {!hide && <div id="article-text">{html}</div>}
+              {!hide && (
+                <div id="article-text">
+                  {html
+                    .split(' ')
+                    .slice(0, 500)
+                    .join(' ')
+                    .concat('...')}
+                </div>
+              )}
             </FlexCol>
             <FlexCol id="graph">
               <Chart chartData={chartData} />

@@ -225,80 +225,109 @@ const articles = [
       'vote'
     ]
   },
-  // {
-  //   title: `Bitcoin to Come to America’s Oldest Bank, BNY Mellon - WSJ`,
-  //   publisher: 'The Wall Street Journal',
-  //   text:
-  //     'Dow Jones.Bitcoin to Come to America’s Oldest Bank, BNY Mellon.The custody bank plans to eventually treat digital currencies like any other asset.After tweets from Tesla CEO Elon Musk and rapper Snoop Dogg, the cryptocurrency Dogecoin, which started as a joke, topped $10 billion in market value. WSJ looks at why online investors are pouring money into the meme-inspired virtual currency. Photo: Yuriko Nakao/Aflo/Zuma Press.By.Updated Feb. 11, 2021 9:54 am ET.Bank of New York Mellon Corp. , the nation’s oldest bank, is making the leap into the market for cryptocurrencies.The custody bank said Thursday it will hold, transfer and issue bitcoin and other cryptocurrencies on behalf of its asset-management clients. In time, BNY Mellon will allow those digital assets to pass through the same plumbing used by managers’ other, more traditional holdings—from Treasurys to technology stocks—using a platform that is now in prototype. The bank is already discussing plans with clients to bring their digital currencies into the fold.“Digital assets are becoming part of the mainstream,” said Roman Regelman, chief executive of BNY Mellon’s asset-servicing and digital businesses.It is a big step for Wall Street’s back-office banks, whose concerns over regulatory, legal and stability risks left them reluctant to come into direct contact with crypto markets. But as prices of bitcoin and other digital assets have continued to rise, they have become more popular with asset managers, hedge funds and other institutional investors.And those firms’ top executives started asking BNY Mellon and their peers to treat digital assets as they would their other holdings, Mr. Regelman said.To Read the Full Story.',
-  //   url:
-  //     'https://www.wsj.com/articles/bitcoin-to-come-to-america-s-oldest-bank-bny-mellon-11613044810?mod=hp_lead_pos5',
-  //   reliable: 99.57687854766846,
-  //   political: 1.0847240686416626,
-  //   fake: 0.33698081970214844,
-  //   satire: 0.06569027900695801,
-  //   unknown: 0.12818574905395508,
-  //   keywords: [],
-  // },
-  // {
-  //   title: `GameStop Mania Is Focus of Federal Probes Into Possible Manipulation - WSJ`,
-  //   publisher: 'The Wall Street Journal',
-  //   text:
-  //     'Dow Jones.Justice Department has subpoenaed information from Robinhood Markets, others.In just five days, GameStop’s shares soared up to 500%. WSJ analyzed how Reddit posts, YouTube videos and tweets by personalities including Elon Musk spread online and fueled a trading craze that turned Wall Street upside down. Photo illustration: George Downs/WSJ.By Dave Michaels.Updated Feb. 11, 2021 1:47 pm ET.WASHINGTON—Federal prosecutors and regulators are investigating whether market manipulation or other types of misconduct fueled the rapid rise last month in prices of stocks such as GameStop Corp. and AMC Entertainment Holdings Inc., according to people familiar with the matter.The Justice Department’s fraud section and the San Francisco U.S. attorney’s office have sought information about the activity from brokers and social-media companies that were hubs for the trading frenzy, the people said. Prosecutors have subpoenaed information from brokers such as Robinhood Markets Inc., the popular online brokerage that many individual investors used to trade GameStop and other shares, the people said.GameStop shares surged from about $20 to $483 over a period of two weeks in January. The stock has since fallen to around $50. It was fueled by an army of bullish individual traders exhorting one another on Reddit to buy the shares and squeeze hedge funds that bet the price would fall. Traders who bet stock prices will decline are known as short sellers.In addition to the probe by the Justice Department, the Commodity Futures Trading Commission is examining similar trading, the people said. The CFTC has opened a preliminary investigation into whether misconduct occurred as some Reddit traders targeted silver futures and the largest exchange-traded fund tied to silver, the iShares Silver Trust , one of the people said.The Wall Street Journal has reported that the Securities and Exchange Commission is reviewing the trading frenzy as well. The SEC and CFTC are civil regulators. The burden of proof in a regulatory enforcement action is lower than in a criminal case.To Read the Full Story.',
-  //   url:
-  //     'https://www.wsj.com/articles/gamestop-mania-is-focus-of-federal-probes-into-possible-manipulation-11613066950?mod=hp_lead_pos3',
-  //   reliable: 99.99192953109741,
-  //   political: 0.0007079860552039463,
-  //   fake: 0.00811266218079254,
-  //   satire: 0.0035272933018859476,
-  //   unknown: 0.10795891284942627,
-  //   keywords: [],
-  // },
   {
-    title: ``,
-    publisher: ``,
-    text: ``,
-    url: '',
-    reliable: 0,
-    political: 0,
-    fake: 0,
-    satire: 0,
-    unknown: 0,
-    keywords: []
+    title: `Bitcoin to Come to America’s Oldest Bank, BNY Mellon - WSJ`,
+    publisher: 'The Wall Street Journal',
+    text:
+      'Dow Jones.Bitcoin to Come to America’s Oldest Bank, BNY Mellon.The custody bank plans to eventually treat digital currencies like any other asset.After tweets from Tesla CEO Elon Musk and rapper Snoop Dogg, the cryptocurrency Dogecoin, which started as a joke, topped $10 billion in market value. WSJ looks at why online investors are pouring money into the meme-inspired virtual currency. Photo: Yuriko Nakao/Aflo/Zuma Press.By.Updated Feb. 11, 2021 9:54 am ET.Bank of New York Mellon Corp. , the nation’s oldest bank, is making the leap into the market for cryptocurrencies.The custody bank said Thursday it will hold, transfer and issue bitcoin and other cryptocurrencies on behalf of its asset-management clients. In time, BNY Mellon will allow those digital assets to pass through the same plumbing used by managers’ other, more traditional holdings—from Treasurys to technology stocks—using a platform that is now in prototype. The bank is already discussing plans with clients to bring their digital currencies into the fold.“Digital assets are becoming part of the mainstream,” said Roman Regelman, chief executive of BNY Mellon’s asset-servicing and digital businesses.It is a big step for Wall Street’s back-office banks, whose concerns over regulatory, legal and stability risks left them reluctant to come into direct contact with crypto markets. But as prices of bitcoin and other digital assets have continued to rise, they have become more popular with asset managers, hedge funds and other institutional investors.And those firms’ top executives started asking BNY Mellon and their peers to treat digital assets as they would their other holdings, Mr. Regelman said.To Read the Full Story.',
+    url:
+      'https://www.wsj.com/articles/bitcoin-to-come-to-america-s-oldest-bank-bny-mellon-11613044810?mod=hp_lead_pos5',
+    reliable: 99.57687854766846,
+    political: 1.0847240686416626,
+    fake: 0.33698081970214844,
+    satire: 0.06569027900695801,
+    unknown: 0.12818574905395508,
+    keywords: [
+      'digital',
+      'bank',
+      'asset',
+      'said',
+      'mellon',
+      'manager',
+      'bny mellon',
+      'bny',
+      'regelman',
+      'money manager'
+    ]
+  },
+  {
+    title: `GameStop Mania Is Focus of Federal Probes Into Possible Manipulation - WSJ`,
+    publisher: 'The Wall Street Journal',
+    text:
+      'Dow Jones.Justice Department has subpoenaed information from Robinhood Markets, others.In just five days, GameStop’s shares soared up to 500%. WSJ analyzed how Reddit posts, YouTube videos and tweets by personalities including Elon Musk spread online and fueled a trading craze that turned Wall Street upside down. Photo illustration: George Downs/WSJ.By Dave Michaels.Updated Feb. 11, 2021 1:47 pm ET.WASHINGTON—Federal prosecutors and regulators are investigating whether market manipulation or other types of misconduct fueled the rapid rise last month in prices of stocks such as GameStop Corp. and AMC Entertainment Holdings Inc., according to people familiar with the matter.The Justice Department’s fraud section and the San Francisco U.S. attorney’s office have sought information about the activity from brokers and social-media companies that were hubs for the trading frenzy, the people said. Prosecutors have subpoenaed information from brokers such as Robinhood Markets Inc., the popular online brokerage that many individual investors used to trade GameStop and other shares, the people said.GameStop shares surged from about $20 to $483 over a period of two weeks in January. The stock has since fallen to around $50. It was fueled by an army of bullish individual traders exhorting one another on Reddit to buy the shares and squeeze hedge funds that bet the price would fall. Traders who bet stock prices will decline are known as short sellers.In addition to the probe by the Justice Department, the Commodity Futures Trading Commission is examining similar trading, the people said. The CFTC has opened a preliminary investigation into whether misconduct occurred as some Reddit traders targeted silver futures and the largest exchange-traded fund tied to silver, the iShares Silver Trust , one of the people said.The Wall Street Journal has reported that the Securities and Exchange Commission is reviewing the trading frenzy as well. The SEC and CFTC are civil regulators. The burden of proof in a regulatory enforcement action is lower than in a criminal case.To Read the Full Story.',
+    url:
+      'https://www.wsj.com/articles/gamestop-mania-is-focus-of-federal-probes-into-possible-manipulation-11613066950?mod=hp_lead_pos3',
+    reliable: 99.99192953109741,
+    political: 0.0007079860552039463,
+    fake: 0.00811266218079254,
+    satire: 0.0035272933018859476,
+    unknown: 0.10795891284942627,
+    keywords: [
+      'people',
+      'trading',
+      'said',
+      'people said',
+      'trader',
+      'stock',
+      'silver',
+      'share',
+      'price',
+      'justice department'
+    ]
+  },
+
+  {
+    title: `The fake fight over your Social Security benefits`,
+    publisher: `Before It's News | People Powered News`,
+    text: `% of readers think this story is Fact. Add your two cents. Kiplinger’s is supposed to know what they are writing about. Hah! Here is an article that appeared in today’s Chicago Tribune. You decide whether Kiplinger’s Managing Editor knows what she is writing about. Biden’s plan to strengthen Social Security By Catherine Siskos, managing editor at Kiplinger’s Retirement Report In 2021, Social Security is expected to begin drawing down its trust fund to cover benefits inste of tapping only the interest. Right away, we are greeted with the Big Lie that federal taxes fund federal spending. While, state and local government taxes fund state and local government spending, federal taxes do not fund federal spending. That is a major difference most people  not understand. Because the U.S. federal government uniquely is Monetarily Sovereign , it has the unlimited ability to create its own sovereign currency. The U.S. government never c run short of U.S. dollars. Even if payroll tax collections fell to $0, the federal government could continue to fund Social Security, forever. An example of instructions: “Pay to the order of . . . “ Why can the U.S. government never run short of dollars? Because it pays creditors with instructions, not with dollars. It never can run short of instructions, which  creates from thin air, simply by voting. To pay for its spending, the federal government creates new dollars, ad hoc, by creating and sending instructions to each creditor’s bank, instructing the bank  increase the balance in the creditor’s checking account. The instructions are in the form of a paper check or more commonly a wire, both of which begin with the instructions, “Pay to the order of __________.” When the creditor’s bank does as instructed (by pressing a computer key), new dollars instantly are created and are added to the M1 money supply. It is the bank th does the actual money creation. The creditor’s bank then balances its books by getting approval from (i.e. “clearing” the government’s instructions through) the Federal Reserve Bank, and t money-creation cycle is complete. What then becomes of the tax dollars sent to the U.S. Treasury? They are destroyed . They cease to exist in any money supply measure. That is why no one on earth can answer the question, “How much money does the U.S. federal government have?” Depending on your perspective, the answer either is “$0” or “infinite.” Personally, I prefer “infinite,” because the Treasury does carry a comparatively small account with the Federal Reserve Bank. And by the way, remember that bolded phrase above, “instead of tapping only the interest?” Guess where the interest comes from. It comes from the fake “trust fund’s” investment in Treasury Securities. The U.S. Treasury creates dollars from thin air to pay interest to a non-existent U.S. federal “trust fund. ” The U.S. Treasury instead simply could create dollars  fund Social Security, and do away with the bookkeeping mumbo-jumbo. Unless Congress acts, benefits will be cut at least 20% when the trust fund runs out of money in 2033 — two years sooner than previously projected, according to t Center for Retirement Research at Boston College. At that point, the program will rely entirely on payroll taxes, which currently aren’t enough to fully fund Soci Security. Unless Congress acts, your benefits will be cut, but not because the fake “trust fund” runs out of money. Benefits will be cut because Congress created the fake “tru fund” as a device to limit your benefits. Medicare Part A has a similar fake “trust fund,” which also is running short of money, while Medicare Part B has no trust fund, so it cannot run short of money. Hmmm . . . Does that give you any ideas? How about using the Medicare Part B system for Medicare Part A and for Social Security? That way, we never would have to hear false warnings about running short of money, and we could dispense with deceptive articles like this one from Kiplingers. President Joe Biden wants to expand Social Security in two ways. He would raise benefits for the people most in need: low-wage workers, surviving spouses of dual-earn couples, caregivers, government workers and those who have been collecting Social Security the longest. (The rationale for that last group? Seniors have higher medic and long-term care expenses later in life.) Everyone else’s benefits would remain the same, but their Social Security cost-of-living adjustments would increase becau Biden supports switching to the Consumer Price Index for the Elderly. The CPI-E is considered a better measure of inflation for older adults because it weights seni citizens’ biggest expenses, such as health care and housing, more heavily. The Social Security Administration estimates that switching to the CPI-E from the current wa earners index will raise annual COLAs 0.2 percentage points, on average. To pay for these changes, Biden wants to increase Social Security payroll taxes on people earning more than $400,000 a year, a short-term fix that would also shore  the program for only another five years, Melissa M. Favreault predicts in an analysis for the Urban-Brookings Tax Policy Center. She is a senior fellow in the Income a Benefits Policy Center at the Urban Institute. Does the “senior fellow in the Tax Policy Center at the Urban-Brookings Institute really believe that Social Security taxes fund Social Security benefits? Or is s merely parroting the Big Lie for political reasons? Proposed legislation from Rep. John Larson, a Democrat, would secure the program’s funding for 75 years. Along with the increase on those earning more than $400,000 th Biden has proposed, the bill calls for raising the payroll tax for everyone, with employees and employers each contributing an additional 1.2%, or roughly 50 cents mo per week, estimates Social Security in an independent analysis of the bill. The increase would be phased in between now and 2043. In a divided Congress, Democrats a Republicans could find common ground with smaller bills, such as one to reinflate Social Security benefits for people born in 1960 or 1961, says Max Richtman, preside and CEO of the National Committee to Preserve Social Security and Medicare. Their benefits will be cut`,
+    url:
+      'https://beforeitsnews.com/economics-and-politics/2021/02/the-fake-fight-over-your-social-security-benefits-2527792.html',
+    reliable: 0.03466904163360596,
+    political: 0.37085115909576416,
+    fake: 48.09076189994812,
+    satire: 0.001539222830615472,
+    unknown: 72.85282611846924,
+    keywords: [
+      'security',
+      'social security',
+      'social',
+      'fund',
+      'tax',
+      'federal',
+      'benefit',
+      'money',
+      'government',
+      'trust fund'
+    ]
+  },
+  {
+    title: `Planet Lock down – The Crime of the Century`,
+    publisher: `Before It's News | People Powered News`,
+    text: ` “The individual is handicapped by coming face-to-face with a conspiracy so monstrous he cannot believe it exists. The human mind simply has not come to realization of the evil which has been introduced into our midst. It rejects even the assumption that human creatures could espouse a philosophy which must ultimate destroy all that is good and decent.” We stand at a moment in time where what we each do individually now, will determine the future existence of the next generation ( our (grand)children) and the future  the human species as well as all living things in this world. There is only now and the war has already been going on for sometime and most people don’t even know it  happening to them. THE FUTURE OF OUR PLANET IS IN OUR HANDS Understanding, exposing and ultimately stopping these plans must be a priority for the other 95% of the human race. If you want to see any future for coming generation get educated and become pro-active. You are witnessing the “PLANNED CONTROLLED DEMOLITION” of the world as we know it by the “PSYCHOPATHS” who run this world The Truth? 2020. World War III. It’s here. And you don’t even know it. You want the truth? A Conspiracy Theory? It’s not a theory when you can back it up. In short, a few, very rich, very corrupt individuals are using this virus to attempt to seize world control, eliminate cash, eliminate your job, make you dependent, ma you sick and genetically mutated with forced vaccinations, and track you with apps. All on the fake pretence of ‘protecting’ you, ‘saving’ the environment, ‘avoidi climate change’, etc. Why? Because they want total control, allegiance, and if you don’t obey, you are eliminated from their system. They have decided they know best h to let you live, and they want you in perpetual slavery. You are being lied to. This documentary explains it. This is the most important documentary you will ever watch. It could be a matter of life and death for you and your family. The greatest hoax ever orchestrated against the human race, “EXPOSED for all to see” SILENT WEAPONS FOR QUIET WARS: USELESS EATERS vs. NEW WORLD ORDER —-We are at WAR! Or, at least, it appears that way! This apparent war is both undeclared and unacknowledged, and is literally unbeknownst to half of the players on t field of battle. It has been on going for at least 60 or more years, AND is still being fought! It is a “hidden” war, and thus the first word in the title of th article “SILENT”. It is a battle for total control over the entire planet that we live on. This SILENT WAR involves only two sides — USELESS EATERS and THE NEW WORLD ORDER. For those who are unfamiliar with the term: USELESS EATER, that is the term that was given to the common man – the everyday, average guy and gal – by the Super Elit most of whom support the New World Order Agenda! So this is THEIR TERM for the common man, not mine. Depending upon which side you are on, that will be the indicator of how much information you have about this battle. If you are on the side of the people – the “USELE EATERS” – you will know nothing, or at least as close to nothing as possible about this war, or that it is even being waged, you will, in effect, BE OBLIVIOUS! Author: Bradley Loves Deal with reality, before it deals with you. If your waiting for someone to save us, it’s not going to happen. It’s S.O.S = Save Our Selves. “You may choose to look the other way, but you can never say again that you did not know.” — William Wilberforce The very Rich want us to die Dr Rima – The Globalist Agenda: The Great Culling – YouTube We will all suffer the consequences of those who willfully chose to remain ignorant If you are awake and aware you are now the resistance If you do nothing, nothing will happen. As always please do your own research, thinking and draw your own conclusions. Doctors Around the World Issue Dire WARNING: “DO NOT GET THE COV!D VA((INE” The 5G kill grid, coming to a neighborhood near you – Wi-Fi – The Invisible Killing Fields Let he who be deceived, be deceived The Cov!d pandora’s box. Proof: that “COV!D 9 TEEN” does not exist and the P.C.R test is “SCIENTIFICALLY MEANINGLESS” “To Mask or NOT to Mask?” … What does the science say? | Help save our kids future The End Game. The Merging of Man and Machine. R U ready to be “ROBOTIZED”, without your “Knowledge or Consent” U R the Living Man & Woman. Y R U Living in the Land of the DEAD `,
+    url:
+      'https://beforeitsnews.com/conspiracy-theories/2021/02/planet-lock-down-the-crime-of-the-century-2517939.html',
+    reliable: 0.698205828666687,
+    political: 5.287057161331177,
+    fake: 75.8926272392273,
+    satire: 0.019481778144836426,
+    unknown: 1.332727074623108,
+    keywords: [
+      'world',
+      'war',
+      'know',
+      'want',
+      'human',
+      'future',
+      'useless eater',
+      'useless',
+      'nothing',
+      'man'
+    ]
   },
   {
     title: `Trump Assassination Foiled, Deep State in Panic Mode!`,
     publisher: `Before It's News | People Powered News`,
-    text: `
-
-
-
-    On Tuesday morning at approximately 3:00 am, a sniper’s bullet struck a panoramic casement window on the east wall of Trump’s bedroom at his Mar-a-Lago estate. The round might have slain Trump had he not recently replaced tempered glass with Blast Structures International’s bullet resistant glass, which, according to the company’s website, can stop anything less powerful than a .50 round.
-
-    A confidential source within Trump’s inner circle told Real Raw News that Trump was asleep in bed, and, a light sleeper, was awakened by the “sharp crack” of the bullet striking glass. The round did not penetrate the glass, but caused a material-science dissipation fracture, or spiderweb pattern.
-
-    The strike, our source said, triggered a silent alarm that instantly notified the Palm Beach Police Dept. and Trump’s Secret Service Detail, which sleeps in a guest house ten yards from the main building. Agents whisked Trump to safety, escorting him to a fortified saferoom, and said they’d coordinate with local authorities.
-
-    But Trump demanded they call the Palm Beach Police Dept. and say it was a false alarm.
-
-    “Trump was adamant no police get involved,” our source said. “He told his guys he wants to keep it in the family. No law enforcement. No media. He was very stern about keeping the media blind to the event. Trump made a phone call, and inside of thirty minutes, some heavy-hitting dudes who were definitely not Secret Service arrived at the estate,” our source said.
-
-    With Trump safe, his private security fanned across the 20-acre estate searching for signs of intrusion, while the Secret Service detail began its own investigation as to how a would-be assassin got within shooting distance of one of the most secure residences in the world.
-
-    At 7:00am a forensic ballistic expert from Quantico arrived at Mar-a-Lago and determined the bullet fragments were from a 7mm Remington Magnum round. He found himself amid an intractable dilemma, our source said. The round had been fired at a downward angle and, had it pierced glass, would have sizzled through Trump’s skull, but an attack on the east window meant one of two things. The sniper had taken the shot from either estate grounds, which lacks elevated terrain, or from somewhere above the Atlantic swell, a seemingly impossible feat.
-
-    “Trump’s bedroom is 23 feet above ground level. Besides the main building, no structure on the property is higher. The ballistics guy figured the shot could only have been made by someone in a hovering helicopter two hundred yards or more off the coast. If true, that guy must have been the best marksman in the world. From a helicopter and at night. Crazy,” our source said.
-
-    The concept of sniping from a helicopter seemed so unrealistic that RRL reached out to Marine Corps Staff Sgt. Hunter Bernius, a scout-sniper and instructor at the Marine Corps. School of Infantry in Geiger, North Carolina. Without mentioning the nature of our inquiry, we asked Staff Sgt. Bernius about the odds of successfully pulling off a 200-400 yard shot from a hovering chopper with little or no natural light.
-
-    “Only with proper training specifically for that type of mission. To shoot precisely, the shooter has to account for aircraft vibration and wind speed and direction, all wind whipping up around him from blades spinning at 400rpm. Then there’s a dozen other variables. Takes months and months of training from a qualified instructor, and there’s still no guarantee. Aerial sniping is a skill all its own,” Staff Sgt. Bernius said.
-
-    By noon, the Secret Service had discretely interviewed all persons on estate property, but no one reported seeing or hearing a helicopter, or hearing gunfire.
-
-    According to our source, Trump’s people suspected the attack was carried out by the Deep State, to stop Trump from amassing incriminating evidence that, if released, could sink every Democrat from Joe Biden to the most junior member of the Democratic caucus.
-
-    READ MORE ON THIS STORY HERE
-
-    (For those people asking What about Melania? Where was Melania? Anyone who knows anything about the Trumps, knows they sleep in separate bedrooms.)`,
+    text: ` On Tuesday morning at approximately 3:00 am, a sniper’s bullet struck a panoramic casement window on the east wall of Trump’s bedroom at his Mar-a-Lago estate. The rou might have slain Trump had he not recently replaced tempered glass with Blast Structures International’s bullet resistant glass, which, according to the company website, can stop anything less powerful than a .50 round. A confidential source within Trump’s inner circle told Real Raw News that Trump was asleep in bed, and, a light sleeper, was awakened by the “sharp crack” of the bull striking glass. The round did not penetrate the glass, but caused a material-science dissipation fracture, or spiderweb pattern. The strike, our source said, triggered a silent alarm that instantly notified the Palm Beach Police Dept. and Trump’s Secret Service Detail, which sleeps in a gue house ten yards from the main building. Agents whisked Trump to safety, escorting him to a fortified saferoom, and said they’d coordinate with local authorities. But Trump demanded they call the Palm Beach Police Dept. and say it was a false alarm. “Trump was adamant no police get involved,” our source said. “He told his guys he wants to keep it in the family. No law enforcement. No media. He was very stern abo keeping the media blind to the event. Trump made a phone call, and inside of thirty minutes, some heavy-hitting dudes who were definitely not Secret Service arrived  the estate,” our source said. With Trump safe, his private security fanned across the 20-acre estate searching for signs of intrusion, while the Secret Service detail began its own investigation  to how a would-be assassin got within shooting distance of one of the most secure residences in the world. At 7:00am a forensic ballistic expert from Quantico arrived at Mar-a-Lago and determined the bullet fragments were from a 7mm Remington Magnum round. He found himse amid an intractable dilemma, our source said. The round had been fired at a downward angle and, had it pierced glass, would have sizzled through Trump’s skull, but  attack on the east window meant one of two things. The sniper had taken the shot from either estate grounds, which lacks elevated terrain, or from somewhere above t Atlantic swell, a seemingly impossible feat. “Trump’s bedroom is 23 feet above ground level. Besides the main building, no structure on the property is higher. The ballistics guy figured the shot could only ha been made by someone in a hovering helicopter two hundred yards or more off the coast. If true, that guy must have been the best marksman in the world. From a helicopt and at night. Crazy,” our source said. The concept of sniping from a helicopter seemed so unrealistic that RRL reached out to Marine Corps Staff Sgt. Hunter Bernius, a scout-sniper and instructor at t Marine Corps. School of Infantry in Geiger, North Carolina. Without mentioning the nature of our inquiry, we asked Staff Sgt. Bernius about the odds of successful pulling off a 200-400 yard shot from a hovering chopper with little or no natural light. “Only with proper training specifically for that type of mission. To shoot precisely, the shooter has to account for aircraft vibration and wind speed and direction, a wind whipping up around him from blades spinning at 400rpm. Then there’s a dozen other variables. Takes months and months of training from a qualified instructor, a there’s still no guarantee. Aerial sniping is a skill all its own,” Staff Sgt. Bernius said. By noon, the Secret Service had discretely interviewed all persons on estate property, but no one reported seeing or hearing a helicopter, or hearing gunfire. According to our source, Trump’s people suspected the attack was carried out by the Deep State, to stop Trump from amassing incriminating evidence that, if release could sink every Democrat from Joe Biden to the most junior member of the Democratic caucus. READ MORE ON THIS STORY HERE (For those people asking What about Melania? Where was Melania? Anyone who knows anything about the Trumps, knows they sleep in separate bedrooms.)`,
     url:
       'https://beforeitsnews.com/blogging-citizen-journalism/2021/01/trump-assasination-foiled-deep-state-in-panic-mode-2649691.html',
     reliable: 0.5447566509246826,
@@ -316,18 +345,94 @@ const articles = [
       'estate',
       'service',
       'secret service',
-      'secret',
-      'helicopter',
-      'bullet',
-      'yard',
-      'staff sgt',
-      'staff',
-      'sniper',
-      'shot',
-      'sgt',
-      'police',
-      'guy'
+      'secret'
     ]
+  },
+  {
+    title: `POTUS Authorizes Firing Squad Executions While Kamala Harris Remains In Hiding`,
+    publisher: `Your News Wire`,
+    text: `President Trump has amended federal execution rules to allow death by firing squad, sparking rumors that this may be the reason why Kamala Harris has gone into hiding since election day. Harris’ disappearance is noteworthy – with her being the former top prosecutor in California, she knows America’s federal laws about fraudulent elections and treason, and also knows the grave significance of Attorney Sidney Powell having just revealed her evidence proving 10-million votes were stolen for Biden. The claim that President Trump is going after traitors were also confirmed this week by retired US Army Major Jeffrey Prather, founder of the Warriorschool, that since 1995, has trained the US Army, Marines, Navy, Air Force, and Coast Guard special forces, as well as most US federal law enforcement agencies such the FBI, DHS, US Marshals and Border Patrol. In an interview with Natural News, Prather laid out how President Trump, the Department of Defense and acting Defense Secretary Christopher Miller were going to defeat Deep State traitors and save America from the attempted coup.
+    Partial summary as follows: “Confirms that multiple raids on the servers of vote rigging systems were conducted, in three countries…Confirms that the NSA has hard evidence on treasonous actors, and that this evidence is likely being leveraged by Trump’s people…Confirms that Trump can use the NDAA, combined with the Sep. 12, 2018 Executive Order, to declare domestic treasonous actors as “enemy combatants”…Says that the DoD and patriots inside the DIA have everything they need to defeat the deep state…Says Trump will be President on January 21st…Warns that the transition from information warfare to conventional (kinetic) warfare may happen very soon…Warns that the left-wing backlash against Trump’s victory will result in bloodshed that cannot be avoided”.`,
+    url:
+      'https://yournewswire.com/potus-authorizes-firing-squad-executions-while-kamala-harris-remains-in-hiding/',
+    reliable: 12.906941771507263,
+    political: 0.007344993355218321,
+    fake: 98.07496070861816,
+    satire: 0.005371175575419329,
+    unknown: 0.3705024719238281,
+    keywords: [
+      'trump',
+      'president',
+      'president trump',
+      'federal',
+      'evidence',
+      'confirms',
+      'warns',
+      'warfare',
+      'vote',
+      'treasonous actor'
+    ]
+  },
+
+  {
+    title: `WikiLeaks BOMBSHELL: Dominion Exec Told Podesta “I’ll Do Anything To Defeat Trump”`,
+    publisher: `Your News Wire`,
+    text: `An email previously released by WikiLeaks reveals that a Dominion executive met with John Podesta to plot ways to help defeat Donald Trump in the presidential election. In 2018, Dominion Voting announced that it had been acquired by its management team and Staple Street Capital, a New York-based private equity firm, who was being advised by Kirkland & Ellis LLP. According to 2015 email chain released by WikiLeaks, Kirkland & Ellis LLP partner Kamran S. Bajwa met with John Podesta to offer “anything” to help defeat Trump. At that time, Podesta was chair of Hillary Clinton’s U.S. presidential campaign. On Saturday, December 19, 2015, Bajwa wrote the following to John Podesta: “it was a pleasure to meet this past Th in NY. As discussed, I want to do whatever I can by way of sharing ideas, raising funds, recruiting campaign volunteers, and anything else that can help with your campaign. I hope my small efforts to introduce you to a growing group of professionals like myself will be able to boost your important work for Secretary Clinton’s campaign.” “I come to NY frequently and would welcome the opportunity to sit with you and discuss the best way to coordinate our efforts. If you will be in NY Jan 5, I will be free that day to meet you at any time and place convenient for you.” Podesta followed up by emailing: “can’t remember whether we discussed Trump’s effect on ISIS/radical recruitment. You following that?” “John, just a quick note to say I was catching up with my senior partner Bill Singer back in the office and letting him know of my intentions to help your campaign as much as I can. He was very effusive in his praise of you and asked me to send along his regards. I will look forward to being touch after the break,” Bajwa wrote back on December 21. On January 2, 2016, Bajwa eagerly followed up again, asking to meet with Podesta. He said: “I wanted to follow up on our brief conversation a few weeks back and see if you would be available to meet this coming Tuesday in NY? I will be in town for work and my schedule is flexible on Tuesday so if you can meet, I can come to you at a convenient time and place anytime prior to 5pm.” Podesta then forwarded the email chain to Clinton campaign staffer Milia Fisher and asked her to schedule the meeting for him.`,
+    url:
+      'https://yournewswire.com/wikileaks-bombshell-dominion-exec-told-podesta-ill-do-anything-to-defeat-trump/',
+    reliable: 0.577324628829956,
+    political: 63.399940729141235,
+    fake: 30.90764284133911,
+    satire: 0.01437067985534668,
+    unknown: 0.7028102874755859,
+    keywords: [
+      'podesta',
+      'campaign',
+      'meet',
+      'ny',
+      'john',
+      'help',
+      'bajwa',
+      'way',
+      'trump',
+      'time'
+    ]
+  },
+  {
+    title: `Parler Is A Great Place For People Who Are Into ‘Crazy Stuff’ Says Bill Gates`,
+    publisher: `Your News Wire`,
+    text: `Bill Gates is not a fan of the social media platform Parler and has mocked its users by saying it is a safe space for people who are into “crazy stuff”. According to Gates “If you want Holocaust denial, hey, Parler is going to be great for you.” Gates said he believed that social media platforms need to face stronger regulation in the U.S. to help manage the spread of fake news and says Facebook and Twitter are doing a far better job in monitoring misinformation than Parler. Truth is Mr Gates just does not like the idea of ‘free speech’ and is against a platform that does not censor anything that might go against the offiicial narrative. Parler has promoted itself as a proponent of “free expression without violence and censorship” It describes itself as “unbiased social media focused on real user experience and engagement.” It’s promise of less censorship has attracted users who have been censored or banned on mainstream social platforms like Facebook, Twitter, and YouTube. Numerous Conservative journalists, media personalities and politicians have joined Parler over the past few months. Following election day, the platform has seen a huge increase in new users and it will continue to grow if Facebook and Twitter continue their censorship of conservative opinions.`,
+    url:
+      'https://yournewswire.com/parler-is-a-great-place-for-people-who-are-into-crazy-stuff-says-bill-gates/',
+    reliable: 0.6163060665130615,
+    political: 0.043457746505737305,
+    fake: 98.82630109786987,
+    satire: 0.012314434570726007,
+    unknown: 0.10131001472473145,
+    keywords: [
+      'platform',
+      'parler',
+      'user',
+      'social',
+      'medium',
+      'gate',
+      'twitter',
+      'social medium',
+      'facebook twitter',
+      'facebook'
+    ]
+  },
+  {
+    title: ``,
+    publisher: ``,
+    text: ``,
+    url: '',
+    reliable: 0,
+    political: 0,
+    fake: 0,
+    satire: 0,
+    unknown: 0,
+    keywords: []
   }
 ]
 
