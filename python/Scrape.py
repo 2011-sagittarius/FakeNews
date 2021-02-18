@@ -12,10 +12,11 @@ article = Article(url, config=config)
 
 article.download()
 article.parse()
+text = ' '.join(article.text.split(' ')[:1000])
 
 export = {
   "title": article.title,
-  "text": article.text
+  "text": text
 }
 
 app_json = json.dumps(export)
