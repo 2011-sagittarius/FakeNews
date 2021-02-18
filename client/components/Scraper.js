@@ -199,14 +199,11 @@ class Scraper extends Component {
   // Cleans up text for Google NLP API
   async preProcess() {
     this.setState({progress: 50})
-    let shortenedText = this.state.html
-      .split(' ')
-      .slice(0, 1000)
-      .join(' ')
+    // let shortenedText = this.state.html.split(' ').slice(0, 1000).join(' ')
 
     try {
       const {data} = await axios.get('/api/python/preprocess', {
-        params: {text: shortenedText}
+        params: {text: this.state.html}
       })
 
       this.setState(
@@ -269,20 +266,6 @@ class Scraper extends Component {
       console.log(error)
       this.errorMsg()
     }
-
-    // // Save article to DB
-    // this.props.createArticle({
-    //   publisher: this.state.publisher,
-    //   url: this.state.url,
-    //   text: this.state.html,
-    //   title: this.state.title,
-    //   fake: this.state.scores.fake * 100,
-    //   political: this.state.scores.political * 100,
-    //   reliable: this.state.scores.reliable * 100,
-    //   satire: this.state.scores.satire * 100,
-    //   unknown: this.state.scores.unknown * 100,
-    //   keywords: this.state.keywords,
-    // })
   }
 
   async saveArticle() {
@@ -363,7 +346,6 @@ class Scraper extends Component {
       keywords,
       label,
       loaded,
-      processed,
       progress,
       publisher,
       relatedArticles,
@@ -372,8 +354,7 @@ class Scraper extends Component {
       windowHeight,
       windowWidth
     } = this.state
-    console.log('keywords > ', keywords.slice(0, 10))
-    console.log('processed > ', processed)
+
     const search = (
       <>
         {loaded !== 'yes' && (
