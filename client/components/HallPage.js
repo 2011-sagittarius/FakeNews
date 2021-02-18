@@ -83,23 +83,27 @@ export class HallPage extends React.Component {
           <div className="share-illustration">
             <Share />
           </div>
-          <FlexColLeft id="frequent">
-            <h2>Most Popular</h2>
-            <FlexRow>
-              <ul>
-                {freqData.map(publisher => (
-                  <li key={publisher}>{publisher}</li>
-                ))}
-              </ul>
-            </FlexRow>
-          </FlexColLeft>
-          <FlexColLeft id="recent">
-            <h2>Most Recent</h2>
-            <FlexRow>
-              <ul>
-                {recData.map(publisher => <li key={publisher}>{publisher}</li>)}
-              </ul>
-            </FlexRow>
+          <FlexColLeft>
+            <FlexColLeft id="frequent">
+              <h2>Most Popular</h2>
+              <FlexRow>
+                <ul>
+                  {freqData.map(publisher => (
+                    <li key={publisher}>{publisher}</li>
+                  ))}
+                </ul>
+              </FlexRow>
+            </FlexColLeft>
+            <FlexColLeft id="recent">
+              <h2>Most Recent</h2>
+              <FlexRow>
+                <ul>
+                  {recData.map(publisher => (
+                    <li key={publisher}>{publisher}</li>
+                  ))}
+                </ul>
+              </FlexRow>
+            </FlexColLeft>
           </FlexColLeft>
         </FlexCol>
         <Link to="/">
