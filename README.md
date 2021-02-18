@@ -2,7 +2,7 @@
 
 With the explosion of misinformation online, it is getting increasingly harder for users to distinguish fakes from facts. Our team set out to do something about that.
 
-As our capstone project, this project served as a great exploration into leveraging ML to solve an interesting a pertinent problem.
+As our capstone project, this project served as a great exploration into leveraging ML to solve an interesting and pertinent problem.
 
 ## Setup
 
