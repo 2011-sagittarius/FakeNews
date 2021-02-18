@@ -206,7 +206,6 @@ class Scraper extends Component {
         params: {text: this.state.html}
       })
 
-      console.log('preprocessed response data > ', data)
       this.setState(
         {
           processed: data.text,
