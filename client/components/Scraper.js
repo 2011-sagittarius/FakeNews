@@ -337,11 +337,25 @@ class Scraper extends Component {
     this.setState({hide: !this.state.hide})
   }
 
+  renderHtml() {
+    if (!this.state.html) return ''
+    else {
+      let {html} = this.state
+      let wordCount = html.split(' ').length
+      if (wordCount > 500)
+        return html
+          .split(' ')
+          .slice(0, 500)
+          .join(' ')
+          .concat('...')
+      else return this.state.html
+    }
+  }
+
   render() {
     const {
       chartData,
       error,
-      html,
       hide,
       keywords,
       label,
@@ -399,15 +413,7 @@ class Scraper extends Component {
               <div id="read-more" onClick={this.toggleHide}>
                 Read {hide ? '▼' : '▲'}
               </div>
-              {!hide && (
-                <div id="article-text">
-                  {html
-                    .split(' ')
-                    .slice(0, 500)
-                    .join(' ')
-                    .concat('...')}
-                </div>
-              )}
+              {!hide && <div id="article-text">{this.renderHtml()}</div>}
             </FlexCol>
             <FlexCol id="graph">
               <Chart chartData={chartData} />
